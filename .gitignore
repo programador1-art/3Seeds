@@ -1,0 +1,61 @@
+# Archivos de sistema y editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Laragon y Logs
+/storage/*.log
+error_log
+php_errors.log
+laragon.ini
+.htaccess.local
+
+# Dependencias (si usas Composer o NPM en el futuro)
+/vendor/
+/node_modules/
+
+# Configuración de base de datos local
+# (Es buena idea no subir tus contraseñas locales)
+conexion_local.php
+config_local.php
+.env
+
+# Archivos temporales de descarga
+*.tmp
+*.bak
+# Ignorar basura autogenerada de ScriptCase
+*.dat
+_lib/
+scriptcase_*
+ScriptCase*
+3seeds_grid_*
+3seeds_menu*
+3seeds_form_*
+app_*
+*.css
+*.js
+*.md
+*.ini
+*.xml
+*.zip
+ficha_tecnica_*
+form_*
+grid_*
+menu_*
+report_*
+security_*
+settings_*
+summary_*
+fotos_*
+*.csv
+*.htm
+prueba_*
+reporte_*
+sec_*
+*.png
