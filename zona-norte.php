@@ -248,6 +248,44 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
             color: #9c31df !important;
         }
 
+        .filtros-header {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 0;
+            padding: 0 8px 0 0;
+            margin-left: auto;
+        }
+
+        .subtipo-tab {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .subtipo-tabs {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn-reset-filtros {
+            margin-top: 0;
+        }
+
+        .btn-reset-filtros {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        .btn-reset-filtros.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
         /* Vertical Carousel for Sidebar */
         .carousel-vertical .carousel-inner {
             height: 620px;
@@ -1712,6 +1750,17 @@ select {
             cursor: pointer;
         }
 
+        button.btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(248, 249, 250, 0.6);
+            color: #f8f9fa;
+            border-radius: 4px;
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            line-height: 1;
+            text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
         .cambio {
             position: static;
             top: 0%;
@@ -1841,60 +1890,70 @@ select {
                     <div class="hero-head">
                         <div class="hero-controls">
                             <div class="tab subtipo-tab">
-                                <button type="button"
-                                    class="tablinks <?php echo ($subtipo_id === 1 ? 'active' : ''); ?>"
-                                    onclick="window.location.href='<?php echo $baseUrl; ?>?subtipo=1'">Comercial</button>
-                                <button type="button"
-                                    class="tablinks <?php echo ($subtipo_id === 2 ? 'active' : ''); ?>"
-                                    onclick="window.location.href='<?php echo $baseUrl; ?>?subtipo=2'">Industrial</button>
-                                <button type="button"
-                                    class="tablinks <?php echo ($subtipo_id === 3 ? 'active' : ''); ?>"
-                                    onclick="window.location.href='<?php echo $baseUrl; ?>?subtipo=3'">Residencial</button>
+                                <div class="subtipo-tabs">
+                                    <button type="button"
+                                        class="tablinks <?php echo ($subtipo_id === 1 ? 'active' : ''); ?>"
+                                        onclick="window.location.href='<?php echo $baseUrl; ?>?subtipo=1'">Comercial</button>
+                                    <button type="button"
+                                        class="tablinks <?php echo ($subtipo_id === 2 ? 'active' : ''); ?>"
+                                        onclick="window.location.href='<?php echo $baseUrl; ?>?subtipo=2'">Industrial</button>
+                                    <button type="button"
+                                        class="tablinks <?php echo ($subtipo_id === 3 ? 'active' : ''); ?>"
+                                        onclick="window.location.href='<?php echo $baseUrl; ?>?subtipo=3'">Residencial</button>
+                                </div>
+                                <div class="filtros-header">
+                                    <button type="button"
+                                        class="btn-ghost btn-reset-filtros"
+                                        onclick="handleReset()">
+                                        <i class="fa fa-refresh" style="font-size:0.85rem;"></i>
+                                        Limpiar filtros
+                                    </button>
+                                </div>
                             </div>
-
                             <!--Tab Todos-->
                             <div id="Todos" class="tabcontent" style="display:block;">
-                                <form action="busqueda.php" method="post">
+                                <form action="busqueda.php" method="post" id="form-todos-filtros">
                                     <input type="hidden" name="subtipo"
                                         value="<?php echo htmlspecialchars((string) $subtipo_value, ENT_QUOTES); ?>">
+
                                     <div class="contenedor contenedor-movil search-inline">
                                         <div class="form-group fg-opcion">
                                             <select class="form-control" name="select_opcion">
-                                                <option selected="selected" value="">Venta</option>
+                                                <option selected="selected" value="">Tipo de operación</option>
                                                 <?
                                                 if ($numrows_opc != 0) {
-                                                    while ($row_opc = mysqli_fetch_assoc($resultado_opc)) {
-                                                        echo "<option value=\"" . $row_opc['idopcion'] . "\">" . $row_opc['nombre_opcion'] . "</option>";
+                                                        while ($row_opc = mysqli_fetch_assoc($resultado_opc)) {
+                                                            echo "<option value=\"" . $row_opc['idopcion'] . "\">" . $row_opc['nombre_opcion'] . "</option>";
+                                                        }
                                                     }
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
+                                                    ?>
+                                                </select>
+                                            </div>
 
-                                        <div class="form-group fg-tipo">
-                                            <select class="form-control" id="inmueble" name="select_cat">
+                                            <div class="form-group fg-tipo">
+                                                <select class="form-control" id="inmueble" name="select_cat">
 
-                                                <option selected="selected" value="">Tipo de propiedad</option>
+                                                    <option selected="selected" value="">Tipo de propiedad</option>
 
-                                                <?
-                                                //TIPO INMUEBLE
-                                                if ($numrows_inm != 0) {
-                                                    while ($row_cs = mysqli_fetch_assoc($resultado_inm)) {
-                                                        echo "<option " . ($idtinmueble == $row_cs['idcat_tipo'] ? "selected=\"selected\"" : "") . " value=\"" . $row_cs['idcat_tipo'] . "\">" . $row_cs['nombre_tipo'] . "</option>";
+                                                    <?
+                                                    //TIPO INMUEBLE
+                                                    if ($numrows_inm != 0) {
+                                                        while ($row_cs = mysqli_fetch_assoc($resultado_inm)) {
+                                                            echo "<option " . ($idtinmueble == $row_cs['idcat_tipo'] ? "selected=\"selected\"" : "") . " value=\"" . $row_cs['idcat_tipo'] . "\">" . $row_cs['nombre_tipo'] . "</option>";
+                                                        }
                                                     }
-                                                }
-                                                ?>
+                                                    ?>
 
-                                            </select>
-                                        </div>
-                                        <div class="form-group fg-texto">
-                                            <input type="text" class="form-control" name="busqueda"
-                                                placeholder="Ingresa ubicaciones o características">
-                                        </div>
-                                        <div class="form-group fg-buscar">
-                                            <input type="hidden" id="tipo_bus" name="tipo_busq" value="1">
-                                            <input type="hidden" id="tbusqda" name="tbusqda" value="N">
-                                            <!--zona norte -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group fg-texto">
+                                                <input type="text" class="form-control" name="busqueda"
+                                                    placeholder="Ingresa ubicaciones o características">
+                                            </div>
+                                            <div class="form-group fg-buscar">
+                                                <input type="hidden" id="tipo_bus" name="tipo_busq" value="1">
+                                                <input type="hidden" id="tbusqda" name="tbusqda" value="N">
+                                                <!--zona norte -->
                                             <input type="hidden" id="tprecio" name="tprecio" value="T">
                                             <!--tipo de precio TODOS -->
                                             <input type="hidden" id="busquedaprin" name="busquedaprin" value="1">
@@ -2296,7 +2355,11 @@ select {
                                     $first = false;
                                 }
                                 ?>
-                                <div class="col-md-4">
+                                <div class="col-md-4"
+                                    data-estado="<? echo htmlspecialchars((string) $row_cs['estado'], ENT_QUOTES); ?>"
+                                    data-municipio="<? echo htmlspecialchars((string) $row_cs['municipio'], ENT_QUOTES); ?>"
+                                    data-tipo="<? echo (int) $row_cs['cat_tipo_idcat_tipo']; ?>"
+                                    data-opcion="<? echo (int) $row_cs['opcion_idopcion']; ?>">
                                     <div class="prop-card-home">
                                         <a href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>"
                                             style="text-decoration:none; color:inherit;">
@@ -2367,7 +2430,11 @@ select {
                                     $first = false;
                                 }
                                 ?>
-                                <div class="col-md-4">
+                                <div class="col-md-4"
+                                    data-estado="<? echo htmlspecialchars((string) $row_cs['estado'], ENT_QUOTES); ?>"
+                                    data-municipio="<? echo htmlspecialchars((string) $row_cs['municipio'], ENT_QUOTES); ?>"
+                                    data-tipo="<? echo (int) $row_cs['cat_tipo_idcat_tipo']; ?>"
+                                    data-opcion="<? echo (int) $row_cs['opcion_idopcion']; ?>">
                                     <div class="prop-card-home">
                                         <a href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>"
                                             style="text-decoration:none; color:inherit;">
@@ -3168,6 +3235,191 @@ Indicators-->
             });
         }
     </script>
+    <script>
+        $(function () {
+            var $form = $('#form-todos-filtros');
+            if ($form.length === 0) {
+                return;
+            }
+
+            var $ventaCarousel = $('#carousel-venta');
+            var $rentaCarousel = $('#carousel-renta');
+            var $destacadoCarousel = $('#carousel-destacado');
+
+            var ventaItems = $ventaCarousel.find('.col-md-4').toArray().map(function (el) {
+                return $(el).clone(true, true);
+            });
+            var rentaItems = $rentaCarousel.find('.col-md-4').toArray().map(function (el) {
+                return $(el).clone(true, true);
+            });
+            var destacadoItems = $destacadoCarousel.find('.prop-card-sidebar').toArray().map(function (el) {
+                return $(el).clone(true, true);
+            });
+
+            var $selectOpcion = $form.find('select[name="select_opcion"]');
+            var $selectTipo = $form.find('select[name="select_cat"]');
+            var $textoBusqueda = $form.find('input[name="busqueda"]');
+            var $btnReset = $('.btn-reset-filtros');
+            var $heroControls = $('.hero-controls');
+            var $trackInputs = $heroControls.find('select, input')
+                .not('[type="hidden"]');
+            var baseUrl = <?php echo json_encode($baseUrl); ?>;
+            var hasSubtipo = new URLSearchParams(window.location.search).has('subtipo');
+
+            $trackInputs.each(function () {
+                var $el = $(this);
+                $el.data('defaultValue', $el.val() || '');
+            });
+
+            window.handleReset = function () {
+                if (hasSubtipo) {
+                    window.location.href = baseUrl;
+                    return;
+                }
+                $trackInputs.each(function () {
+                    var $el = $(this);
+                    var def = $el.data('defaultValue');
+                    $el.val(def);
+                });
+                $('.tabcontent').hide();
+                $('#Todos').show();
+                applyFilters();
+                updateResetVisibility();
+            };
+
+            function updateResetVisibility() {
+                var isDirty = false;
+                $trackInputs.each(function () {
+                    var $el = $(this);
+                    var def = $el.data('defaultValue');
+                    if (String($el.val() || '') !== String(def || '')) {
+                        isDirty = true;
+                        return false;
+                    }
+                });
+                if (!$('#Todos').is(':visible')) {
+                    isDirty = true;
+                }
+                if (hasSubtipo) {
+                    isDirty = true;
+                }
+                if (isDirty) {
+                    $btnReset.addClass('is-visible');
+                } else {
+                    $btnReset.removeClass('is-visible');
+                }
+            }
+
+            function matchesFilters($item, filters) {
+                var opcion = $item.data('opcion');
+                var tipo = $item.data('tipo');
+
+                if (filters.opcion && String(opcion) !== String(filters.opcion)) {
+                    return false;
+                }
+                if (filters.tipo && String(tipo) !== String(filters.tipo)) {
+                    return false;
+                }
+                return true;
+            }
+
+            function buildSlides($carousel, items, perSlide, emptyHtml, withRow) {
+                var $inner = $carousel.find('.carousel-inner');
+                $inner.empty();
+
+                if (items.length === 0) {
+                    var $emptySlide = $('<div class="carousel-item active"></div>');
+                    if (withRow) {
+                        var $row = $('<div class="row"></div>');
+                        $row.append(emptyHtml);
+                        $emptySlide.append($row);
+                    } else {
+                        $emptySlide.append(emptyHtml);
+                    }
+                    $inner.append($emptySlide);
+                } else {
+                    var slideIndex = 0;
+                    for (var i = 0; i < items.length; i += perSlide) {
+                        var $slide = $('<div class="carousel-item"></div>');
+                        if (slideIndex === 0) {
+                            $slide.addClass('active');
+                        }
+                        if (withRow) {
+                            var $rowSlide = $('<div class="row"></div>');
+                            for (var j = i; j < i + perSlide && j < items.length; j++) {
+                                $rowSlide.append(items[j]);
+                            }
+                            $slide.append($rowSlide);
+                        } else {
+                            for (var k = i; k < i + perSlide && k < items.length; k++) {
+                                $slide.append(items[k]);
+                            }
+                        }
+                        $inner.append($slide);
+                        slideIndex++;
+                    }
+                }
+
+                var $controls = $carousel.find('.carousel-control-prev, .carousel-control-next');
+                if ($inner.find('.carousel-item').length <= 1) {
+                    $controls.hide();
+                } else {
+                    $controls.show();
+                }
+
+                if ($carousel.data('bs.carousel')) {
+                    $carousel.carousel(0);
+                }
+            }
+
+            function applyFilters() {
+                var filters = {
+                    opcion: $selectOpcion.val(),
+                    tipo: $selectTipo.val()
+                };
+
+                var ventaFiltered = ventaItems.filter(function ($item) {
+                    return matchesFilters($item, filters);
+                });
+                var rentaFiltered = rentaItems.filter(function ($item) {
+                    return matchesFilters($item, filters);
+                });
+                var destacadoFiltered = destacadoItems.filter(function ($item) {
+                    return matchesFilters($item, filters);
+                });
+
+                buildSlides(
+                    $ventaCarousel,
+                    ventaFiltered,
+                    3,
+                    '<div class="col-12 text-center text-muted py-4">Sin resultados</div>',
+                    true
+                );
+                buildSlides(
+                    $rentaCarousel,
+                    rentaFiltered,
+                    3,
+                    '<div class="col-12 text-center text-muted py-4">Sin resultados</div>',
+                    true
+                );
+                buildSlides(
+                    $destacadoCarousel,
+                    destacadoFiltered,
+                    2,
+                    '<div class="text-center text-muted py-4">Sin resultados</div>',
+                    false
+                );
+                updateResetVisibility();
+            }
+
+            $selectOpcion.on('change', applyFilters);
+            $selectTipo.on('change', applyFilters);
+            $textoBusqueda.on('input', updateResetVisibility);
+            $trackInputs.on('change input', updateResetVisibility);
+            applyFilters();
+        });
+    </script>
 </body>
 
 </html>
+
