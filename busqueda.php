@@ -403,6 +403,34 @@ if (!empty($_POST['subtipo'])) {
         $meta_subtipo = "Residencial";
 }
 
+$meta_busqueda = "";
+if (!empty($_POST['busqueda'])) {
+    $meta_busqueda = trim($_POST['busqueda']);
+}
+
+$meta_estado = "";
+if (!empty($_POST['ubicacion'])) {
+    $meta_estado = trim($_POST['ubicacion']);
+}
+
+$meta_municipio = "";
+if (!empty($_POST['municipiop'])) {
+    $meta_municipio = trim($_POST['municipiop']);
+}
+
+$meta_precio = "";
+if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
+    $min = !empty($_POST['precio_min']) ? trim($_POST['precio_min']) : "";
+    $max = !empty($_POST['precio_max']) ? trim($_POST['precio_max']) : "";
+    if ($min !== "" && $max !== "") {
+        $meta_precio = " con precio entre " . $min . " y " . $max;
+    } else if ($min !== "") {
+        $meta_precio = " con precio desde " . $min;
+    } else if ($max !== "") {
+        $meta_precio = " con precio hasta " . $max;
+    }
+}
+
 
 
 
@@ -1688,8 +1716,13 @@ if (!empty($_POST['subtipo'])) {
                 }
 
                 $descubi = "";
-                if (!empty($_POST['ubicacion']))
-                    $descubi = "(" . $_POST['ubicacion'] . ")";
+                if (!empty($meta_municipio) && !empty($meta_estado)) {
+                    $descubi = " en " . $meta_municipio . ", " . $meta_estado;
+                } else if (!empty($meta_estado)) {
+                    $descubi = " en " . $meta_estado;
+                } else if (!empty($meta_municipio)) {
+                    $descubi = " en " . $meta_municipio;
+                }
 
                 $texto_final = $etiqueta_nombre;
                 if (!empty($meta_subtipo))
@@ -1703,7 +1736,14 @@ if (!empty($_POST['subtipo'])) {
                 if (!empty($meta_zona))
                     $texto_final .= " " . $meta_zona;
 
-                echo $texto_final . " " . $descubi;
+                $busqueda_txt = "";
+                if (!empty($meta_busqueda)) {
+                    $busqueda_txt = " con \"" . $meta_busqueda . "\"";
+                }
+
+                $texto_final .= $meta_precio . $descubi . $busqueda_txt;
+
+                echo htmlspecialchars($texto_final, ENT_QUOTES, 'UTF-8');
 
 
                 ?>

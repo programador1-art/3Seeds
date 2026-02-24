@@ -2260,8 +2260,18 @@ select {
         <div class="container">
 
             <!-- VISTA CON 3 SECCIONES (con filtro de subtipo si aplica) -->
+            <?
+            $has_destacados = false;
+            $consulta_d_total = "SELECT COUNT(*) AS total FROM `inmuebles_destacados`";
+            $resultado_d_total = mysqli_query($con, $consulta_d_total);
+            if ($resultado_d_total) {
+                $row_d_total = mysqli_fetch_assoc($resultado_d_total);
+                $has_destacados = intval($row_d_total['total']) > 0;
+            }
+            $col_main = $has_destacados ? "col-lg-9" : "col-lg-12";
+            ?>
             <div class="row">
-                <div class="col-lg-9 col-md-12">
+                <div class="<? echo $col_main; ?> col-md-12">
                     <!-- Propiedades en Venta -->
                     <div class="section-title text-left">
                         <h2>
@@ -2405,6 +2415,7 @@ select {
                     </div>
                 </div>
 
+                <? if ($has_destacados) { ?>
                 <!-- Sidebar Columna Derecha -->
                 <div class="col-lg-3 col-md-12">
                     <div class="section-title text-left">
@@ -2418,7 +2429,8 @@ select {
                         data-interval="6000">
                         <div class="carousel-inner" role="listbox">
                             <?
-                            $consulta_d = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 AND inmueble_destacado=1" . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 8";
+                            // $consulta_d = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 AND inmueble_destacado=1" . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 8";
+                            $consulta_d = "SELECT `imagen`, `link` FROM `inmuebles_destacados` LIMIT 8";
                             $resultado_d = mysqli_query($con, $consulta_d);
                             $count_d = 0;
                             $first_d = true;
@@ -2431,18 +2443,26 @@ select {
                                 }
                                 ?>
                                 <div class="prop-card-sidebar">
-                                    <a href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>"
-                                        style="display:block; position:relative;">
-                                        <?
-                                        $c_img = "SELECT ruta_archivo FROM inmuebles_fotos WHERE inmuebles_idinmuebles=" . $row_cs['idinmuebles'] . " ORDER BY order_img ASC LIMIT 1";
-                                        $r_img = mysqli_query($con, $c_img);
-                                        $row_img = mysqli_fetch_assoc($r_img);
-                                        $img = $row_img['ruta_archivo'] ?: "sin_imagen.png";
-                                        ?>
-                                        <img src="aplicacion/_lib/file/img/3simg/<? echo $img; ?>" alt="Destacado"
-                                            style="width:100%; height:300px; object-fit:cover;">
-                                        <div class="ver-mas-btn">Ver más</div>
-                                    </a>
+                                    <?
+                                    $img = !empty($row_cs['imagen']) ? $row_cs['imagen'] : "sin_imagen.png";
+                                    $img_src = $img;
+                                    if (strpos($img, 'http://') !== 0 && strpos($img, 'https://') !== 0 && strpos($img, '/') === false) {
+                                        $img_src = "aplicacion/_lib/file/img/3simg/" . $img;
+                                    }
+                                    $link = !empty($row_cs['link']) ? $row_cs['link'] : "";
+                                    ?>
+                                    <? if (!empty($link)) { ?>
+                                        <a href="<? echo $link; ?>" style="display:block; position:relative;">
+                                            <img src="<? echo $img_src; ?>" alt="Destacado"
+                                                style="width:100%; height:300px; object-fit:cover;">
+                                            <div class="ver-mas-btn">Ver más</div>
+                                        </a>
+                                    <? } else { ?>
+                                        <div style="display:block; position:relative;">
+                                            <img src="<? echo $img_src; ?>" alt="Destacado"
+                                                style="width:100%; height:300px; object-fit:cover;">
+                                        </div>
+                                    <? } ?>
                                 </div>
                                 <?
                                 $count_d++;
@@ -2453,6 +2473,7 @@ select {
                         </div>
                     </div>
                 </div>
+                <? } ?>
             </div>
 
             <? if (false) { /* BLOQUE OBSOLETO */ ?>
