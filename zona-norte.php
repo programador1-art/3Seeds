@@ -1649,16 +1649,16 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
         }
 
         .search-inline .fg-opcion {
-            width: 130px;
+            width: 160px;
         }
 
         .search-inline .fg-tipo {
-            width: 170px;
+            width: 160px;
         }
 
         .search-inline .fg-texto {
-            flex: 1 1 auto;
-            min-width: 150px;
+           flex: 1 1 140px;
+            min-width: 140px;
         }
 
         .search-inline .fg-buscar {
@@ -1691,6 +1691,14 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
             gap: 10px;
         }
 
+        .hero-wide {
+            max-width: 1400px;
+        }
+
+        .propiedades-wide {
+            max-width: 1400px;
+        }
+
         .hero-title-side {
             color: #fff;
             max-width: 400px;
@@ -1713,7 +1721,7 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
         .search-inline .form-control {
             height: 42px;
             min-height: 42px;
-            padding: 8px 15px;
+            padding: 6px 12px;
             font-size: 13px;
             border: none;
             border-radius: 0;
@@ -1803,12 +1811,17 @@ select {
             .search-inline .fg-tipo,
             .search-inline .fg-texto,
             .search-inline .fg-buscar {
-                width: 100%;
+                width: 80%;
                 margin-bottom: 8px;
             }
 
             .hero-head {
                 display: block;
+            }
+
+            .hero-wide,
+            .propiedades-wide {
+                max-width: 100%;
             }
 
             .hero-title-side {
@@ -1871,6 +1884,15 @@ select {
                                 <a class="nav-link menu" href="https://www.3seedscommercial.mx/">Inicio<span
                                         class="sr-only">(current)</span></a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link menu" href="#nosotros">Nosotros</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link menu" href="#contacto">Contacto</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link menu" href="busqueda.php">Propiedades</a>
+                            </li>
                             <!--		  <li class="nav-item">
                     <a class="nav-link menu" href="mailto:hola@3seeds.mx">Contacto</a>
                   </li> -->
@@ -1886,7 +1908,7 @@ select {
         <div class="banner-1 cover-image sptb-2 sptb-tab bg-background2" data-image-src="images/descubre_propiedad.png"
             style="background: url(&quot;images/descubre_propiedad.png&quot;) center center;">
             <div class="header-text mb-0">
-                <div class="container">
+                <div class="container-fluid hero-wide">
                     <div class="hero-head">
                         <div class="hero-controls">
                             <div class="tab subtipo-tab">
@@ -2315,8 +2337,8 @@ select {
 
     <!--Inicia últimas propiedades-->
 
-    <section style="margin-top: 15px">
-        <div class="container">
+    <section id="propiedades" style="margin-top: 15px">
+        <div class="container-fluid propiedades-wide">
 
             <!-- VISTA CON 3 SECCIONES (con filtro de subtipo si aplica) -->
             <?
@@ -2327,7 +2349,7 @@ select {
                 $row_d_total = mysqli_fetch_assoc($resultado_d_total);
                 $has_destacados = intval($row_d_total['total']) > 0;
             }
-            $col_main = $has_destacados ? "col-lg-9" : "col-lg-12";
+            $col_main = $has_destacados ? "col-lg-8" : "col-lg-12";
             ?>
             <div class="row">
                 <div class="<? echo $col_main; ?> col-md-12">
@@ -2484,7 +2506,7 @@ select {
 
                 <? if ($has_destacados) { ?>
                 <!-- Sidebar Columna Derecha -->
-                <div class="col-lg-3 col-md-12">
+                <div class="col-lg-4 col-md-12">
                     <div class="section-title text-left">
                         <h2>
                             <font style="vertical-align: inherit;">
@@ -3114,7 +3136,7 @@ Indicators-->
                 <div class="col-md-8 col-12">
                     <div class="row">
                         <div class="col-lg-6 col-12 paddingf">
-                            <h3>Nosotros</h3>
+                            <h3 id="nosotros">Nosotros</h3>
                             <hr>
                             <p>3Seeds Commercial es una empresa vanguardista, con gran experiencia y dinamismo; nace con
                                 el enfoque de conectar una extensa gama de servicios inmobiliarios.
@@ -3125,7 +3147,7 @@ Indicators-->
                                 proyectos patrimoniales, rentables y exitosos.</p>
                         </div>
                         <div class="col-lg-6 col-12 paddingf">
-                            <h3>Contacto</h3>
+                            <h3 id="contacto">Contacto</h3>
                             <hr>
                             <div>
                                 <div>

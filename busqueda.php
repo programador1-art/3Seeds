@@ -135,10 +135,15 @@ $deciciom_where = "";
 $define_entrada = 0;
 //echo $_POST['ubicacion']." ".$_POST['select_cat']." ".$_POST['precio_min']." ".$_POST['precio_max'];
 
+// Normalizar entradas opcionales para evitar warnings cuando se limpia el formulario
+$tprecio = $_POST['tprecio'] ?? "";
+$tbusqda = $_POST['tbusqda'] ?? "";
+$tipo_busq = $_POST['tipo_busq'] ?? "";
+
 //TIPO DE PRECIO- VENTA/RENTA
-if ($_POST['tprecio'] == "R") {  //renta
+if ($tprecio == "R") {  //renta
     $deciciom_where = " AND (opcion_idopcion=1 OR opcion_idopcion=3)";
-} else if ($_POST['tprecio'] == "V") {   //venta
+} else if ($tprecio == "V") {   //venta
     $deciciom_where = " AND (opcion_idopcion=2 OR opcion_idopcion=3)";
 }
 
@@ -152,7 +157,7 @@ if (!empty($_POST['subtipo'])) {
 }
 
 //verificamos tipo de zonna
-if ($_POST['tbusqda'] == "N") {
+if ($tbusqda == "N") {
 
     //estado
     $consulta_est = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY estado ORDER BY estado ASC";
@@ -175,7 +180,7 @@ if ($_POST['tbusqda'] == "N") {
                     <option value="zona-norte.php" selected>Zona Norte</option>
                     <option value="zona-centro.php">Zona Centro</option>';
 
-} else if ($_POST['tbusqda'] == "C") {
+} else if ($tbusqda == "C") {
 
     //estado
     $consulta_est = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='C') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY estado ORDER BY estado ASC";
@@ -227,7 +232,7 @@ if ($_POST['tbusqda'] == "N") {
 //$consulta_cs="SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,precio_renta FROM `inmuebles` WHERE cat_estatus_idcat_estatus=1"; 
 
 //verificamos el tipo de busqueda desde inicio o desde pantalla de búsqueda, para armar las condiciones de SQL 
-if ($_POST['tipo_busq'] == 1 || $_POST['tipo_busq'] == 2) {
+if ($tipo_busq == 1 || $tipo_busq == 2) {
 
     /*if(!empty($_POST['ubicacion'])){
         $deciciom_where.=" AND (ubicacion like '%".$_POST['ubicacion']."%' OR estado like '%".$_POST['ubicacion']."%' OR municipio like '%".$_POST['ubicacion']."%' OR colonia like '%".$_POST['ubicacion']."%' OR direccion like '%".$_POST['ubicacion']."%' OR fraccionamiento like '%".$_POST['ubicacion']."%')";
@@ -285,7 +290,7 @@ $consulta_cs = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_t
 
 
 //búsqueda desde el apartado de búsqueda
-if ($_POST['tipo_busq'] == 2) {
+if ($tipo_busq == 2) {
 
     if (!empty($_POST['recamara'])) {
 
@@ -378,18 +383,20 @@ if (!empty($_POST['select_cat'])) {
 }
 
 $meta_opcion = "";
-if ($_POST['tprecio'] == "R" || $_POST['select_opcion'] == "1") {
+$tprecio = $_POST['tprecio'] ?? "";
+$select_opcion = $_POST['select_opcion'] ?? "";
+if ($tprecio == "R" || $select_opcion == "1") {
     $meta_opcion = "en Renta";
-} else if ($_POST['tprecio'] == "V" || $_POST['select_opcion'] == "2") {
+} else if ($tprecio == "V" || $select_opcion == "2") {
     $meta_opcion = "en Venta";
-} else if ($_POST['select_opcion'] == "3") {
+} else if ($select_opcion == "3") {
     $meta_opcion = "en Venta y Renta";
 }
 
 $meta_zona = "";
-if ($_POST['tbusqda'] == "N") {
+if ($tbusqda == "N") {
     $meta_zona = "en Zona Norte";
-} else if ($_POST['tbusqda'] == "C") {
+} else if ($tbusqda == "C") {
     $meta_zona = "en Zona Centro";
 }
 
@@ -1661,6 +1668,15 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                             class="sr-only">(current)</span></a>
 
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link menu" href="#nosotros">Nosotros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link menu" href="#contacto">Contacto</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link menu" href="#propiedades">Propiedades</a>
+                                </li>
 
                                 <!-- <li class="nav-item">
 
@@ -1725,16 +1741,25 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                 }
 
                 $texto_final = $etiqueta_nombre;
-                if (!empty($meta_subtipo))
-                    $texto_final .= " de " . $meta_subtipo;
-                if (!empty($meta_tipo)) {
-                    $preposicion = (!empty($meta_subtipo)) ? " " : " de ";
-                    $texto_final .= $preposicion . $meta_tipo;
+
+                $partes = [];
+                if (!empty($meta_tipo) || !empty($meta_subtipo)) {
+                    if (!empty($meta_tipo) && !empty($meta_subtipo)) {
+                        $partes[] = strtolower($meta_tipo . " " . $meta_subtipo);
+                    } else if (!empty($meta_tipo)) {
+                        $partes[] = strtolower($meta_tipo);
+                    } else {
+                        $partes[] = strtolower($meta_subtipo);
+                    }
                 }
-                if (!empty($meta_opcion))
-                    $texto_final .= " " . $meta_opcion;
-                if (!empty($meta_zona))
-                    $texto_final .= " " . $meta_zona;
+
+                if (!empty($meta_opcion)) {
+                    $partes[] = strtolower($meta_opcion);
+                }
+
+                if (!empty($partes)) {
+                    $texto_final .= " de " . implode(" ", $partes);
+                }
 
                 $busqueda_txt = "";
                 if (!empty($meta_busqueda)) {
@@ -1757,7 +1782,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
         <hr>
 
-        <section>
+        <section id="propiedades">
 
             <div class="">
 
@@ -2435,10 +2460,12 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                         </div>
                                         <input type="hidden" id="tipo_bus" name="tipo_busq" value="2">
                                         <input type="hidden" id="tbusqda" name="tbusqda"
-                                            value="<?php echo $_POST['tbusqda']; ?>">
+                                            value="<?php echo $_POST['tbusqda'] ?? ''; ?>">
                                         <input type="hidden" id="tprecio" name="tprecio"
-                                            value="<?php echo $_POST['tprecio']; ?>">
-                                        <p class="text-center"><input type="submit" class="btn btn-dark" value="Buscar">
+                                            value="<?php echo $_POST['tprecio'] ?? ''; ?>">
+                                        <p class="text-center">
+                                            <input type="submit" class="btn btn-dark" value="Buscar">
+                                            <a href="busqueda.php" class="btn btn-outline-secondary ml-2">Limpiar</a>
                                         </p>
 
                                     </form>
@@ -2477,7 +2504,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                         <div class="col-lg-6 col-12 paddingf">
 
-                            <h3>Nosotros</h3>
+                            <h3 id="nosotros">Nosotros</h3>
 
                             <hr>
 
@@ -2492,7 +2519,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                         <div class="col-lg-6 col-12 paddingf">
 
-                            <h3>Contacto</h3>
+                            <h3 id="contacto">Contacto</h3>
 
                             <hr>
 
