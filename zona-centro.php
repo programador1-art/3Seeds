@@ -1787,7 +1787,7 @@ button {
 			<form action="#action_page.php">
 			  	<select name="zonas" id="zonas" onchange="location = this.value">
 					<option value="zona-centro.php">Zona Centro</option>
-                    <option value="zona-norte.php">Zona Norte</option>
+                    <option value="principal.php">Zona Norte</option>
 			  	</select>
 			  <br><br>
 	   		</form>

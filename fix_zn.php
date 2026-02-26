@@ -1,5 +1,5 @@
 <?php
-$f = 'c:\Proyectos\Desarrollo\aplicaciones\3seeds\zona-norte.php';
+$f = 'c:\Proyectos\Desarrollo\aplicaciones\3seeds\principal.php';
 $lines = file($f);
 $start = -1;
 $end = -1;

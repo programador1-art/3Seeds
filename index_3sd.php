@@ -1256,7 +1256,7 @@ font-size: 18px;font-weight:bold;color:white;background: #29943f;border: 2px;bor
 		    <div class="container-fluid h-100"> 
         <div class="row w-100">
             <div class="col v-center">
-               <a href="/zona-norte.php" class="d-block mx-auto"><button class="btn btn-zonas d-block mx-auto" style="border-radius: 30px;"> Zona Norte </button></a>
+               <a href="/principal.php" class="d-block mx-auto"><button class="btn btn-zonas d-block mx-auto" style="border-radius: 30px;"> Zona Norte </button></a>
             </div> 
         </div>
     </div>

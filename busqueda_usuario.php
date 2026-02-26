@@ -159,7 +159,7 @@
          $deciciom_where.=" AND (SELECT `zona` FROM `estados` WHERE estado=inmuebles.estado)='N'";
 
          $opciones_bus='<option value="" disabled>Elige una zona</option>
-                    <option value="zona-norte.php" selected>Zona Norte</option>
+                    <option value="principal.php" selected>Zona Norte</option>
                     <option value="zona-centro.php">Zona Centro</option>';
 
     }else if($_GET['tbusqda']=="C"){
@@ -182,7 +182,7 @@
         $deciciom_where.=" AND (SELECT `zona` FROM `estados` WHERE estado=inmuebles.estado)='C'";
 
         $opciones_bus='<option value="" disabled>Elige una zona</option>
-                    <option value="zona-norte.php" >Zona Norte</option>
+                    <option value="principal.php" >Zona Norte</option>
                     <option value="zona-centro.php" selected>Zona Centro</option>';
     }else{
 
@@ -202,7 +202,7 @@
         $numrows_inm=mysqli_num_rows($resultado_inm);
 
         $opciones_bus='<option value="" disabled selected>Elige una zona</option>
-                    <option value="zona-norte.php" >Zona Norte</option>
+                    <option value="principal.php" >Zona Norte</option>
                     <option value="zona-centro.php" >Zona Centro</option>';
     }
 
@@ -1427,7 +1427,7 @@ ul {
 			<form action="#action_page.php">
 			  	<select name="zonas" id="zonas" onchange="location = this.value" style="margin-top: 20px;padding: 10px;">
 			  	    <!--<option value="" disabled selected>Elige una zona</option>
-                    <option value="zona-norte.php">Zona Norte</option>
+                    <option value="principal.php">Zona Norte</option>
 					<option value="zona-centro.php">Zona Centro</option>-->
                     <? echo $opciones_bus; ?>
 			  	</select>

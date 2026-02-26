@@ -1123,23 +1123,6 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
             font-size: 16px;
 
-            color: #fff;
-
-        }
-
-        .menu:hover {
-
-            color: #fff;
-
-        }
-        .navbar-dark .navbar-nav .nav-link.menu {
-            color: #fff !important;
-            opacity: 1;
-        }
-        .navbar-dark .navbar-nav .nav-link.menu:hover,
-        .navbar-dark .navbar-nav .nav-link.menu:focus {
-            color: #fff !important;
-            opacity: 1;
         }
 
         .text-muted {
@@ -2428,18 +2411,6 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                                 }
                                                 ?>
 
-                                            </select>
-
-                                        </div>
-                                        <div class="form-group row">
-
-                                            <label for="subtipo" class="col-form-label">Subtipo</label>
-
-                                            <select class="form-control" id="subtipo" name="subtipo">
-                                                <option value="">Selecciona</option>
-                                                <option value="1" <?php echo (($_POST['subtipo'] ?? '') == '1') ? 'selected="selected"' : ''; ?>>Comercial</option>
-                                                <option value="2" <?php echo (($_POST['subtipo'] ?? '') == '2') ? 'selected="selected"' : ''; ?>>Industrial</option>
-                                                <option value="3" <?php echo (($_POST['subtipo'] ?? '') == '3') ? 'selected="selected"' : ''; ?>>Residencial</option>
                                             </select>
 
                                         </div>

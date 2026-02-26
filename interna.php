@@ -108,17 +108,17 @@ $row_zona = mysqli_fetch_assoc($resultado_zona);
 
 if ($row_zona['zona'] == "N") {   //zona norte
     $opciones_bus = '<option value="" disabled>Elige una zona</option>
-                    <option value="zona-norte.php" selected>Zona Norte</option>
+                    <option value="principal.php" selected>Zona Norte</option>
                     <option value="zona-centro.php">Zona Centro</option>';
     $numwat = "528125120161";
 } else if ($row_zona['zona'] == "C") {   //zona centro
     $opciones_bus = '<option value="" disabled>Elige una zona</option>
-                    <option value="zona-norte.php" >Zona Norte</option>
+                    <option value="principal.php" >Zona Norte</option>
                     <option value="zona-centro.php" selected>Zona Centro</option>';
     $numwat = "524422448774";
 } else {
     $opciones_bus = '<option value="" disabled selected>Elige una zona</option>
-                    <option value="zona-norte.php" >Zona Norte</option>
+                    <option value="principal.php" >Zona Norte</option>
                     <option value="zona-centro.php">Zona Centro</option>';
     $numwat = "";
 }
@@ -938,6 +938,19 @@ if ($row_zona['zona'] == "N") {   //zona norte
         .menu {
             font-weight: 600;
             font-size: 16px;
+            color: #fff;
+        }
+        .menu:hover {
+            color: #fff;
+        }
+        .navbar-dark .navbar-nav .nav-link.menu {
+            color: #fff !important;
+            opacity: 1;
+        }
+        .navbar-dark .navbar-nav .nav-link.menu:hover,
+        .navbar-dark .navbar-nav .nav-link.menu:focus {
+            color: #fff !important;
+            opacity: 1;
         }
 
         .text-muted {
@@ -1394,6 +1407,15 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                     <a class="nav-link menu" href="https://3seedscommercial.mx">Inicio<span
                                             class="sr-only">(current)</span></a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link menu" href="https://3seedscommercial.mx/#nosotros">Nosotros</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link menu" href="https://3seedscommercial.mx/#contacto">Contacto</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link menu" href="busqueda.php">Propiedades</a>
+                                </li>
                             </ul>
                             <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0"
                                 style="display: none !important;">
@@ -1412,7 +1434,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                 <select name="zonas" id="zonas" onchange="location = this.value"
                                     style="margin-top: 20px;padding: 10px;">
                                     <!--<option value="" disabled selected>Elige una zona</option>
-                    <option value="zona-norte.php">Zona Norte</option>
+                    <option value="principal.php">Zona Norte</option>
                     <option value="zona-centro.php">Zona Centro</option> -->
                                     <? echo $opciones_bus; ?>
                                 </select>
