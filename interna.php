@@ -1,7 +1,15 @@
 <?php
 //conexión
 include_once("conexion_3seed.php");
-$idinmueble_aux = $_GET['inm_ax'];
+$idinmueble_aux = isset($_GET['inm_ax']) ? intval($_GET['inm_ax']) : 0;
+if ($idinmueble_aux <= 0) {
+    header('Location: busqueda.php');
+    exit;
+}
+// Función para escapar salida HTML y prevenir XSS
+function esc($str) {
+    return htmlspecialchars((string)$str, ENT_QUOTES, 'UTF-8');
+}
 $hoy = date("Y-m-d");
 $id_p = $idinmueble_aux;
 //funcion para formatear fecha
@@ -71,9 +79,7 @@ $resultado_cs = mysqli_query($con, $consulta_cs);
 $numrows_cs = mysqli_num_rows($resultado_cs);
 $row_cs = mysqli_fetch_assoc($resultado_cs);
 $consulta_vis = "UPDATE inmuebles SET vistas=vistas+1 WHERE idinmuebles=" . $idinmueble_aux;
-$resultado_vis = mysqli_query($con, $consulta_vis);
-$numrows_vis = mysqli_num_rows($resultado_vis);
-$row_vis = mysqli_fetch_assoc($resultado_vis);
+mysqli_query($con, $consulta_vis);
 
 //obtenemos la primera imagen del inmueble
 //$consulta_img0="SELECT `idinmuebles_fotos`, `ruta_archivo`, `inmuebles_idinmuebles` FROM `inmuebles_fotos` WHERE inmuebles_idinmuebles=".$row_cs['idinmuebles']." ORDER BY order_img ASC, idinmuebles_fotos ASC";
@@ -136,41 +142,43 @@ if ($row_zona['zona'] == "N") {   //zona norte
     <meta name="robots" content="index">
 
     <!-- Meta Tags Principales -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
     <title>3Seeds Commercial</title>
-    <meta name="title" content="<? echo $row_cs['nombre']; ?>" />
+    <meta name="title" content="<?= esc($row_cs['nombre']); ?>" />
     <!--Descripción de la página no mayor a 155 caracteres-->
-    <meta name="description" content="<? echo $row_cs['descripcion']; ?>" />
+    <meta name="description" content="<?= esc($row_cs['descripcion']); ?>" />
     <!--Aquí deben ir las palabras claves -->
-    <meta name="keywords" content="<? echo $palabraclav; ?>">
+    <meta name="keywords" content="<?= esc($palabraclav); ?>">
     <!--Aquí deben ir las palabras claves <meta name="keywords" content="Inmobiliaria, casas, departamentos, terrenos, hogar">-->
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url"
-        content="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>" />
-    <meta property="og:title" content="3Seeds Commercial | <? echo $row_cs['nombre']; ?>" />
-    <meta property="og:description" content="<? echo $row_cs['descripcion']; ?>" />
+        content="https://3seedscommercial.mx/interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>" />
+    <meta property="og:title" content="3Seeds Commercial | <?= esc($row_cs['nombre']); ?>" />
+    <meta property="og:description" content="<?= esc($row_cs['descripcion']); ?>" />
     <!-- aquí debe hacer referencia la imagen destacada -->
-    <meta property="og:image" content="<? echo $img_principal; ?>" />
+    <meta property="og:image" content="<?= $img_principal; ?>" />
     <meta property="og:image:width" content="800" /><!-- Importante -->
     <meta property="og:image:height" content="418" /><!-- Importante -->
     <meta property="fb:app_id" content="1298752174093559" />
     <meta property="fb:admins" content="3SeedsCommercial" />
 
     <!-- Schema.org para Google+ -->
-    <meta itemprop="name" content="3Seeds Commercial | <? echo $row_cs['nombre']; ?>">
-    <meta itemprop="description" content="<? echo $row_cs['descripcion']; ?>">
-    <meta itemprop="image" content="<? echo $img_principal; ?>">
+    <meta itemprop="name" content="3Seeds Commercial | <?= esc($row_cs['nombre']); ?>">
+    <meta itemprop="description" content="<?= esc($row_cs['descripcion']); ?>">
+    <meta itemprop="image" content="<?= $img_principal; ?>">
     <meta property="image:width" content="800" /><!-- Importante -->
     <meta property="image:height" content="418" /><!-- Importante -->
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url"
-        content="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>" />
-    <meta property="twitter:title" content="3Seeds Commercial | <? echo $row_cs['nombre']; ?>" />
-    <meta property="twitter:description" content="<? echo $row_cs['descripcion']; ?>" />
+        content="https://3seedscommercial.mx/interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>" />
+    <meta property="twitter:title" content="3Seeds Commercial | <?= esc($row_cs['nombre']); ?>" />
+    <meta property="twitter:description" content="<?= esc($row_cs['descripcion']); ?>" />
     <!-- aquí debe hacer referencia la imagen destacada -->
-    <meta property="twitter:image" content="<? echo $img_principal; ?>" />
+    <meta property="twitter:image" content="<?= $img_principal; ?>" />
     <!-- Fin Meta Tags-->
 
     <!-- Bootstrap -->
@@ -341,16 +349,21 @@ if ($row_zona['zona'] == "N") {   //zona norte
         }
 
         /*#Icono WA footer*/
-        .fabs {
+        .wa-icon {
             padding: 5px;
             font-size: 20px;
             width: 30px;
+            height: 30px;
             text-align: center;
             text-decoration: none;
             border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            vertical-align: middle;
         }
 
-        .fab:hover {
+        .wa-icon:hover {
             opacity: 0.9;
         }
 
@@ -1392,9 +1405,9 @@ if ($row_zona['zona'] == "N") {   //zona norte
     <div style="background:#F2F2F2;">
         <div>
             <div>
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding-bottom: 5px;padding-top: 5px;">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding-bottom: 10px;padding-top: 15px;">
                     <div class="container" style="padding-top: -20px; padding-bottom: -20px;">
-                        <a class="navbar-brand" href="https://3seedscommercial.mx/"><img src="../images/logo-blanco.png"
+                        <a class="navbar-brand" href="https://3seedscommercial.mx"><img src="images/logo-blanco.png"
                                 alt="3Seeds Commercial" style="max-width: inherit; max-height: 60px;"></a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -1408,37 +1421,30 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                             class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link menu" href="https://3seedscommercial.mx/#nosotros">Nosotros</a>
+                                    <a class="nav-link menu" href="#nosotros">Nosotros</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link menu" href="https://3seedscommercial.mx/#contacto">Contacto</a>
+                                    <a class="nav-link menu" href="#contacto">Contacto</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link menu" href="busqueda.php">Propiedades</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link menu dropdown-toggle" href="busqueda.php" id="navPropiedades"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Propiedades
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navPropiedades">
+                                        <a class="dropdown-item" href="busqueda.php">Todas</a>
+                                        <a class="dropdown-item" href="busqueda.php?subtipo=1">Comercial</a>
+                                        <a class="dropdown-item" href="busqueda.php?subtipo=2">Industrial</a>
+                                        <a class="dropdown-item" href="busqueda.php?subtipo=3">Residencial</a>
+                                    </div>
                                 </li>
                             </ul>
-                            <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0"
-                                style="display: none !important;">
+                            <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0">
                                 <input type="text" class="form-control mr-sm-2" id="tex4" placeholder="Buscar"
                                     name="busqueda">
-                                <div class="col-xl-2 col-lg-3 col-md-12 mb-0">
-                                    <!--<a href="#" class="btn btn-lg btn-block btn-primary br-tl-md-0 br-bl-md-0">Buscar</a>-->
-                                    <input type="hidden" id="tipo_bus1" name="tipo_busq1" value="0">
-                                    <input type="hidden" id="busquedaprin" name="busquedaprin" value="1">
-                                    <input type="hidden" id="tbusqda" name="tbusqda"
-                                        value="<? echo $row_zona['zona']; ?>"> <!--zona -->
-                                    <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Buscar">
-                                </div>
-                            </form>
-                            <form action="#action_page.php" style="display: none !important;">
-                                <select name="zonas" id="zonas" onchange="location = this.value"
-                                    style="margin-top: 20px;padding: 10px;">
-                                    <!--<option value="" disabled selected>Elige una zona</option>
-                    <option value="principal.php">Zona Norte</option>
-                    <option value="zona-centro.php">Zona Centro</option> -->
-                                    <? echo $opciones_bus; ?>
-                                </select>
-                                <br><br>
+                                <input type="hidden" name="tipo_busq" value="1">
+                                <input type="hidden" name="busquedaprin" value="1">
+                                <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Buscar">
                             </form>
                         </div>
                     </div>
@@ -1446,7 +1452,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
             </nav>
         </div>
     </div>
-    <?
+    <?php
 
     //obtenemos tipo de modalidad de inmueble
     $consulta_top = "SELECT `idopcion`, `nombre_opcion` FROM `cat_opcion` WHERE idopcion=" . $row_cs['opcion_idopcion'];
@@ -1497,7 +1503,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
 
     //obtenemos restante de dias
     $d_hoy = date('Y-m-d');
-    $des_fech = explode(" ", $row_cs['fecha_publicacion']);
+    $des_fech = explode(" ", $row_cs['fecha_publicacion'] ?? '');
     $fecha1 = new DateTime($des_fech[0]);
     $fecha2 = new DateTime($d_hoy);
     $diff = $fecha1->diff($fecha2);
@@ -1545,11 +1551,11 @@ if ($row_zona['zona'] == "N") {   //zona norte
     </style>
     <div class="header-section mb-4">
         <div class="container">
-            <h1><? echo $row_cs['nombre']; ?></h1>
+            <h1><?= esc($row_cs['nombre']); ?></h1>
             <div class="header-meta">
-                <span><i class="icon icon-briefcase text-success mr-1"></i> <? echo $row_emp['nombre']; ?></span>
+                <span><i class="icon icon-briefcase text-success mr-1"></i> <?= esc($row_emp['nombre']); ?></span>
                 <span><i class="icon-map-marker text-success mr-1"></i>
-                    <? echo $row_cs['colonia'] . ", " . $row_cs['municipio'] . ", " . $row_cs['estado']; ?></span>
+                    <?= esc($row_cs['colonia'] . ", " . $row_cs['municipio'] . ", " . $row_cs['estado']); ?></span>
             </div>
         </div>
     </div>
@@ -1592,8 +1598,8 @@ if ($row_zona['zona'] == "N") {   //zona norte
                     for ($i = 3; $i < $total_fotos; $i++) {
                         ?>
                         <a class="popup-btn d-none" data-fancybox-group="light"
-                            href="aplicacion/_lib/file/img/3simg/<? echo $fotos[$i]['ruta_archivo']; ?>"></a>
-                    <?
+                            href="aplicacion/_lib/file/img/3simg/<?= $fotos[$i]['ruta_archivo']; ?>"></a>
+                    <?php
                     }
                     if ($total_fotos == 0) {
                         ?>
@@ -1615,12 +1621,12 @@ if ($row_zona['zona'] == "N") {   //zona norte
                             <p>
                                 <font style="vertical-align: inherit;">
                                     <font style="vertical-align: inherit;">
-                                        <? echo str_replace("\n", '<br>', $row_cs['descripcion']) . "<br>" . $etq_descripcion; ?>
+                                        <?= str_replace("\n", '<br>', esc($row_cs['descripcion'])) . "<br>" . esc($etq_descripcion); ?>
                                     </font>
                                 </font>
                             </p>
                             <button type="submit" name="ver_ubi" class="btn  btn-success"><a
-                                    href="<? echo $armadoenlace; ?>" class="fcc-btn" target="_blank">Ver
+                                    href="<?= $armadoenlace; ?>" class="fcc-btn" target="_blank">Ver
                                     Ubicación</a></button>
                         </div>
                         <h4 class="mb-4">
@@ -1631,7 +1637,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                         <div class="row">
                             <div class="col-xl-6 col-md-12">
                                 <ul class="list-unstyled widget-spec mb-0">
-                                    <?
+                                    <?php
                                     //SUPERFICIE DE TERRENO
                                     
                                     if (!empty($row_cs['superficie_terreno'])) {
@@ -1641,11 +1647,11 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                                 style="width: auto; height: 30px;" class="iconos icon">
                                             <font style="vertical-align: inherit;">
                                                 <font style="vertical-align: inherit;">
-                                                    <? echo $row_cs['superficie_terreno']; ?> m2 de terreno
+                                                    <?= $row_cs['superficie_terreno']; ?> m2 de terreno
                                                 </font>
                                             </font>
                                         </li>
-                                    <?
+                                    <?php
                                     }
 
                                     //SUPERFICIE DE CONSTRUCCIÓN
@@ -1657,17 +1663,17 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                                 style="width: auto; height: 30px;" class="iconos icon">
                                             <font style="vertical-align: inherit;">
                                                 <font style="vertical-align: inherit;">
-                                                    <? echo $row_cs['superficie_construccion']; ?> m2 de
+                                                    <?= $row_cs['superficie_construccion']; ?> m2 de
                                                     construcción
                                                 </font>
                                             </font>
                                         </li>
-                                    <?
+                                    <?php
                                     }
 
                                     ?>
                                     <!--características-->
-                                    <?
+                                    <?php
                                     //Consulta para obtener las caracteristicas
                                     $consulta_car = "SELECT `inmuebles_caracteristicascol`, `inmuebles_idinmuebles`, `cat_caracteristicas_idcat_caracteristicas`, `valor` FROM `inmuebles_caracteristicas` WHERE cat_caracteristicas_idcat_caracteristicas!=3 AND cat_caracteristicas_idcat_caracteristicas!=32 AND inmuebles_idinmuebles=" . $row_cs['idinmuebles'];
                                     $resultado_car = mysqli_query($con, $consulta_car);
@@ -1697,16 +1703,16 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                         ?>
                                         <li>
 
-                                            <? if (!empty($row_dcar['logo'])) { ?>
-                                                <img src="aplicacion/_lib/file/img/3slogo/<? echo $row_dcar['logo']; ?>"
+                                            <?php if (!empty($row_dcar['logo'])) { ?>
+                                                <img src="aplicacion/_lib/file/img/3slogo/<?= $row_dcar['logo']; ?>"
                                                     style="width: auto; height: 30px;" class="iconos icon">
-                                            <? } ?>
+                                            <?php } ?>
                                             <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;"><? echo $etiqueta; ?>
+                                                <font style="vertical-align: inherit;"><?= $etiqueta; ?>
                                                 </font>
                                             </font>
                                         </li>
-                                        <?
+                                        <?php
 
                                         //verificamos para poder armarlas columnas de caracteristicas
                                         //if($idntifica==$val_cosiderar_ant || $idntifica==$numrows_car){ 
@@ -1714,7 +1720,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                             ?>
                                         </ul>
                                     </div>
-                                <?
+                                <?php
                                         } else if ($idntifica == $val_cosiderar_desp) {  //para terminar la columna               
                                             ?>
 
@@ -1722,7 +1728,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                     </div>
                                     <div class="col-xl-6 col-md-12">
                                         <ul class="list-unstyled widget-spec mb-0">
-                                    <?
+                                    <?php
                                         } //end if  
                                     
                                         $idntifica++;
@@ -1732,7 +1738,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                         ?>
                                 </ul>
                             </div>
-                        <?
+                        <?php
                                     }//end if                                                               
                                     
                                     ?>
@@ -1750,7 +1756,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                 <a class="mb-0 font-weight-bold">
                                     <font style="vertical-align: inherit;">
                                         <font style="vertical-align: inherit;">
-                                            <? echo $row_emp['nombre']; ?>
+                                            <?= $row_emp['nombre']; ?>
                                         </font>
                                     </font>
                                 </a>
@@ -1784,7 +1790,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                                 </a>
                                             </div>
                                             <div class="smd"><a
-                                                    href="https://twitter.com/intent/tweet?text=<? echo $row_cs['descripcion']; ?>&url=https://3seedscommercial.mx/interna.php?inm_ax=<?php echo $idinmueble_aux ?>&hashtags=inmuebles,renta,venta"
+                                                    href="https://twitter.com/intent/tweet?text=<?= urlencode($row_cs['descripcion']); ?>&url=https://3seedscommercial.mx/interna.php?inm_ax=<?php echo $idinmueble_aux ?>&hashtags=inmuebles,renta,venta"
                                                     target="_blank"><i class=" img-thumbnail fab fa-twitter fa-2x"
                                                         style="color:#4c6ef5;background-color: aliceblue"></i>
                                                     <p>Twitter</p>
@@ -1800,7 +1806,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                         </div>
                                         <div class="icon-container2 d-flex">
                                             <div class="smd"><a
-                                                    href="whatsapp://send?text=<? echo $row_cs['descripcion']; ?>%20con%20https://3seedscommercial.mx/interna.php?inm_ax=<?php echo $idinmueble_aux ?>"
+                                                    href="whatsapp://send?text=<?= urlencode($row_cs['descripcion'] . ' con https://3seedscommercial.mx/interna.php?inm_ax=' . $idinmueble_aux); ?>"
                                                     target="_blank"> <i class="img-thumbnail fab fa-whatsapp fa-2x"
                                                         style="color: #25D366;background-color: #f0f8ff;"></i>
                                                     <p>Whatsapp</p>
@@ -1814,7 +1820,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                                 </a>
                                             </div>
                                             <div class="smd"><a
-                                                    href="https://xn--r1a.link/share/url?url=https://3seedscommercial.mx/interna.php?inm_ax=<?php echo $idinmueble_aux ?>&text=<? echo $row_cs['descripcion']; ?>"
+                                                    href="https://xn--r1a.link/share/url?url=<?= urlencode('https://3seedscommercial.mx/interna.php?inm_ax=' . $idinmueble_aux); ?>&text=<?= urlencode($row_cs['descripcion']); ?>"
                                                     target="_blank"> <i class="img-thumbnail fab fa-telegram fa-2x"
                                                         style="color: #4c6ef5;background-color: aliceblue"></i>
                                                     <p>Telegram</p>
@@ -1826,13 +1832,13 @@ if ($row_zona['zona'] == "N") {   //zona norte
                             </div>
                         </div>
                         <!--
-                        <a href="http://www.facebook.com/sharer.php?u=https://3seedscommercial.mx/interna.php?inm_ax=<?  //echo $row_agn['idinmuebles']; ?>" target="_blank" class="btn btn-info icons">
+                        <a href="http://www.facebook.com/sharer.php?u=https://3seedscommercial.mx/interna.php?inm_ax=<?php  //echo $row_agn['idinmuebles']; ?>" target="_blank" class="btn btn-info icons">
                             <i class="icon icon-share mr-1"></i>
                             <font style="vertical-align: inherit;">
                                 <font style="vertical-align: inherit;"> Compartir anuncio</font>
                             </font>
                         </a>
-                        <a href="3seedscommercial.mx/aplicacion/pdfreport_inmuebles/pdfreport_inmuebles.php?inmueble_local=<?  //echo $idinmueble_aux; ?>" class="btn btn-secondary icons" target="_blank">
+                        <a href="3seedscommercial.mx/aplicacion/pdfreport_inmuebles/pdfreport_inmuebles.php?inmueble_local=<?php  //echo $idinmueble_aux; ?>" class="btn btn-secondary icons" target="_blank">
                             <i class="icon icon-printer  mr-1"></i>
                             <font style="vertical-align: inherit;">
                                 <font style="vertical-align: inherit;"> Impresión</font>
@@ -1849,7 +1855,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
                 <div class="contact-card-sidebar">
                     <h4 class="mb-3">Contacta al agente</h4>
 
-                    <?
+                    <?php
                     // Obtenemos datos del agente
                     $consulta_agn = "SELECT `name`, `telefono`, `email`, foto_agente FROM `sec_3seedsusers` WHERE login='" . $row_cs['agentes_idagente'] . "'";
                     $resultado_agn = mysqli_query($con, $consulta_agn);
@@ -1858,14 +1864,14 @@ if ($row_zona['zona'] == "N") {   //zona norte
 
                     <div class="agent-info-compact">
                         <?php if ($row_agn['foto_agente'] != "") { ?>
-                            <img src="../aplicacion/_lib/file/img/img_agente1/<?php echo $row_agn['foto_agente']; ?>"
+                            <img src="../aplicacion/_lib/file/img/img_agente1/<?php echo esc($row_agn['foto_agente']); ?>"
                                 alt="Agente">
                         <?php } else { ?>
                             <img src="../images/usuario.png" alt="Agente">
                         <?php } ?>
                         <div class="agent-details">
-                            <h5><?php echo $row_agn['name']; ?></h5>
-                            <p><?php echo $row_agn['email']; ?></p>
+                            <h5><?php echo esc($row_agn['name']); ?></h5>
+                            <p><?php echo esc($row_agn['email']); ?></p>
                         </div>
                     </div>
 
@@ -1914,11 +1920,11 @@ if ($row_zona['zona'] == "N") {   //zona norte
                 // 1. Misma modalidad (renta/venta)
                 // 2. Mismo tipo (bodega/oficina/etc)
                 // 3. Misma zona/municipio
-                $sql_sim = "SELECT idinmuebles, nombre, municipio, estado, Precio, precio_renta, moneda_cat, opcion_idopcion FROM inmuebles 
-                            WHERE (opcion_idopcion = " . $row_cs['opcion_idopcion'] . " 
-                            OR cat_tipo_idcat_tipo = " . $row_cs['cat_tipo_idcat_tipo'] . "
-                            OR municipio = '" . $row_cs['municipio'] . "')
-                            AND idinmuebles != " . $row_cs['idinmuebles'] . "
+                $sql_sim = "SELECT idinmuebles, nombre, municipio, estado, Precio, precio_renta, moneda_cat, opcion_idopcion FROM inmuebles
+                            WHERE (opcion_idopcion = " . intval($row_cs['opcion_idopcion']) . "
+                            OR cat_tipo_idcat_tipo = " . intval($row_cs['cat_tipo_idcat_tipo']) . "
+                            OR municipio = '" . mysqli_real_escape_string($con, $row_cs['municipio']) . "')
+                            AND idinmuebles != " . intval($row_cs['idinmuebles']) . "
                             AND cat_estatus_idcat_estatus = 1
                             LIMIT 10";
                 $res_sim = mysqli_query($con, $sql_sim);
@@ -1945,13 +1951,13 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                     <div class="modality-badge-premium">
                                         <?php echo ($row_sim['opcion_idopcion'] == 1) ? 'Renta' : 'Venta'; ?>
                                     </div>
-                                    <img src="<?php echo $thumb; ?>" alt="<?php echo $row_sim['nombre']; ?>">
+                                    <img src="<?php echo esc($thumb); ?>" alt="<?php echo esc($row_sim['nombre']); ?>">
                                 </div>
                                 <div class="card-content-premium">
-                                    <h4><?php echo $row_sim['nombre']; ?></h4>
+                                    <h4><?php echo esc($row_sim['nombre']); ?></h4>
                                     <div class="location">
                                         <i class="fa fa-map-marker"></i>
-                                        <?php echo $row_sim['municipio'] . ", " . $row_sim['estado']; ?>
+                                        <?php echo esc($row_sim['municipio'] . ", " . $row_sim['estado']); ?>
                                     </div>
                                     <div class="card-price-premium">
                                         <?php echo $precio_sim; ?>
@@ -1969,7 +1975,7 @@ if ($row_zona['zona'] == "N") {   //zona norte
         $(document).ready(function () {
             $('.similar-properties-carousel').slick({
                 infinite: true,
-                slidesToShow: 3,
+                slidesToShow: 4,
                 slidesToScroll: 1,
                 autoplay: true,
                 autoplaySpeed: 3000,
@@ -1995,12 +2001,12 @@ if ($row_zona['zona'] == "N") {   //zona norte
         });
     </script>
 
-    <?
+    <?php
     // Procesamiento de formulario
-    $nombre_f = trim($_POST["nombre_f"]);
-    $telefono_f = $_POST["telefono_f"];
-    $email_f = trim($_POST["email_f"]);
-    $message_f = $_POST["message_f"];
+    $nombre_f = trim($_POST["nombre_f"] ?? '');
+    $telefono_f = $_POST["telefono_f"] ?? '';
+    $email_f = trim($_POST["email_f"] ?? '');
+    $message_f = $_POST["message_f"] ?? '';
 
     if (isset($_POST['enviar'])) {
         if (empty($nombre_f) || empty($telefono_f) || empty($email_f)) {
@@ -2033,9 +2039,11 @@ if ($row_zona['zona'] == "N") {   //zona norte
         }
     }
     ?>
+    </div><!-- cierre container de linea 1555 -->
     <footer>
         <div class="footer">
-            <div class="row col-12">
+            <div class="container-fluid">
+            <div class="row">
                 <div class="col-md-8 col-12">
                     <div class="row">
                         <div class="col-lg-6 col-12 paddingf">
@@ -2053,31 +2061,25 @@ if ($row_zona['zona'] == "N") {   //zona norte
                             <hr>
                             <div>
                                 <div>
-                                    <?
-                                    if ($row_zona['zona'] == "N") {   //zona norte
-                                        ?>
-                                        <h6><span><i class="fa fa-map-marker mr-2 mb-2"></i></span><a href="#"
-                                                class="text-white">
-                                                <font style="vertical-align: inherit;">
-                                                    <font style="vertical-align: inherit;">Nuevo León, México</font>
-                                                </font>
-                                            </a></h6>
-                                        <!-- <h6><span class="font-weight-semibold"><i class="fa fa-link mr-2 "></i></span><a href="#" class="text-body">http://spruko.com/</a></h6>-->
-
-                                    <?
-                                    } else if ($row_zona['zona'] == "C") {   //zona centro
-                                        ?>
-                                            <h6><span><i class="fa fa-map-marker mr-2 mb-2"></i></span><a href="#"
-                                                    class="text-white">
-                                                    <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">Querétaro, México</font>
-                                                    </font>
-                                                </a></h6>
-                                            <!-- <h6><span class="font-weight-semibold"><i class="fa fa-link mr-2 "></i></span><a href="#" class="text-body">http://spruko.com/</a></h6>-->
-
-                                    <?
-                                    }
-                                    ?>
+                                    <h6><span><i class="fa fa-map-marker mr-2 mb-2"></i></span><a href="#"
+                                            class="text-white">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Querétaro, México</font>
+                                            </font>
+                                        </a></h6>
+                                    <h6><span><i class="fa fa-envelope mr-2 mb-2"></i></span><a
+                                            href="mailto:hola@3seeds.mx" class="text-white">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;"> hola@3seeds.mx</font>
+                                            </font>
+                                        </a></h6>
+                                    <h6><span><i class="fa fa-phone mr-2  mb-2"></i></span><a href="tel:4422448774"
+                                            class="text-white">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;"> +52 442 244 8774</font>
+                                            </font>
+                                        </a>&nbsp;&nbsp;<a class="wa-icon fa fa-whatsapp" href="https://wa.me/524422448774"
+                                            target="_blank"></a></h6>
                                 </div>
                             </div>
                         </div>
@@ -2114,8 +2116,9 @@ if ($row_zona['zona'] == "N") {   //zona norte
                     </ul>
                 </div>
             </div>
+            </div>
         </div>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-center">
                     <p class="mt-2 mb-0">Copyright © 3seeds Commercial. All rights reserved.</p>

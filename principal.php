@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 //realización de calculos
 include_once("conexion_3seed.php");
@@ -13,57 +13,56 @@ $subtipo_value = '';
 $baseUrl = strtok($_SERVER['REQUEST_URI'], '?');
 
 //OBTENEMOS DATOS DE MUNICIPIO, ESTADOS Y TIPO DE PROPIEDAD
-//Consulta para TODOS estados ZONA NORTE
-$consulta_est = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " GROUP BY estado ORDER BY estado ASC";
+//Consulta para TODOS estados
+$consulta_est = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " GROUP BY estado ORDER BY estado ASC";
 $resultado_est = mysqli_query($con, $consulta_est);
 $numrows_est = mysqli_num_rows($resultado_est);
 
-//Consulta para TODOS municipios ZONA NORTE
-$consulta_mun = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " GROUP BY municipio ORDER BY municipio ASC";
+//Consulta para TODOS municipios
+$consulta_mun = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " GROUP BY municipio ORDER BY municipio ASC";
 $resultado_mun = mysqli_query($con, $consulta_mun);
 $numrows_mun = mysqli_num_rows($resultado_mun);
 
-//Consulta para tipo venta estados ZONA NORTE
-$consulta_estv = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND (opcion_idopcion=2 OR opcion_idopcion=3) GROUP BY estado ORDER BY estado ASC";
+//Consulta para tipo venta estados
+$consulta_estv = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND (opcion_idopcion=2 OR opcion_idopcion=3) GROUP BY estado ORDER BY estado ASC";
 $resultado_estv = mysqli_query($con, $consulta_estv);
 $numrows_estv = mysqli_num_rows($resultado_estv);
 
-//Consulta para tipo venta municipios ZONA NORTE
-$consulta_munv = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND (opcion_idopcion=2 OR opcion_idopcion=3) GROUP BY municipio ORDER BY municipio ASC";
+//Consulta para tipo venta municipios
+$consulta_munv = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND (opcion_idopcion=2 OR opcion_idopcion=3) GROUP BY municipio ORDER BY municipio ASC";
 $resultado_munv = mysqli_query($con, $consulta_munv);
 $numrows_munv = mysqli_num_rows($resultado_munv);
 
-//Consulta para tipo RENTA estados ZONA NORTE
-$consulta_estr = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND (opcion_idopcion=1 OR opcion_idopcion=3) GROUP BY estado ORDER BY estado ASC";
+//Consulta para tipo RENTA estados
+$consulta_estr = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND (opcion_idopcion=1 OR opcion_idopcion=3) GROUP BY estado ORDER BY estado ASC";
 $resultado_estr = mysqli_query($con, $consulta_estr);
 $numrows_estr = mysqli_num_rows($resultado_estr);
 
-//Consulta para tipo RENTA municipios ZONA NORTE
-$consulta_munr = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND (opcion_idopcion=1 OR opcion_idopcion=3) GROUP BY municipio ORDER BY municipio ASC";
+//Consulta para tipo RENTA municipios
+$consulta_munr = "SELECT `municipio`, `estado` FROM `inmuebles`" . $subtipo_sql_join . " WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND (opcion_idopcion=1 OR opcion_idopcion=3) GROUP BY municipio ORDER BY municipio ASC";
 $resultado_munr = mysqli_query($con, $consulta_munr);
 $numrows_munr = mysqli_num_rows($resultado_munr);
 
 //Consulta para TODOS LOS TIPOS DE INMUEBLE
-$consulta_inm = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1" . ($subtipo_id !== null ? (" AND cat_tipo.id_subtipo=" . $subtipo_id) : "") . " GROUP BY idcat_tipo";
+$consulta_inm = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1" . ($subtipo_id !== null ? (" AND cat_tipo.id_subtipo=" . $subtipo_id) : "") . " GROUP BY idcat_tipo";
 $resultado_inm = mysqli_query($con, $consulta_inm);
 $numrows_inm = mysqli_num_rows($resultado_inm);
 
 //Consulta para RENTA LOS TIPOS DE INMUEBLE
-$consulta_inmr = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 AND (opcion_idopcion=1 OR opcion_idopcion=3)" . ($subtipo_id !== null ? (" AND cat_tipo.id_subtipo=" . $subtipo_id) : "") . " GROUP BY idcat_tipo";
+$consulta_inmr = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 AND (opcion_idopcion=1 OR opcion_idopcion=3)" . ($subtipo_id !== null ? (" AND cat_tipo.id_subtipo=" . $subtipo_id) : "") . " GROUP BY idcat_tipo";
 $resultado_inmr = mysqli_query($con, $consulta_inmr);
 $numrows_inmr = mysqli_num_rows($resultado_inmr);
 
 //Consulta para VENTA LOS TIPOS DE INMUEBLE
-$consulta_inmv = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 AND (opcion_idopcion=2 OR opcion_idopcion=3)" . ($subtipo_id !== null ? (" AND cat_tipo.id_subtipo=" . $subtipo_id) : "") . " GROUP BY idcat_tipo";
+$consulta_inmv = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 AND (opcion_idopcion=2 OR opcion_idopcion=3)" . ($subtipo_id !== null ? (" AND cat_tipo.id_subtipo=" . $subtipo_id) : "") . " GROUP BY idcat_tipo";
 $resultado_inmv = mysqli_query($con, $consulta_inmv);
 $numrows_inmv = mysqli_num_rows($resultado_inmv);
 
-//Consulta para OPCIONES (Renta/Venta/etc) filtradas por zona/subtipo
+//Consulta para OPCIONES (Renta/Venta/etc) filtradas por subtipo
 $consulta_opc = "SELECT DISTINCT cat_opcion.idopcion, cat_opcion.nombre_opcion
                  FROM cat_opcion
                  INNER JOIN inmuebles ON cat_opcion.idopcion=inmuebles.opcion_idopcion" . $subtipo_sql_join . "
-                 WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N')
-                 AND inmuebles.cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . "
+                 WHERE inmuebles.cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . "
                  ORDER BY cat_opcion.nombre_opcion ASC";
 $resultado_opc = mysqli_query($con, $consulta_opc);
 $numrows_opc = mysqli_num_rows($resultado_opc);
@@ -71,7 +70,6 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta http-equiv="Content-Type" content="text/html;" charset="utf-8">
 
@@ -82,6 +80,8 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
     <meta name="robots" content="index">
     <!-- Meta Tags Principales -->
 
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
     <title>3Seeds Commercial</title>
 
     <meta name="title" content="3Seeds Commercial" />
@@ -346,7 +346,7 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
         }
 
         .prop-img-container {
-            height: 200px;
+            height: 160px;
             position: relative;
             overflow: hidden;
         }
@@ -714,6 +714,7 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
             background-color: #29943F !important;
         }
 
+
         .bg-background {
             background-color: #60A66B;
         }
@@ -926,8 +927,8 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
         }
 
         .sptb-2 {
-            padding-top: 4rem;
-            padding-bottom: 5rem;
+            padding-top: 2.5rem;
+            padding-bottom: 3rem;
         }
 
         .bg-background2:before {
@@ -1696,6 +1697,8 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
 
         .hero-wide {
             max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px;
         }
 
         .propiedades-wide {
@@ -1814,26 +1817,57 @@ select {
             .search-inline .fg-tipo,
             .search-inline .fg-texto,
             .search-inline .fg-buscar {
-                width: 80%;
+                width: 100%;
                 margin-bottom: 8px;
             }
 
             .hero-head {
-                display: block;
+                display: flex;
+                flex-direction: column-reverse;
             }
 
             .hero-wide,
             .propiedades-wide {
                 max-width: 100%;
+                padding: 0 10px;
             }
 
             .hero-title-side {
                 max-width: 100%;
                 margin-bottom: 10px;
+                margin-left: 0;
             }
 
             .hero-title-side h1 {
-                font-size: 24px;
+                font-size: 22px;
+            }
+
+            .hero-controls {
+                width: 100%;
+            }
+
+            .subtipo-tabs {
+                justify-content: center;
+            }
+
+            .tab button {
+                padding: 8px 16px;
+                font-size: 13px;
+                margin: 4px 4px;
+            }
+
+            .tabcontent {
+                border-radius: 1.5rem;
+                padding: 8px 12px;
+            }
+
+            .search-inline .form-group:not(:last-child) {
+                border-right: none;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .filtros-header {
+                display: none;
             }
         }
     </style>
@@ -1893,8 +1927,17 @@ select {
                             <li class="nav-item">
                                 <a class="nav-link menu" href="#contacto">Contacto</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link menu" href="busqueda.php">Propiedades</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link menu dropdown-toggle" href="busqueda.php" id="navPropiedades"
+                                    role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Propiedades
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navPropiedades">
+                                    <a class="dropdown-item" href="busqueda.php">Todas</a>
+                                    <a class="dropdown-item" href="busqueda.php?subtipo=1">Comercial</a>
+                                    <a class="dropdown-item" href="busqueda.php?subtipo=2">Industrial</a>
+                                    <a class="dropdown-item" href="busqueda.php?subtipo=3">Residencial</a>
+                                </div>
                             </li>
                             <!--		  <li class="nav-item">
                     <a class="nav-link menu" href="mailto:hola@3seeds.mx">Contacto</a>
@@ -1940,10 +1983,10 @@ select {
                                         <div class="form-group fg-opcion">
                                             <select class="form-control" name="select_opcion">
                                                 <option selected="selected" value="">Tipo de operación</option>
-                                                <?
+                                                <?php
                                                 if ($numrows_opc != 0) {
                                                         while ($row_opc = mysqli_fetch_assoc($resultado_opc)) {
-                                                            echo "<option value=\"" . $row_opc['idopcion'] . "\">" . $row_opc['nombre_opcion'] . "</option>";
+                                                            echo "<option value=\"" . $row_opc['idopcion'] . "\">" . htmlspecialchars($row_opc['nombre_opcion'], ENT_QUOTES, 'UTF-8') . "</option>";
                                                         }
                                                     }
                                                     ?>
@@ -1955,11 +1998,11 @@ select {
 
                                                     <option selected="selected" value="">Tipo de propiedad</option>
 
-                                                    <?
+                                                    <?php
                                                     //TIPO INMUEBLE
                                                     if ($numrows_inm != 0) {
                                                         while ($row_cs = mysqli_fetch_assoc($resultado_inm)) {
-                                                            echo "<option " . ($idtinmueble == $row_cs['idcat_tipo'] ? "selected=\"selected\"" : "") . " value=\"" . $row_cs['idcat_tipo'] . "\">" . $row_cs['nombre_tipo'] . "</option>";
+                                                            echo "<option " . ($idtinmueble == $row_cs['idcat_tipo'] ? "selected=\"selected\"" : "") . " value=\"" . $row_cs['idcat_tipo'] . "\">" . htmlspecialchars($row_cs['nombre_tipo'], ENT_QUOTES, 'UTF-8') . "</option>";
                                                         }
                                                     }
                                                     ?>
@@ -1999,12 +2042,12 @@ select {
                                         data-placeholder="Estado" data-select2-id="1" tabindex="-1" aria-hidden="true"
                                         name="ubicacion" onchange="actualizarElementos()" id="ubicacionfrom">
                                         <option selected="selected" value="">Estado</option>
-                                        <?
+                                        <?php
 
                                         //ESTADOS
                                         if ($numrows_estv != 0) {
                                             while ($row_csl = mysqli_fetch_assoc($resultado_estv)) {
-                                                echo "<option " . ($idestado == $row_csl['estado'] ? "selected=\"selected\"" : "") . " value=\"" . $row_csl['estado'] . "\">" . $row_csl['estado'] . "</option>";
+                                                echo "<option " . ($idestado == $row_csl['estado'] ? "selected=\"selected\"" : "") . " value=\"" . $row_csl['estado'] . "\">" . htmlspecialchars($row_csl['estado'], ENT_QUOTES, 'UTF-8') . "</option>";
                                             }
                                         }
 
@@ -2017,12 +2060,12 @@ select {
                                         data-placeholder="Municipio" data-select2-id="1" tabindex="-1"
                                         aria-hidden="true" name="municipiop" id="municipiofrom">
                                         <option selected="selected" value="">Municipio</option>
-                                        <?
+                                        <?php
 
                                         //MUNICIPIOS
                                         if ($numrows_munv != 0) {
                                             while ($row_csl = mysqli_fetch_assoc($resultado_munv)) {
-                                                echo "<option " . ($idmunicipio == $row_csl['municipio'] ? "selected=\"selected\"" : "") . " value=\"" . $row_csl['municipio'] . "\">" . $row_csl['municipio'] . "</option>";
+                                                echo "<option " . ($idmunicipio == $row_csl['municipio'] ? "selected=\"selected\"" : "") . " value=\"" . $row_csl['municipio'] . "\">" . htmlspecialchars($row_csl['municipio'], ENT_QUOTES, 'UTF-8') . "</option>";
                                             }
                                         }
 
@@ -2035,12 +2078,12 @@ select {
 
                                         <option selected="selected" value="">Tipo de Propiedad</option>
 
-                                        <?
+                                        <?php
                                         //TIPO INMUEBLE
                                         
                                         if ($numrows_inmv != 0) {
                                             while ($row_cs = mysqli_fetch_assoc($resultado_inmv)) {
-                                                echo "<option " . ($idtinmueble == $row_cs['idcat_tipo'] ? "selected=\"selected\"" : "") . " value=\"" . $row_cs['idcat_tipo'] . "\">" . $row_cs['nombre_tipo'] . "</option>";
+                                                echo "<option " . ($idtinmueble == $row_cs['idcat_tipo'] ? "selected=\"selected\"" : "") . " value=\"" . $row_cs['idcat_tipo'] . "\">" . htmlspecialchars($row_cs['nombre_tipo'], ENT_QUOTES, 'UTF-8') . "</option>";
                                             }
                                         }
                                         ?>
@@ -2082,12 +2125,12 @@ select {
                                         data-placeholder="Estado" data-select2-id="1" tabindex="-1" aria-hidden="true"
                                         name="ubicacion" onchange="actualizarElementos()" id="ubicacionfrom">
                                         <option selected="selected" value="">Estado</option>
-                                        <?
+                                        <?php
 
                                         //ESTADOS
                                         if ($numrows_estr != 0) {
                                             while ($row_csl = mysqli_fetch_assoc($resultado_estr)) {
-                                                echo "<option " . ($idestado == $row_csl['estado'] ? "selected=\"selected\"" : "") . " value=\"" . $row_csl['estado'] . "\">" . $row_csl['estado'] . "</option>";
+                                                echo "<option " . ($idestado == $row_csl['estado'] ? "selected=\"selected\"" : "") . " value=\"" . $row_csl['estado'] . "\">" . htmlspecialchars($row_csl['estado'], ENT_QUOTES, 'UTF-8') . "</option>";
                                             }
                                         }
 
@@ -2100,12 +2143,12 @@ select {
                                         data-placeholder="Municipio" data-select2-id="1" tabindex="-1"
                                         aria-hidden="true" name="municipiop" id="municipiofrom">
                                         <option selected="selected" value="">Municipio</option>
-                                        <?
+                                        <?php
 
                                         //MUNICIPIO 
                                         if ($numrows_munr != 0) {
                                             while ($row_csl = mysqli_fetch_assoc($resultado_munr)) {
-                                                echo "<option " . ($idmunicipio == $row_csl['municipio'] ? "selected=\"selected\"" : "") . " value=\"" . $row_csl['municipio'] . "\">" . $row_csl['municipio'] . "</option>";
+                                                echo "<option " . ($idmunicipio == $row_csl['municipio'] ? "selected=\"selected\"" : "") . " value=\"" . $row_csl['municipio'] . "\">" . htmlspecialchars($row_csl['municipio'], ENT_QUOTES, 'UTF-8') . "</option>";
                                             }
                                         }
 
@@ -2118,12 +2161,12 @@ select {
 
                                         <option selected="selected" value="">Tipo de Propiedad</option>
 
-                                        <?
+                                        <?php
                                         //TIPO DE INMUEBLE
                                         
                                         if ($numrows_inmr != 0) {
                                             while ($row_cs = mysqli_fetch_assoc($resultado_inmr)) {
-                                                echo "<option " . ($idtinmueble == $row_cs['idcat_tipo'] ? "selected=\"selected\"" : "") . " value=\"" . $row_cs['idcat_tipo'] . "\">" . $row_cs['nombre_tipo'] . "</option>";
+                                                echo "<option " . ($idtinmueble == $row_cs['idcat_tipo'] ? "selected=\"selected\"" : "") . " value=\"" . $row_cs['idcat_tipo'] . "\">" . htmlspecialchars($row_cs['nombre_tipo'], ENT_QUOTES, 'UTF-8') . "</option>";
                                             }
                                         }
                                         ?>
@@ -2166,7 +2209,7 @@ select {
                                     <span><i class="fa fa-map-marker location-gps mr-1"></i></span> -- >
                                      <select class="form-control select2-show-search border-bottom-0 select2-hidden-accessible" data-placeholder="Property Type" data-select2-id="1" tabindex="-1" aria-hidden="true" name="ubicacion">
                                          <option selected="selected" value="">Ubicación</option>
-                                        <?
+                                        <?php
                                         //Consulta para las categorias
                                         /* $consulta_csl="SELECT `municipio`, `estado` FROM `inmuebles` WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 GROUP BY municipio, estado ORDER BY estado ASC, municipio ASC"; 
                                          $resultado_csl = mysqli_query($con,$consulta_csl);
@@ -2175,7 +2218,7 @@ select {
                                              {
                                                  while($row_csl=mysqli_fetch_assoc($resultado_csl))
                                                  {
-                                                     echo "<option ".( $idubicacion == $row_csl['municipio'] ? "selected=\"selected\"" : "" )." value=\"".$row_csl['municipio']."\">".$row_csl['municipio'].", ".$row_csl['estado']."</option>";
+                                                     echo "<option ".( $idubicacion == $row_csl['municipio'] ? "selected=\"selected\"" : "" )." value=\"".htmlspecialchars($row_csl['municipio'], ENT_QUOTES, 'UTF-8')."\">".htmlspecialchars($row_csl['municipio'] . ", " . $row_csl['estado'], ENT_QUOTES, 'UTF-8')."</option>";
                                                  }
                                              }*/
                                         ?>
@@ -2206,7 +2249,7 @@ select {
 
                                 </span>
                             </div>
-                            <?
+                            <?php
 
                             //Consulta tipo CASA
                             
@@ -2221,7 +2264,7 @@ select {
                             ?>
                             <div class="ml-4 mt-1">
 
-                                <h3 class=" mb-0 font-weight-bold"><? echo $numrows_casa; ?></h3>
+                                <h3 class=" mb-0 font-weight-bold"><?= $numrows_casa; ?></h3>
 
                                 <p class="mb-0 text-muted">Casas</p>
 
@@ -2239,7 +2282,7 @@ select {
                                 </span>
 
                             </div>
-                            <?
+                            <?php
 
                             //Consulta tipo TERRENO
                             
@@ -2254,7 +2297,7 @@ select {
                             ?>
                             <div class="ml-4 mt-1">
 
-                                <h3 class=" mb-0 font-weight-bold"><? echo $numrows_casa; ?></h3>
+                                <h3 class=" mb-0 font-weight-bold"><?= $numrows_casa; ?></h3>
 
                                 <p class="mb-0 text-muted">Terrenos</p>
 
@@ -2272,7 +2315,7 @@ select {
                                 </span>
 
                             </div>
-                            <?
+                            <?php
 
                             //Consulta tipo OFICINAS
                             
@@ -2287,7 +2330,7 @@ select {
                             ?>
                             <div class="ml-4 mt-1">
 
-                                <h3 class=" mb-0 font-weight-bold"><? echo $numrows_casa; ?></h3>
+                                <h3 class=" mb-0 font-weight-bold"><?= $numrows_casa; ?></h3>
 
                                 <p class="mb-0 text-muted">Oficinas</p>
 
@@ -2305,7 +2348,7 @@ select {
                                 </span>
 
                             </div>
-                            <?
+                            <?php
 
                             //Consulta tipo DEPARTAMENTOS
                             
@@ -2320,7 +2363,7 @@ select {
                             ?>
                             <div class="ml-4 mt-1">
 
-                                <h3 class=" mb-0 font-weight-bold "><? echo $numrows_casa; ?></h3>
+                                <h3 class=" mb-0 font-weight-bold "><?= $numrows_casa; ?></h3>
 
                                 <p class="mb-0 text-muted">Departamentos</p>
 
@@ -2336,10 +2379,10 @@ select {
     <!--Inicia últimas propiedades-->
 
     <section id="propiedades" style="margin-top: 15px">
-        <div class="container-fluid propiedades-wide">
+        <div class="container-fluid propiedades-wide" style="padding: 0 30px;">
 
             <!-- VISTA CON 3 SECCIONES (con filtro de subtipo si aplica) -->
-            <?
+            <?php
             $has_destacados = false;
             $consulta_d_total = "SELECT COUNT(*) AS total FROM `inmuebles_destacados`";
             $resultado_d_total = mysqli_query($con, $consulta_d_total);
@@ -2350,68 +2393,64 @@ select {
             $col_main = $has_destacados ? "col-lg-8" : "col-lg-12";
             ?>
             <div class="row">
-                <div class="<? echo $col_main; ?> col-md-12">
+                <div class="<?= $col_main; ?> col-md-12">
                     <!-- Propiedades en Venta -->
                     <div class="section-title text-left">
-                        <h2>
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;font-weight: 700;">Propiedades en venta</font>
-                            </font>
-                        </h2>
+                        <h4 class="font-weight-bold">Propiedades en venta</h4>
                     </div>
                     <div id="carousel-venta" class="carousel slide carousel-multi-item" data-ride="carousel"
                         data-interval="5000">
                         <div class="carousel-inner" role="listbox">
-                            <?
-                            $consulta_v = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 AND (opcion_idopcion=2 OR opcion_idopcion=3)" . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 12";
+                            <?php
+                            $consulta_v = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE cat_estatus_idcat_estatus=1 AND (opcion_idopcion=2 OR opcion_idopcion=3)" . $subtipo_sql_where . " ORDER BY estado ASC, idinmuebles DESC LIMIT 32";
                             $resultado_v = mysqli_query($con, $consulta_v);
                             $count = 0;
                             $first = true;
                             while ($row_cs = mysqli_fetch_assoc($resultado_v)) {
-                                if ($count % 3 == 0) {
+                                if ($count % 4 == 0) {
                                     if (!$first)
                                         echo '</div></div>';
                                     echo '<div class="carousel-item ' . ($first ? 'active' : '') . '"><div class="row">';
                                     $first = false;
                                 }
                                 ?>
-                                <div class="col-md-4"
-                                    data-estado="<? echo htmlspecialchars((string) $row_cs['estado'], ENT_QUOTES); ?>"
-                                    data-municipio="<? echo htmlspecialchars((string) $row_cs['municipio'], ENT_QUOTES); ?>"
-                                    data-tipo="<? echo (int) $row_cs['cat_tipo_idcat_tipo']; ?>"
-                                    data-opcion="<? echo (int) $row_cs['opcion_idopcion']; ?>">
+                                <div class="col-md-3"
+                                    data-estado="<?= htmlspecialchars((string) $row_cs['estado'], ENT_QUOTES); ?>"
+                                    data-municipio="<?= htmlspecialchars((string) $row_cs['municipio'], ENT_QUOTES); ?>"
+                                    data-tipo="<?= (int) $row_cs['cat_tipo_idcat_tipo']; ?>"
+                                    data-opcion="<?= (int) $row_cs['opcion_idopcion']; ?>">
                                     <div class="prop-card-home">
-                                        <a href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>"
+                                        <a href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>"
                                             style="text-decoration:none; color:inherit;">
                                             <div class="prop-img-container">
-                                                <?
+                                                <?php
                                                 $c_img = "SELECT ruta_archivo FROM inmuebles_fotos WHERE inmuebles_idinmuebles=" . $row_cs['idinmuebles'] . " ORDER BY order_img ASC LIMIT 1";
                                                 $r_img = mysqli_query($con, $c_img);
                                                 $row_img = mysqli_fetch_assoc($r_img);
                                                 $img = $row_img['ruta_archivo'] ?: "sin_imagen.png";
                                                 ?>
-                                                <img src="aplicacion/_lib/file/img/3simg/<? echo $img; ?>" alt="Property">
+                                                <img src="aplicacion/_lib/file/img/3simg/<?= $img; ?>" alt="Property">
                                                 <div class="arrow-ribbon2 bg-destacado"
                                                     style="position:absolute; top:10px; left:0;">
-                                                    <? echo ($row_cs['opcion_idopcion'] == 2 ? "Venta" : "Venta y Renta"); ?>
+                                                    <?= ($row_cs['opcion_idopcion'] == 2 ? "Venta" : "Venta y Renta"); ?>
                                                 </div>
                                             </div>
-                                            <div class="card-body p-3">
+                                            <div class="card-body p-2">
                                                 <h5 class="font-weight-bold"
-                                                    style="font-size:1rem; height:2.4rem; overflow:hidden;">
-                                                    <? echo $row_cs['nombre']; ?>
+                                                    style="font-size:0.85rem; height:2.2rem; overflow:hidden;">
+                                                    <?= htmlspecialchars($row_cs['nombre'], ENT_QUOTES, 'UTF-8'); ?>
                                                 </h5>
                                                 <p class="text-muted mb-2" style="font-size:0.8rem;">
-                                                    <? echo ($row_cs['superficie_terreno'] > 0 ? number_format($row_cs['superficie_terreno'], 0) : number_format($row_cs['superficie_construccion'], 0)) . " m2"; ?>
+                                                    <?= ($row_cs['superficie_terreno'] > 0 ? number_format($row_cs['superficie_terreno'], 0) : number_format($row_cs['superficie_construccion'], 0)) . " m2"; ?>
                                                 </p>
                                                 <h6 class="text-primary font-weight-bold">
-                                                    <? echo "$ " . number_format($row_cs['Precio'], 0) . " " . $row_cs['moneda_cat']; ?>
+                                                    <?= "$ " . number_format($row_cs['Precio'], 0) . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8'); ?>
                                                 </h6>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
-                                <?
+                                <?php
                                 $count++;
                             }
                             if ($count > 0)
@@ -2427,66 +2466,62 @@ select {
                     </div>
 
                     <!-- Propiedades en Renta -->
-                    <div class="section-title text-left mt-5">
-                        <h2>
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;font-weight: 700;">Propiedades en renta</font>
-                            </font>
-                        </h2>
+                    <div class="section-title text-left mt-4">
+                        <h4 class="font-weight-bold">Propiedades en renta</h4>
                     </div>
                     <div id="carousel-renta" class="carousel slide carousel-multi-item" data-ride="carousel"
                         data-interval="6000">
                         <div class="carousel-inner" role="listbox">
-                            <?
-                            $consulta_r = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 AND (opcion_idopcion=1 OR opcion_idopcion=3)" . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 12";
+                            <?php
+                            $consulta_r = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE cat_estatus_idcat_estatus=1 AND (opcion_idopcion=1 OR opcion_idopcion=3)" . $subtipo_sql_where . " ORDER BY estado ASC, idinmuebles DESC LIMIT 32";
                             $resultado_r = mysqli_query($con, $consulta_r);
                             $count = 0;
                             $first = true;
                             while ($row_cs = mysqli_fetch_assoc($resultado_r)) {
-                                if ($count % 3 == 0) {
+                                if ($count % 4 == 0) {
                                     if (!$first)
                                         echo '</div></div>';
                                     echo '<div class="carousel-item ' . ($first ? 'active' : '') . '"><div class="row">';
                                     $first = false;
                                 }
                                 ?>
-                                <div class="col-md-4"
-                                    data-estado="<? echo htmlspecialchars((string) $row_cs['estado'], ENT_QUOTES); ?>"
-                                    data-municipio="<? echo htmlspecialchars((string) $row_cs['municipio'], ENT_QUOTES); ?>"
-                                    data-tipo="<? echo (int) $row_cs['cat_tipo_idcat_tipo']; ?>"
-                                    data-opcion="<? echo (int) $row_cs['opcion_idopcion']; ?>">
+                                <div class="col-md-3"
+                                    data-estado="<?= htmlspecialchars((string) $row_cs['estado'], ENT_QUOTES); ?>"
+                                    data-municipio="<?= htmlspecialchars((string) $row_cs['municipio'], ENT_QUOTES); ?>"
+                                    data-tipo="<?= (int) $row_cs['cat_tipo_idcat_tipo']; ?>"
+                                    data-opcion="<?= (int) $row_cs['opcion_idopcion']; ?>">
                                     <div class="prop-card-home">
-                                        <a href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>"
+                                        <a href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>"
                                             style="text-decoration:none; color:inherit;">
                                             <div class="prop-img-container">
-                                                <?
+                                                <?php
                                                 $c_img = "SELECT ruta_archivo FROM inmuebles_fotos WHERE inmuebles_idinmuebles=" . $row_cs['idinmuebles'] . " ORDER BY order_img ASC LIMIT 1";
                                                 $r_img = mysqli_query($con, $c_img);
                                                 $row_img = mysqli_fetch_assoc($r_img);
                                                 $img = $row_img['ruta_archivo'] ?: "sin_imagen.png";
                                                 ?>
-                                                <img src="aplicacion/_lib/file/img/3simg/<? echo $img; ?>" alt="Property">
+                                                <img src="aplicacion/_lib/file/img/3simg/<?= $img; ?>" alt="Property">
                                                 <div class="arrow-ribbon2 bg-destacado"
                                                     style="position:absolute; top:10px; left:0;">
-                                                    <? echo ($row_cs['opcion_idopcion'] == 1 ? "Renta" : "Venta y Renta"); ?>
+                                                    <?= ($row_cs['opcion_idopcion'] == 1 ? "Renta" : "Venta y Renta"); ?>
                                                 </div>
                                             </div>
-                                            <div class="card-body p-3">
+                                            <div class="card-body p-2">
                                                 <h5 class="font-weight-bold"
-                                                    style="font-size:1rem; height:2.4rem; overflow:hidden;">
-                                                    <? echo $row_cs['nombre']; ?>
+                                                    style="font-size:0.85rem; height:2.2rem; overflow:hidden;">
+                                                    <?= htmlspecialchars($row_cs['nombre'], ENT_QUOTES, 'UTF-8'); ?>
                                                 </h5>
                                                 <p class="text-muted mb-2" style="font-size:0.8rem;">
-                                                    <? echo ($row_cs['superficie_terreno'] > 0 ? number_format($row_cs['superficie_terreno'], 0) : number_format($row_cs['superficie_construccion'], 0)) . " m2"; ?>
+                                                    <?= ($row_cs['superficie_terreno'] > 0 ? number_format($row_cs['superficie_terreno'], 0) : number_format($row_cs['superficie_construccion'], 0)) . " m2"; ?>
                                                 </p>
                                                 <h6 class="text-primary font-weight-bold">
-                                                    <? echo "$ " . number_format($row_cs['precio_renta'], 0) . " " . $row_cs['moneda_cat']; ?>
+                                                    <?= "$ " . number_format($row_cs['precio_renta'], 0) . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8'); ?>
                                                 </h6>
                                             </div>
                                         </a>
                                     </div>
                                 </div>
-                                <?
+                                <?php
                                 $count++;
                             }
                             if ($count > 0)
@@ -2502,20 +2537,16 @@ select {
                     </div>
                 </div>
 
-                <? if ($has_destacados) { ?>
+                <?php if ($has_destacados) { ?>
                 <!-- Sidebar Columna Derecha -->
                 <div class="col-lg-4 col-md-12">
                     <div class="section-title text-left">
-                        <h2>
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;font-weight: 700;">Destacado</font>
-                            </font>
-                        </h2>
+                        <h4 class="font-weight-bold">Destacado</h4>
                     </div>
                     <div id="carousel-destacado" class="carousel slide carousel-vertical" data-ride="carousel"
                         data-interval="6000">
                         <div class="carousel-inner" role="listbox">
-                            <?
+                            <?php
                             // $consulta_d = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 AND inmueble_destacado=1" . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 8";
                             $consulta_d = "SELECT `id`, `imagen`, `link` FROM `inmuebles_destacados` WHERE activo=1 LIMIT 8";
                             $resultado_d = mysqli_query($con, $consulta_d);
@@ -2530,7 +2561,7 @@ select {
                                 }
                                 ?>
                                 <div class="prop-card-sidebar">
-                                    <?
+                                    <?php
                                     // Ruta nueva por id (fallbacks comentados para referencia)
                                     $img_src = "https://www.3seedscommercial.mx/aplicacion/_lib/file/img/inmuebleDestacado/" . (int) $row_cs['id']."/".$row_cs['imagen'];
                                     /*
@@ -2542,20 +2573,20 @@ select {
                                     */
                                     $link = !empty($row_cs['link']) ? $row_cs['link'] : "";
                                     ?>
-                                    <? if (!empty($link)) { ?>
-                                        <a href="<? echo $link; ?>" style="display:block; position:relative;">
-                                            <img src="<? echo $img_src; ?>" alt="Destacado"
+                                    <?php if (!empty($link)) { ?>
+                                        <a href="<?= $link; ?>" style="display:block; position:relative;">
+                                            <img src="<?= $img_src; ?>" alt="Destacado"
                                                 style="width:100%; height:300px; object-fit:cover;">
                                             <div class="ver-mas-btn">Ver más</div>
                                         </a>
-                                    <? } else { ?>
+                                    <?php } else { ?>
                                         <div style="display:block; position:relative;">
-                                            <img src="<? echo $img_src; ?>" alt="Destacado"
+                                            <img src="<?= $img_src; ?>" alt="Destacado"
                                                 style="width:100%; height:300px; object-fit:cover;">
                                         </div>
-                                    <? } ?>
+                                    <?php } ?>
                                 </div>
-                                <?
+                                <?php
                                 $count_d++;
                             }
                             if ($count_d > 0)
@@ -2564,17 +2595,13 @@ select {
                         </div>
                     </div>
                 </div>
-                <? } ?>
+                <?php } ?>
             </div>
 
-            <? if (false) { /* BLOQUE OBSOLETO */ ?>
+            <?php if (false) { /* BLOQUE OBSOLETO */ ?>
                     <!-- VISTA FILTRADA (CAROUSEL ORIGINAL) -->
                     <div class="section-title center-block text-center">
-                        <h2>
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;font-weight: 700;">Propiedades encontradas</font>
-                            </font>
-                        </h2>
+                        <h4 class="font-weight-bold">Propiedades encontradas</h4>
                     </div>
                     <div class="container my-4">
                         <!--Carousel Wrapper-->
@@ -2591,7 +2618,7 @@ Indicators-->
                             <!--Slides-->
                             <div class="carousel-inner" role="listbox">
                                 <!--First slide-->
-                                <?
+                                <?php
                                 //Consulta para obtener los INMUEBLES DE ZONA NORTE
                                 $consulta_cs = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 4";
                                 $resultado_cs = mysqli_query($con, $consulta_cs);
@@ -2602,7 +2629,7 @@ Indicators-->
 
                                         <div class="carousel-item active">
 
-                                            <?
+                                            <?php
                                             while ($row_cs = mysqli_fetch_assoc($resultado_cs)) {
 
                                                 $etiqueta_nombre = $row_cs['nombre'];
@@ -2694,10 +2721,10 @@ Indicators-->
                                                     <div class="col-md-3" style="float:left">
                                                         <div class="carta mb-2" style="min-height: 400px;">
                                                             <a
-                                                                href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>">
+                                                                href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>">
 
                                                                 <!--Etiqueta destacado-->
-                                                                <div class="arrow-ribbon2 bg-destacado"><? echo $etq_opcion1; ?></div>
+                                                                <div class="arrow-ribbon2 bg-destacado"><?= $etq_opcion1; ?></div>
                                                                 <!--fin Etiqueta destacado-->
 
                                                                 <div class="caja">
@@ -2705,22 +2732,22 @@ Indicators-->
                                                                     <div class="box">
 
                                                                         <img class="card-img-top"
-                                                                            src="aplicacion/_lib/file/img/3simg/<? echo $etq_ruta_arch; ?>"
+                                                                            src="aplicacion/_lib/file/img/3simg/<?= $etq_ruta_arch; ?>"
                                                                             alt="Card image cap">
 
                                                                     </div>
 
                                                                 </div>
                                                                 <div class="card-body">
-                                                                    <h4 class="card-title"><? echo $etiqueta_nombre; ?></h4>
+                                                                    <h4 class="card-title"><?= $etiqueta_nombre; ?></h4>
                                                                     <!--<p class="mb-2">
                         <i class="fa fa-map-marker text-danger mr-1"></i>
                             <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;font-size: 13px;"> <?  //echo $etiqueta_ubica; ?></font>
+                                <font style="vertical-align: inherit;font-size: 13px;"> <?php  //echo $etiqueta_ubica; ?></font>
                             </font>
                       </p> -->
                                                                     <span class="fs-12  font-weight-normal">
-                                                                        <? echo $etiqueta; ?>
+                                                                        <?= $etiqueta; ?>
                                                                         <!--<font style="vertical-align: inherit;">
                                 <font style="vertical-align: inherit;">· 600.00 m2</font>
                             </font>
@@ -2731,31 +2758,31 @@ Indicators-->
                                                                     <h5 class="font-weight-bold mb-3">
                                                                         <font style="vertical-align: inherit;">
                                                                             <font style="vertical-align: inherit;">
-                                                                                <?
+                                                                                <?php
 
                                                                                 //verificamos que precio mostrar
                                                                                 if ($row_cs['opcion_idopcion'] == 1) {       //renta
                                                                                     if ($row_cs['precio_renta_basado'] != "Valor total" && !empty($row_cs['precio_renta_basado'])) {
-                                                                                        $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_renta_basado'] . "";
+                                                                                        $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($row_cs['precio_renta_basado'], ENT_QUOTES, 'UTF-8');
                                                                                     } else {
-                                                                                        $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " por mes";
+                                                                                        $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " por mes";
                                                                                     }
                                                                                 } else if ($row_cs['opcion_idopcion'] == 2) {       //venta
                                                                                     if ($row_cs['precio_venta_basado'] != "Valor total" && !empty($row_cs['precio_venta_basado'])) {
-                                                                                        $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_venta_basado'] . "";
+                                                                                        $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($row_cs['precio_venta_basado'], ENT_QUOTES, 'UTF-8');
                                                                                     } else {
                                                                                         $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . "";
                                                                                     }
                                                                                 } else if ($row_cs['opcion_idopcion'] == 3) {       //venta y renta
                                                                     
-                                                                                    $precio_mrenta = "Renta: $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " por mes";
+                                                                                    $precio_mrenta = "Renta: $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " por mes";
                                                                                     if ($row_cs['precio_renta_basado'] != "Valor total" && !empty($row_cs['precio_renta_basado'])) {
-                                                                                        $precio_mrenta = "Renta: $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_renta_basado'] . "";
+                                                                                        $precio_mrenta = "Renta: $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($row_cs['precio_renta_basado'], ENT_QUOTES, 'UTF-8');
                                                                                     }
 
                                                                                     $precio_mventa = "Venta: $ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . "";
                                                                                     if ($row_cs['precio_venta_basado'] != "Valor total" && !empty($row_cs['precio_venta_basado'])) {
-                                                                                        $precio_mventa = "Venta: $ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_venta_basado'] . "";
+                                                                                        $precio_mventa = "Venta: $ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($row_cs['precio_venta_basado'], ENT_QUOTES, 'UTF-8');
                                                                                     }
 
                                                                                     $precio_muestreo = $precio_mrenta . "<br>" . $precio_mventa;
@@ -2775,7 +2802,7 @@ Indicators-->
                                                                         </font>
                                                                         <span class="fs-12  font-weight-normal">
                                                                             <font style="vertical-align: inherit;">
-                                                                                <font style="vertical-align: inherit;"><? echo $etq_opcion; ?>
+                                                                                <font style="vertical-align: inherit;"><?= $etq_opcion; ?>
                                                                                 </font>
                                                                             </font>
                                                                         </span>
@@ -2783,7 +2810,7 @@ Indicators-->
                                                                     <ul class="item-card2-list">
                                                                         <!--características-->
 
-                                                                        <?
+                                                                        <?php
                                                                         //Consulta para obtener las características
                                                                         /* $consulta_car="SELECT `inmuebles_característicascol`, `inmuebles_idinmuebles`, `cat_características_idcat_características`, `valor` FROM `inmuebles_características` WHERE inmuebles_idinmuebles=".$row_cs['idinmuebles']." LIMIT 4"; 
                                                                          $resultado_car = mysqli_query($con,$consulta_car);
@@ -2810,14 +2837,14 @@ Indicators-->
                                                                         ?>
 
                                                                         <!--<li>
-                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?  //echo $row_dcar['logo']; ?>" class="iconos">
+                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?php  //echo $row_dcar['logo']; ?>" class="iconos">
                                         <font style="vertical-align: inherit;">
-                                            <font style="vertical-align: inherit;font-size: 12px;"> <?  //echo $etiqueta; ?></font>
+                                            <font style="vertical-align: inherit;font-size: 12px;"> <?php  //echo $etiqueta; ?></font>
                                         </font>
                                     </a>
                                   </li>-->
 
-                                                                        <?
+                                                                        <?php
 
                                                                         // }                                                              
                                                             
@@ -2829,14 +2856,14 @@ Indicators-->
                                                     </div>
 
                                                     <!--END de inmueble-->
-                                                    <?
+                                                    <?php
                                                 //END WHILE
                                             }
 
                                             ?>
                                         </div>
                                         <!--/.First slide-->
-                                        <?
+                                        <?php
                                     //END IF
                                 }
 
@@ -2855,7 +2882,7 @@ Indicators-->
 
                                         <!--Second slide-->
                                         <div class="carousel-item">
-                                            <?
+                                            <?php
                                             $ultimo_id = 0;
 
                                             while ($row_cs = mysqli_fetch_assoc($resultado_cs)) {
@@ -2953,10 +2980,10 @@ Indicators-->
                                                     <div class="col-md-3" style="float:left">
                                                         <div class="carta mb-2" style="min-height: 400px;">
                                                             <a
-                                                                href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>">
+                                                                href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>">
 
                                                                 <!--Etiqueta destacado-->
-                                                                <div class="arrow-ribbon2 bg-destacado"><? echo $etq_opcion1; ?></div>
+                                                                <div class="arrow-ribbon2 bg-destacado"><?= $etq_opcion1; ?></div>
                                                                 <!--fin Etiqueta destacado-->
 
                                                                 <div class="caja">
@@ -2964,24 +2991,24 @@ Indicators-->
                                                                     <div class="box">
 
                                                                         <img class="card-img-top"
-                                                                            src="aplicacion/_lib/file/img/3simg/<? echo $etq_ruta_arch; ?>"
+                                                                            src="aplicacion/_lib/file/img/3simg/<?= $etq_ruta_arch; ?>"
                                                                             alt="Card image cap">
 
                                                                     </div>
 
                                                                 </div>
                                                                 <div class="card-body">
-                                                                    <h4 class="card-title"><? echo $etiqueta_nombre; ?></h4>
+                                                                    <h4 class="card-title"><?= $etiqueta_nombre; ?></h4>
 
                                                                     <!--<p class="mb-2">
                         <i class="fa fa-map-marker text-danger mr-1"></i>
                             <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;font-size: 13px;"> <?  //echo $etiqueta_ubica; ?></font>
+                                <font style="vertical-align: inherit;font-size: 13px;"> <?php  //echo $etiqueta_ubica; ?></font>
                             </font>
                       </p> -->
                                                                     <span class="fs-12  font-weight-normal">
 
-                                                                        <? echo $etiqueta; ?>
+                                                                        <?= $etiqueta; ?>
                                                                         <!--<font style="vertical-align: inherit;">
                                 <font style="vertical-align: inherit;">· 600.00 m2</font>
                             </font>
@@ -2992,31 +3019,31 @@ Indicators-->
                                                                     <h5 class="font-weight-bold mb-3">
                                                                         <font style="vertical-align: inherit;">
                                                                             <font style="vertical-align: inherit;">
-                                                                                <?
+                                                                                <?php
 
                                                                                 //verificamos que precio mostrar
                                                                                 if ($row_cs['opcion_idopcion'] == 1) {       //renta
                                                                                     if ($row_cs['precio_renta_basado'] != "Valor total" && !empty($row_cs['precio_renta_basado'])) {
-                                                                                        $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_renta_basado'] . "";
+                                                                                        $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($row_cs['precio_renta_basado'], ENT_QUOTES, 'UTF-8');
                                                                                     } else {
-                                                                                        $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " por mes";
+                                                                                        $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " por mes";
                                                                                     }
                                                                                 } else if ($row_cs['opcion_idopcion'] == 2) {       //venta
                                                                                     if ($row_cs['precio_venta_basado'] != "Valor total" && !empty($row_cs['precio_venta_basado'])) {
-                                                                                        $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_venta_basado'] . "";
+                                                                                        $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($row_cs['precio_venta_basado'], ENT_QUOTES, 'UTF-8');
                                                                                     } else {
                                                                                         $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . "";
                                                                                     }
                                                                                 } else if ($row_cs['opcion_idopcion'] == 3) {       //venta y renta
                                                                     
-                                                                                    $precio_mrenta = "Renta: $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " por mes";
+                                                                                    $precio_mrenta = "Renta: $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " por mes";
                                                                                     if ($row_cs['precio_renta_basado'] != "Valor total" && !empty($row_cs['precio_renta_basado'])) {
-                                                                                        $precio_mrenta = "Renta: $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_renta_basado'] . "";
+                                                                                        $precio_mrenta = "Renta: $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($row_cs['precio_renta_basado'], ENT_QUOTES, 'UTF-8');
                                                                                     }
 
                                                                                     $precio_mventa = "Venta: $ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . "";
                                                                                     if ($row_cs['precio_venta_basado'] != "Valor total" && !empty($row_cs['precio_venta_basado'])) {
-                                                                                        $precio_mventa = "Venta: $ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_venta_basado'] . "";
+                                                                                        $precio_mventa = "Venta: $ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . htmlspecialchars($row_cs['moneda_cat'], ENT_QUOTES, 'UTF-8') . " " . htmlspecialchars($row_cs['precio_venta_basado'], ENT_QUOTES, 'UTF-8');
                                                                                     }
 
                                                                                     $precio_muestreo = $precio_mrenta . "<br>" . $precio_mventa;
@@ -3036,7 +3063,7 @@ Indicators-->
                                                                         </font>
                                                                         <span class="fs-12  font-weight-normal">
                                                                             <font style="vertical-align: inherit;">
-                                                                                <font style="vertical-align: inherit;"> <? echo $etq_opcion; ?>
+                                                                                <font style="vertical-align: inherit;"> <?= $etq_opcion; ?>
                                                                                 </font>
                                                                             </font>
                                                                         </span>
@@ -3044,7 +3071,7 @@ Indicators-->
                                                                     <ul class="item-card2-list">
                                                                         <!--características-->
 
-                                                                        <?
+                                                                        <?php
                                                                         //Consulta para obtener las características
                                                                         /*$consulta_car="SELECT `inmuebles_característicascol`, `inmuebles_idinmuebles`, `cat_características_idcat_características`, `valor` FROM `inmuebles_características` WHERE inmuebles_idinmuebles=".$row_cs['idinmuebles']." LIMIT 4"; 
                                                                         $resultado_car = mysqli_query($con,$consulta_car);
@@ -3083,14 +3110,14 @@ Indicators-->
                                                                         ?>
 
                                                                         <!--<li>
-                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?  //echo $row_dcar['logo']; ?>" class="iconos">
+                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?php  //echo $row_dcar['logo']; ?>" class="iconos">
                                         <font style="vertical-align: inherit;">
-                                            <font style="vertical-align: inherit;font-size: 12px;"> <?  //echo $etiqueta; ?></font>
+                                            <font style="vertical-align: inherit;font-size: 12px;"> <?php  //echo $etiqueta; ?></font>
                                         </font>
                                     </a>
                                   </li>-->
 
-                                                                        <?
+                                                                        <?php
 
                                                                         // }                                                              
                                                             
@@ -3102,7 +3129,7 @@ Indicators-->
                                                     </div>
 
                                                     <!--END de inmueble-->
-                                                    <?
+                                                    <?php
 
                                                 //END WHILE
                                     
@@ -3111,7 +3138,7 @@ Indicators-->
                                         </div>
                                         <!--/.Second slide-->
 
-                                        <?
+                                        <?php
                                     //END IF
                                 }
                                 ?>
@@ -3128,13 +3155,14 @@ Indicators-->
                                     class="icon-arrow-right" style="color: gray;"></i></a>
                         </div>
                     </div>
-            <? } ?>
+            <?php } ?>
 
         </div>
     </section>
     <footer>
         <div class="footer">
-            <div class="row col-12">
+            <div class="container-fluid">
+            <div class="row">
                 <div class="col-md-8 col-12">
                     <div class="row">
                         <div class="col-lg-6 col-12 paddingf">
@@ -3156,7 +3184,7 @@ Indicators-->
                                     <h6><span><i class="fa fa-map-marker mr-2 mb-2"></i></span><a href="#"
                                             class="text-white">
                                             <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Nuevo León, México</font>
+                                                <font style="vertical-align: inherit;">Querétaro, México</font>
                                             </font>
                                         </a></h6>
                                     <h6><span><i class="fa fa-envelope mr-2 mb-2"></i></span><a
@@ -3165,14 +3193,13 @@ Indicators-->
                                                 <font style="vertical-align: inherit;"> hola@3seeds.mx</font>
                                             </font>
                                         </a></h6>
-                                    <h6><span><i class="fa fa-phone mr-2  mb-2"></i></span><a href="tel:8125120161"
+                                    <h6><span><i class="fa fa-phone mr-2  mb-2"></i></span><a href="tel:4422448774"
                                             class="text-white">
                                             <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;"> +52 81 2512 0161</font>
+                                                <font style="vertical-align: inherit;"> +52 442 244 8774</font>
                                             </font>
-                                        </a>&nbsp;&nbsp;<a class="fab fa fa-whatsapp" href="https://wa.me/528125120161"
+                                        </a>&nbsp;&nbsp;<a class="fab fa fa-whatsapp" href="https://wa.me/524422448774"
                                             target="_blank"></a></h6>
-                                    <!-- <h6><span class="font-weight-semibold"><i class="fa fa-link mr-2 "></i></span><a href="#" class="text-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http://spruko.com/</font></font></a></h6>-->
                                 </div>
                             </div>
                         </div>
@@ -3211,8 +3238,9 @@ Indicators-->
                     </ul>
                 </div>
             </div>
+            </div>
         </div>
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-12 text-center">
                     <p class="mt-2 mb-0">Copyright © 3Seeds Commercial. All rights reserved.</p>
@@ -3270,10 +3298,10 @@ Indicators-->
             var $rentaCarousel = $('#carousel-renta');
             var $destacadoCarousel = $('#carousel-destacado');
 
-            var ventaItems = $ventaCarousel.find('.col-md-4').toArray().map(function (el) {
+            var ventaItems = $ventaCarousel.find('.col-md-3').toArray().map(function (el) {
                 return $(el).clone(true, true);
             });
-            var rentaItems = $rentaCarousel.find('.col-md-4').toArray().map(function (el) {
+            var rentaItems = $rentaCarousel.find('.col-md-3').toArray().map(function (el) {
                 return $(el).clone(true, true);
             });
             var destacadoItems = $destacadoCarousel.find('.prop-card-sidebar').toArray().map(function (el) {
@@ -3393,14 +3421,14 @@ Indicators-->
                 buildSlides(
                     $ventaCarousel,
                     ventaItems,
-                    3,
+                    4,
                     '<div class="col-12 text-center text-muted py-4">Sin resultados</div>',
                     true
                 );
                 buildSlides(
                     $rentaCarousel,
                     rentaItems,
-                    3,
+                    4,
                     '<div class="col-12 text-center text-muted py-4">Sin resultados</div>',
                     true
                 );

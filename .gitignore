@@ -24,38 +24,30 @@ laragon.ini
 # (Es buena idea no subir tus contraseñas locales)
 conexion_local.php
 config_local.php
+config/db_credentials.php
 .env
 
 # Archivos temporales de descarga
 *.tmp
 *.bak
-# Ignorar basura autogenerada de ScriptCase
-*.dat
-_lib/
-scriptcase_*
-ScriptCase*
-3seeds_grid_*
-3seeds_menu*
-3seeds_form_*
-app_*
-*.css
-*.js
-*.md
-*.ini
-*.xml
-*.zip
-ficha_tecnica_*
-form_*
-grid_*
-menu_*
-report_*
-security_*
-settings_*
-summary_*
-fotos_*
-*.csv
-*.htm
-prueba_*
-reporte_*
-sec_*
-*.png
+# Ignorar archivos autogenerados de ScriptCase (dentro de aplicacion/)
+aplicacion/*.dat
+aplicacion/_lib/
+aplicacion/scriptcase_*
+aplicacion/ScriptCase*
+aplicacion/3seeds_grid_*
+aplicacion/3seeds_menu*
+aplicacion/3seeds_form_*
+aplicacion/app_*
+aplicacion/ficha_tecnica_*
+aplicacion/form_*
+aplicacion/grid_*
+aplicacion/menu_*
+aplicacion/report_*
+aplicacion/security_*
+aplicacion/settings_*
+aplicacion/summary_*
+aplicacion/fotos_*
+aplicacion/prueba_*
+aplicacion/reporte_*
+aplicacion/sec_*

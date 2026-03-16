@@ -1863,7 +1863,7 @@ select {
                                         <div class="form-group fg-opcion">
                                             <select class="form-control" name="select_opcion">
                                                 <option selected="selected" value="">Venta</option>
-                                                <?
+                                                <?php
                                                 if ($numrows_opc != 0) {
                                                     while ($row_opc = mysqli_fetch_assoc($resultado_opc)) {
                                                         echo "<option value=\"" . $row_opc['idopcion'] . "\">" . $row_opc['nombre_opcion'] . "</option>";
@@ -1878,7 +1878,7 @@ select {
 
                                                 <option selected="selected" value="">Tipo de propiedad</option>
 
-                                                <?
+                                                <?php
                                                 //TIPO INMUEBLE
                                                 if ($numrows_inm != 0) {
                                                     while ($row_cs = mysqli_fetch_assoc($resultado_inm)) {
@@ -1922,7 +1922,7 @@ select {
                                         data-placeholder="Estado" data-select2-id="1" tabindex="-1" aria-hidden="true"
                                         name="ubicacion" onchange="actualizarElementos()" id="ubicacionfrom">
                                         <option selected="selected" value="">Estado</option>
-                                        <?
+                                        <?php
 
                                         //ESTADOS
                                         if ($numrows_estv != 0) {
@@ -1940,7 +1940,7 @@ select {
                                         data-placeholder="Municipio" data-select2-id="1" tabindex="-1"
                                         aria-hidden="true" name="municipiop" id="municipiofrom">
                                         <option selected="selected" value="">Municipio</option>
-                                        <?
+                                        <?php
 
                                         //MUNICIPIOS
                                         if ($numrows_munv != 0) {
@@ -1958,7 +1958,7 @@ select {
 
                                         <option selected="selected" value="">Tipo de Propiedad</option>
 
-                                        <?
+                                        <?php
                                         //TIPO INMUEBLE
                                         
                                         if ($numrows_inmv != 0) {
@@ -2005,7 +2005,7 @@ select {
                                         data-placeholder="Estado" data-select2-id="1" tabindex="-1" aria-hidden="true"
                                         name="ubicacion" onchange="actualizarElementos()" id="ubicacionfrom">
                                         <option selected="selected" value="">Estado</option>
-                                        <?
+                                        <?php
 
                                         //ESTADOS
                                         if ($numrows_estr != 0) {
@@ -2023,7 +2023,7 @@ select {
                                         data-placeholder="Municipio" data-select2-id="1" tabindex="-1"
                                         aria-hidden="true" name="municipiop" id="municipiofrom">
                                         <option selected="selected" value="">Municipio</option>
-                                        <?
+                                        <?php
 
                                         //MUNICIPIO 
                                         if ($numrows_munr != 0) {
@@ -2041,7 +2041,7 @@ select {
 
                                         <option selected="selected" value="">Tipo de Propiedad</option>
 
-                                        <?
+                                        <?php
                                         //TIPO DE INMUEBLE
                                         
                                         if ($numrows_inmr != 0) {
@@ -2089,7 +2089,7 @@ select {
                                     <span><i class="fa fa-map-marker location-gps mr-1"></i></span> -- >
                                      <select class="form-control select2-show-search border-bottom-0 select2-hidden-accessible" data-placeholder="Property Type" data-select2-id="1" tabindex="-1" aria-hidden="true" name="ubicacion">
                                          <option selected="selected" value="">Ubicación</option>
-                                        <?
+                                        <?php
                                         //Consulta para las categorias
                                         /* $consulta_csl="SELECT `municipio`, `estado` FROM `inmuebles` WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 GROUP BY municipio, estado ORDER BY estado ASC, municipio ASC"; 
                                          $resultado_csl = mysqli_query($con,$consulta_csl);
@@ -2129,7 +2129,7 @@ select {
 
                                 </span>
                             </div>
-                            <?
+                            <?php
 
                             //Consulta tipo CASA
                             
@@ -2144,7 +2144,7 @@ select {
                             ?>
                             <div class="ml-4 mt-1">
 
-                                <h3 class=" mb-0 font-weight-bold"><? echo $numrows_casa; ?></h3>
+                                <h3 class=" mb-0 font-weight-bold"><?= $numrows_casa; ?></h3>
 
                                 <p class="mb-0 text-muted">Casas</p>
 
@@ -2162,7 +2162,7 @@ select {
                                 </span>
 
                             </div>
-                            <?
+                            <?php
 
                             //Consulta tipo TERRENO
                             
@@ -2177,7 +2177,7 @@ select {
                             ?>
                             <div class="ml-4 mt-1">
 
-                                <h3 class=" mb-0 font-weight-bold"><? echo $numrows_casa; ?></h3>
+                                <h3 class=" mb-0 font-weight-bold"><?= $numrows_casa; ?></h3>
 
                                 <p class="mb-0 text-muted">Terrenos</p>
 
@@ -2195,7 +2195,7 @@ select {
                                 </span>
 
                             </div>
-                            <?
+                            <?php
 
                             //Consulta tipo OFICINAS
                             
@@ -2210,7 +2210,7 @@ select {
                             ?>
                             <div class="ml-4 mt-1">
 
-                                <h3 class=" mb-0 font-weight-bold"><? echo $numrows_casa; ?></h3>
+                                <h3 class=" mb-0 font-weight-bold"><?= $numrows_casa; ?></h3>
 
                                 <p class="mb-0 text-muted">Oficinas</p>
 
@@ -2228,7 +2228,7 @@ select {
                                 </span>
 
                             </div>
-                            <?
+                            <?php
 
                             //Consulta tipo DEPARTAMENTOS
                             
@@ -2243,7 +2243,7 @@ select {
                             ?>
                             <div class="ml-4 mt-1">
 
-                                <h3 class=" mb-0 font-weight-bold "><? echo $numrows_casa; ?></h3>
+                                <h3 class=" mb-0 font-weight-bold "><?= $numrows_casa; ?></h3>
 
                                 <p class="mb-0 text-muted">Departamentos</p>
 
@@ -2275,7 +2275,7 @@ select {
                         <div id="carousel-venta" class="carousel slide carousel-multi-item" data-ride="carousel"
                             data-interval="5000">
                             <div class="carousel-inner" role="listbox">
-                                <?
+                                <?php
                                 $consulta_v = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 AND (opcion_idopcion=2 OR opcion_idopcion=3) ORDER BY idinmuebles DESC LIMIT 12";
                                 $resultado_v = mysqli_query($con, $consulta_v);
                                 $count = 0;
@@ -2290,37 +2290,37 @@ select {
                                     ?>
                                         <div class="col-md-4">
                                             <div class="prop-card-home">
-                                                <a href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>"
+                                                <a href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>"
                                                     style="text-decoration:none; color:inherit;">
                                                     <div class="prop-img-container">
-                                                        <?
+                                                        <?php
                                                         $c_img = "SELECT ruta_archivo FROM inmuebles_fotos WHERE inmuebles_idinmuebles=" . $row_cs['idinmuebles'] . " ORDER BY order_img ASC LIMIT 1";
                                                         $r_img = mysqli_query($con, $c_img);
                                                         $row_img = mysqli_fetch_assoc($r_img);
                                                         $img = $row_img['ruta_archivo'] ?: "sin_imagen.png";
                                                         ?>
-                                                        <img src="aplicacion/_lib/file/img/3simg/<? echo $img; ?>" alt="Property">
+                                                        <img src="aplicacion/_lib/file/img/3simg/<?= $img; ?>" alt="Property">
                                                         <div class="arrow-ribbon2 bg-destacado"
                                                             style="position:absolute; top:10px; left:0;">
-                                                            <? echo ($row_cs['opcion_idopcion'] == 2 ? "Venta" : "Venta y Renta"); ?>
+                                                            <?= ($row_cs['opcion_idopcion'] == 2 ? "Venta" : "Venta y Renta"); ?>
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-3">
                                                         <h5 class="font-weight-bold"
                                                             style="font-size:1rem; height:2.4rem; overflow:hidden;">
-                                                            <? echo $row_cs['nombre']; ?>
+                                                            <?= $row_cs['nombre']; ?>
                                                         </h5>
                                                         <p class="text-muted mb-2" style="font-size:0.8rem;">
-                                                            <? echo ($row_cs['superficie_terreno'] > 0 ? number_format($row_cs['superficie_terreno'], 0) : number_format($row_cs['superficie_construccion'], 0)) . " m2"; ?>
+                                                            <?= ($row_cs['superficie_terreno'] > 0 ? number_format($row_cs['superficie_terreno'], 0) : number_format($row_cs['superficie_construccion'], 0)) . " m2"; ?>
                                                         </p>
                                                         <h6 class="text-primary font-weight-bold">
-                                                            <? echo "$ " . number_format($row_cs['Precio'], 0) . " " . $row_cs['moneda_cat']; ?>
+                                                            <?= "$ " . number_format($row_cs['Precio'], 0) . " " . $row_cs['moneda_cat']; ?>
                                                         </h6>
                                                     </div>
                                                 </a>
                                             </div>
                                         </div>
-                                        <?
+                                        <?php
                                         $count++;
                                 }
                                 if ($count > 0)
@@ -2346,7 +2346,7 @@ select {
                         <div id="carousel-renta" class="carousel slide carousel-multi-item" data-ride="carousel"
                             data-interval="6000">
                             <div class="carousel-inner" role="listbox">
-                                <?
+                                <?php
                                 $consulta_r = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 AND (opcion_idopcion=1 OR opcion_idopcion=3) ORDER BY idinmuebles DESC LIMIT 12";
                                 $resultado_r = mysqli_query($con, $consulta_r);
                                 $count = 0;
@@ -2361,37 +2361,37 @@ select {
                                     ?>
                                         <div class="col-md-4">
                                             <div class="prop-card-home">
-                                                <a href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>"
+                                                <a href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>"
                                                     style="text-decoration:none; color:inherit;">
                                                     <div class="prop-img-container">
-                                                        <?
+                                                        <?php
                                                         $c_img = "SELECT ruta_archivo FROM inmuebles_fotos WHERE inmuebles_idinmuebles=" . $row_cs['idinmuebles'] . " ORDER BY order_img ASC LIMIT 1";
                                                         $r_img = mysqli_query($con, $c_img);
                                                         $row_img = mysqli_fetch_assoc($r_img);
                                                         $img = $row_img['ruta_archivo'] ?: "sin_imagen.png";
                                                         ?>
-                                                        <img src="aplicacion/_lib/file/img/3simg/<? echo $img; ?>" alt="Property">
+                                                        <img src="aplicacion/_lib/file/img/3simg/<?= $img; ?>" alt="Property">
                                                         <div class="arrow-ribbon2 bg-destacado"
                                                             style="position:absolute; top:10px; left:0;">
-                                                            <? echo ($row_cs['opcion_idopcion'] == 1 ? "Renta" : "Venta y Renta"); ?>
+                                                            <?= ($row_cs['opcion_idopcion'] == 1 ? "Renta" : "Venta y Renta"); ?>
                                                         </div>
                                                     </div>
                                                     <div class="card-body p-3">
                                                         <h5 class="font-weight-bold"
                                                             style="font-size:1rem; height:2.4rem; overflow:hidden;">
-                                                            <? echo $row_cs['nombre']; ?>
+                                                            <?= $row_cs['nombre']; ?>
                                                         </h5>
                                                         <p class="text-muted mb-2" style="font-size:0.8rem;">
-                                                            <? echo ($row_cs['superficie_terreno'] > 0 ? number_format($row_cs['superficie_terreno'], 0) : number_format($row_cs['superficie_construccion'], 0)) . " m2"; ?>
+                                                            <?= ($row_cs['superficie_terreno'] > 0 ? number_format($row_cs['superficie_terreno'], 0) : number_format($row_cs['superficie_construccion'], 0)) . " m2"; ?>
                                                         </p>
                                                         <h6 class="text-primary font-weight-bold">
-                                                            <? echo "$ " . number_format($row_cs['precio_renta'], 0) . " " . $row_cs['moneda_cat']; ?>
+                                                            <?= "$ " . number_format($row_cs['precio_renta'], 0) . " " . $row_cs['moneda_cat']; ?>
                                                         </h6>
                                                     </div>
                                                 </a>
                                             </div>
                                         </div>
-                                        <?
+                                        <?php
                                         $count++;
                                 }
                                 if ($count > 0)
@@ -2419,7 +2419,7 @@ select {
                         <div id="carousel-destacado" class="carousel slide carousel-vertical" data-ride="carousel"
                             data-interval="6000">
                             <div class="carousel-inner" role="listbox">
-                                <?
+                                <?php
                                 $consulta_d = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 AND inmueble_destacado=1 ORDER BY idinmuebles DESC LIMIT 8";
                                 $resultado_d = mysqli_query($con, $consulta_d);
                                 $count_d = 0;
@@ -2433,20 +2433,20 @@ select {
                                     }
                                     ?>
                                         <div class="prop-card-sidebar">
-                                            <a href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>"
+                                            <a href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>"
                                                 style="display:block; position:relative;">
-                                                <?
+                                                <?php
                                                 $c_img = "SELECT ruta_archivo FROM inmuebles_fotos WHERE inmuebles_idinmuebles=" . $row_cs['idinmuebles'] . " ORDER BY order_img ASC LIMIT 1";
                                                 $r_img = mysqli_query($con, $c_img);
                                                 $row_img = mysqli_fetch_assoc($r_img);
                                                 $img = $row_img['ruta_archivo'] ?: "sin_imagen.png";
                                                 ?>
-                                                <img src="aplicacion/_lib/file/img/3simg/<? echo $img; ?>" alt="Destacado"
+                                                <img src="aplicacion/_lib/file/img/3simg/<?= $img; ?>" alt="Destacado"
                                                     style="width:100%; height:300px; object-fit:cover;">
                                                 <div class="ver-mas-btn">Ver más</div>
                                             </a>
                                         </div>
-                                        <?
+                                        <?php
                                         $count_d++;
                                 }
                                 if ($count_d > 0)
@@ -2457,7 +2457,7 @@ select {
                     </div>
                 </div>
 
-            <? if (false) { /* BLOQUE OBSOLETO: VISTA FILTRADA (CAROUSEL ORIGINAL) Ocultado ya que siempre se muestran las 3 secciones */ ?>
+            <?php if (false) { /* BLOQUE OBSOLETO: VISTA FILTRADA (CAROUSEL ORIGINAL) Ocultado ya que siempre se muestran las 3 secciones */ ?>
                     <!-- VISTA FILTRADA (CAROUSEL ORIGINAL) -->
                     <div class="section-title center-block text-center">
                         <h2>
@@ -2481,7 +2481,7 @@ Indicators-->
                             <!--Slides-->
                             <div class="carousel-inner" role="listbox">
                                 <!--First slide-->
-                                <?
+                                <?php
                                 //Consulta para obtener los INMUEBLES DE ZONA NORTE
                                 $consulta_cs = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 4";
                                 $resultado_cs = mysqli_query($con, $consulta_cs);
@@ -2492,7 +2492,7 @@ Indicators-->
 
                                         <div class="carousel-item active">
 
-                                            <?
+                                            <?php
                                             while ($row_cs = mysqli_fetch_assoc($resultado_cs)) {
 
                                                 $etiqueta_nombre = $row_cs['nombre'];
@@ -2584,10 +2584,10 @@ Indicators-->
                                                     <div class="col-md-3" style="float:left">
                                                         <div class="carta mb-2" style="min-height: 400px;">
                                                             <a
-                                                                href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>">
+                                                                href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>">
 
                                                                 <!--Etiqueta destacado-->
-                                                                <div class="arrow-ribbon2 bg-destacado"><? echo $etq_opcion1; ?></div>
+                                                                <div class="arrow-ribbon2 bg-destacado"><?= $etq_opcion1; ?></div>
                                                                 <!--fin Etiqueta destacado-->
 
                                                                 <div class="caja">
@@ -2595,22 +2595,22 @@ Indicators-->
                                                                     <div class="box">
 
                                                                         <img class="card-img-top"
-                                                                            src="aplicacion/_lib/file/img/3simg/<? echo $etq_ruta_arch; ?>"
+                                                                            src="aplicacion/_lib/file/img/3simg/<?= $etq_ruta_arch; ?>"
                                                                             alt="Card image cap">
 
                                                                     </div>
 
                                                                 </div>
                                                                 <div class="card-body">
-                                                                    <h4 class="card-title"><? echo $etiqueta_nombre; ?></h4>
+                                                                    <h4 class="card-title"><?= $etiqueta_nombre; ?></h4>
                                                                     <!--<p class="mb-2">
                         <i class="fa fa-map-marker text-danger mr-1"></i>
                             <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;font-size: 13px;"> <?  //echo $etiqueta_ubica; ?></font>
+                                <font style="vertical-align: inherit;font-size: 13px;"> <?php  //echo $etiqueta_ubica; ?></font>
                             </font>
                       </p> -->
                                                                     <span class="fs-12  font-weight-normal">
-                                                                        <? echo $etiqueta; ?>
+                                                                        <?= $etiqueta; ?>
                                                                         <!--<font style="vertical-align: inherit;">
                                 <font style="vertical-align: inherit;">· 600.00 m2</font>
                             </font>
@@ -2621,7 +2621,7 @@ Indicators-->
                                                                     <h5 class="font-weight-bold mb-3">
                                                                         <font style="vertical-align: inherit;">
                                                                             <font style="vertical-align: inherit;">
-                                                                                <?
+                                                                                <?php
 
                                                                                 //verificamos que precio mostrar
                                                                                 if ($row_cs['opcion_idopcion'] == 1) {       //renta
@@ -2665,7 +2665,7 @@ Indicators-->
                                                                         </font>
                                                                         <span class="fs-12  font-weight-normal">
                                                                             <font style="vertical-align: inherit;">
-                                                                                <font style="vertical-align: inherit;"><? echo $etq_opcion; ?>
+                                                                                <font style="vertical-align: inherit;"><?= $etq_opcion; ?>
                                                                                 </font>
                                                                             </font>
                                                                         </span>
@@ -2673,7 +2673,7 @@ Indicators-->
                                                                     <ul class="item-card2-list">
                                                                         <!--características-->
 
-                                                                        <?
+                                                                        <?php
                                                                         //Consulta para obtener las características
                                                                         /* $consulta_car="SELECT `inmuebles_característicascol`, `inmuebles_idinmuebles`, `cat_características_idcat_características`, `valor` FROM `inmuebles_características` WHERE inmuebles_idinmuebles=".$row_cs['idinmuebles']." LIMIT 4"; 
                                                                          $resultado_car = mysqli_query($con,$consulta_car);
@@ -2700,14 +2700,14 @@ Indicators-->
                                                                         ?>
 
                                                                         <!--<li>
-                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?  //echo $row_dcar['logo']; ?>" class="iconos">
+                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?php  //echo $row_dcar['logo']; ?>" class="iconos">
                                         <font style="vertical-align: inherit;">
-                                            <font style="vertical-align: inherit;font-size: 12px;"> <?  //echo $etiqueta; ?></font>
+                                            <font style="vertical-align: inherit;font-size: 12px;"> <?php  //echo $etiqueta; ?></font>
                                         </font>
                                     </a>
                                   </li>-->
 
-                                                                        <?
+                                                                        <?php
 
                                                                         // }                                                              
                                                             
@@ -2719,14 +2719,14 @@ Indicators-->
                                                     </div>
 
                                                     <!--END de inmueble-->
-                                                <?
+                                                <?php
                                                 //END WHILE
                                             }
 
                                             ?>
                                         </div>
                                         <!--/.First slide-->
-                                    <?
+                                    <?php
                                     //END IF
                                 }
 
@@ -2745,7 +2745,7 @@ Indicators-->
 
                                         <!--Second slide-->
                                         <div class="carousel-item">
-                                            <?
+                                            <?php
                                             $ultimo_id = 0;
 
                                             while ($row_cs = mysqli_fetch_assoc($resultado_cs)) {
@@ -2843,10 +2843,10 @@ Indicators-->
                                                     <div class="col-md-3" style="float:left">
                                                         <div class="carta mb-2" style="min-height: 400px;">
                                                             <a
-                                                                href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>">
+                                                                href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>">
 
                                                                 <!--Etiqueta destacado-->
-                                                                <div class="arrow-ribbon2 bg-destacado"><? echo $etq_opcion1; ?></div>
+                                                                <div class="arrow-ribbon2 bg-destacado"><?= $etq_opcion1; ?></div>
                                                                 <!--fin Etiqueta destacado-->
 
                                                                 <div class="caja">
@@ -2854,24 +2854,24 @@ Indicators-->
                                                                     <div class="box">
 
                                                                         <img class="card-img-top"
-                                                                            src="aplicacion/_lib/file/img/3simg/<? echo $etq_ruta_arch; ?>"
+                                                                            src="aplicacion/_lib/file/img/3simg/<?= $etq_ruta_arch; ?>"
                                                                             alt="Card image cap">
 
                                                                     </div>
 
                                                                 </div>
                                                                 <div class="card-body">
-                                                                    <h4 class="card-title"><? echo $etiqueta_nombre; ?></h4>
+                                                                    <h4 class="card-title"><?= $etiqueta_nombre; ?></h4>
 
                                                                     <!--<p class="mb-2">
                         <i class="fa fa-map-marker text-danger mr-1"></i>
                             <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;font-size: 13px;"> <?  //echo $etiqueta_ubica; ?></font>
+                                <font style="vertical-align: inherit;font-size: 13px;"> <?php  //echo $etiqueta_ubica; ?></font>
                             </font>
                       </p> -->
                                                                     <span class="fs-12  font-weight-normal">
 
-                                                                        <? echo $etiqueta; ?>
+                                                                        <?= $etiqueta; ?>
                                                                         <!--<font style="vertical-align: inherit;">
                                 <font style="vertical-align: inherit;">· 600.00 m2</font>
                             </font>
@@ -2882,7 +2882,7 @@ Indicators-->
                                                                     <h5 class="font-weight-bold mb-3">
                                                                         <font style="vertical-align: inherit;">
                                                                             <font style="vertical-align: inherit;">
-                                                                                <?
+                                                                                <?php
 
                                                                                 //verificamos que precio mostrar
                                                                                 if ($row_cs['opcion_idopcion'] == 1) {       //renta
@@ -2926,7 +2926,7 @@ Indicators-->
                                                                         </font>
                                                                         <span class="fs-12  font-weight-normal">
                                                                             <font style="vertical-align: inherit;">
-                                                                                <font style="vertical-align: inherit;"> <? echo $etq_opcion; ?>
+                                                                                <font style="vertical-align: inherit;"> <?= $etq_opcion; ?>
                                                                                 </font>
                                                                             </font>
                                                                         </span>
@@ -2934,7 +2934,7 @@ Indicators-->
                                                                     <ul class="item-card2-list">
                                                                         <!--características-->
 
-                                                                        <?
+                                                                        <?php
                                                                         //Consulta para obtener las características
                                                                         /*$consulta_car="SELECT `inmuebles_característicascol`, `inmuebles_idinmuebles`, `cat_características_idcat_características`, `valor` FROM `inmuebles_características` WHERE inmuebles_idinmuebles=".$row_cs['idinmuebles']." LIMIT 4"; 
                                                                         $resultado_car = mysqli_query($con,$consulta_car);
@@ -2973,14 +2973,14 @@ Indicators-->
                                                                         ?>
 
                                                                         <!--<li>
-                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?  //echo $row_dcar['logo']; ?>" class="iconos">
+                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?php  //echo $row_dcar['logo']; ?>" class="iconos">
                                         <font style="vertical-align: inherit;">
-                                            <font style="vertical-align: inherit;font-size: 12px;"> <?  //echo $etiqueta; ?></font>
+                                            <font style="vertical-align: inherit;font-size: 12px;"> <?php  //echo $etiqueta; ?></font>
                                         </font>
                                     </a>
                                   </li>-->
 
-                                                                        <?
+                                                                        <?php
 
                                                                         // }                                                              
                                                             
@@ -2992,7 +2992,7 @@ Indicators-->
                                                     </div>
 
                                                     <!--END de inmueble-->
-                                                <?
+                                                <?php
 
                                                 //END WHILE
                                     
@@ -3001,7 +3001,7 @@ Indicators-->
                                         </div>
                                         <!--/.Second slide-->
 
-                                    <?
+                                    <?php
                                     //END IF
                                 }
                                 ?>
@@ -3018,7 +3018,7 @@ Indicators-->
                                     class="icon-arrow-right" style="color: gray;"></i></a>
                         </div>
                     </div>
-            <? } ?>
+            <?php } ?>
 
         </div>
     </section>

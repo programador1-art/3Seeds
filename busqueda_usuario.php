@@ -1420,7 +1420,7 @@ ul {
                     <!--<a href="#" class="btn btn-lg btn-block btn-primary br-tl-md-0 br-bl-md-0">Buscar</a>-->
                     <input type="hidden" id="tipo_bus1" name="tipo_busq1" value="0">
                     <input type="hidden" id="busquedaprin" name="busquedaprin" value="1">
-                    <input type="hidden" id="tbusqda" name="tbusqda" value="<? echo $_GET['tbusqda']; ?>"> <!--zona -->
+                    <input type="hidden" id="tbusqda" name="tbusqda" value="<?= $_GET['tbusqda']; ?>"> <!--zona -->
                     <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Buscar">
                     </div>
                     </form>
@@ -1429,7 +1429,7 @@ ul {
 			  	    <!--<option value="" disabled selected>Elige una zona</option>
                     <option value="principal.php">Zona Norte</option>
 					<option value="zona-centro.php">Zona Centro</option>-->
-                    <? echo $opciones_bus; ?>
+                    <?= $opciones_bus; ?>
 			  	</select>
 			  <br><br>
 	   		</form>
@@ -1445,7 +1445,7 @@ ul {
 	<div>
 
 	<h3 class=" mt-5 mb-5 text-center">
-        <?  
+        <?php  
             $etiqueta_nombre=0;
             if($numrows_cs>1){
                 $etiqueta_nombre=$numrows_cs." Resultados";
@@ -1486,7 +1486,7 @@ ul {
 
 <!--primer resultado-->
 
-        <?
+        <?php
 
         //recorremos todos los resultados
         while($row_cs=mysqli_fetch_assoc($resultado_cs)){
@@ -1512,7 +1512,7 @@ ul {
 
 			<div class="col-md-4 col-sm-9 offset-sm-3 col-9 offset-1 offset-xl-0">
 
-			  <img src="aplicacion/_lib/file/img/3simg/<?  echo $etq_ruta_arch; ?>" class="img-busqueda" alt="..." height="250px" width="380px">
+			  <img src="aplicacion/_lib/file/img/3simg/<?php  echo $etq_ruta_arch; ?>" class="img-busqueda" alt="..." height="250px" width="380px">
 
 			</div>
 
@@ -1524,7 +1524,7 @@ ul {
 
 					<div class="col-12 col-lg-10 offset-lg-0 col-xl-12" style="max-width: 100%;">
 
-					  <h4> <?  
+					  <h4> <?php  
                                 $etiqueta_nombre=$row_cs['nombre'];
                                 if(strlen($row_cs['nombre'])>45){
                                    $etiqueta_nombre=substr($row_cs['nombre'], 0, 42)."...";
@@ -1544,7 +1544,7 @@ ul {
 
 							<font style="vertical-align: inherit;">
 
-								<font style="vertical-align: inherit;"> <?  echo $row_cs['colonia'].", ".$row_cs['municipio'].", ".$row_cs['estado']; ?></font>
+								<font style="vertical-align: inherit;"> <?php  echo $row_cs['colonia'].", ".$row_cs['municipio'].", ".$row_cs['estado']; ?></font>
 
 							</font>
 
@@ -1556,7 +1556,7 @@ ul {
 
 							<font style="vertical-align: inherit;">
 
-								<font style="vertical-align: inherit;"><?  
+								<font style="vertical-align: inherit;"><?php  
  
                                 $etiqueta_nombre=$row_cs['descripcion'];
                                 if(strlen($row_cs['descripcion'])>110){
@@ -1577,7 +1577,7 @@ ul {
 
 					<!--<font style="vertical-align: inherit;">-->
 
-					     <font style="vertical-align: inherit;"><?  
+					     <font style="vertical-align: inherit;"><?php  
               
                                 //obtenemos moneda
                                 //verificamos que precio mostrar
@@ -1623,7 +1623,7 @@ ul {
 
 						<font style="vertical-align: inherit;">
 
-						<font style="vertical-align: inherit;"><?  
+						<font style="vertical-align: inherit;"><?php  
                             /*$etq_opcion="";
                             
                             if($row_cs['opcion_idopcion']==1){
@@ -1644,7 +1644,7 @@ ul {
 
 
             <!--caracteristicas-->
-            <?
+            <?php
                 //Consulta para obtener las caracteristicas
                 $consulta_car="SELECT `inmuebles_caracteristicascol`, `inmuebles_idinmuebles`, `cat_caracteristicas`, `valor` FROM `inmuebles_caracteristicas` WHERE inmuebles_idinmuebles=".$row_cs['idinmuebles']." LIMIT 4"; 
                 $resultado_car = mysqli_query($con,$consulta_car);
@@ -1672,16 +1672,16 @@ ul {
         					<div class="KeyInformation-attribute_v2 pt-1 pl-1 pr-1">
                                  <div class="KeyInformation-description_v2">
                                        <span class="KeyInformation-value_v2 text-muted" style="font-size:13px">
-                                        <img src="aplicacion/_lib/file/img/3slogo/<?  echo $row_dcar['logo']; ?>" class="iconos">
-                                        <?  echo $row_car['valor']." ".$row_dcar['unidad']; ?>
+                                        <img src="aplicacion/_lib/file/img/3slogo/<?php  echo $row_dcar['logo']; ?>" class="iconos">
+                                        <?php  echo $row_car['valor']." ".$row_dcar['unidad']; ?>
                                         </span>
                                  </div>
-                               	 <span class="KeyInformation-label_v2"><?  echo $etiqueta; ?></span>
+                               	 <span class="KeyInformation-label_v2"><?php  echo $etiqueta; ?></span>
                             </div>
         				</div>
         			</div>
 
-            <?
+            <?php
                 }                                                              
                                                         
             ?>
@@ -1746,7 +1746,7 @@ ul {
 
 						<div class="col text-center col-11 offset-1 offset-xl-0 col-xl-5">
 
-							<a href="https://3seedscommercial.mx/interna.php?inm_ax=<?  echo $row_cs['idinmuebles']; ?>"><button class="btn btn-success regular-button">Más información</button></a>
+							<a href="https://3seedscommercial.mx/interna.php?inm_ax=<?php  echo $row_cs['idinmuebles']; ?>"><button class="btn btn-success regular-button">Más información</button></a>
 
 						</div>	
 
@@ -1764,7 +1764,7 @@ ul {
 
         </div>
 
-  <?
+  <?php
 
           //end while
        }
@@ -1948,7 +1948,7 @@ ul {
                   <!--<input type="text" class="form-control" id="ubicacionfrom" aria-describedby="basic-addon1" name="ubicacion">-->
                   <select class="form-control" id="ubicacionfrom" aria-hidden="true" name="ubicacion" onchange="actualizarElementos()">
                         <option selected="selected" value="">Selecciona</option>
-                            <?
+                            <?php
                                 //Consulta para las estados
                                 /*$consulta_csl="SELECT `municipio`, `estado` FROM `inmuebles` WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 GROUP BY estado ORDER BY estado ASC"; 
                                 $resultado_csl = mysqli_query($con,$consulta_csl);
@@ -1973,7 +1973,7 @@ ul {
                   <!--<input type="text" class="form-control" id="ubicacionfrom" aria-describedby="basic-addon1" name="ubicacion">-->
                     <select class="form-control" id="municipiofrom" aria-hidden="true" name="municipiop">
                             <option selected="selected" value="">Selecciona</option>
-                            <?
+                            <?php
                                 //Consulta para los municipios
                                 /*$consulta_csl="SELECT `municipio`, `estado` FROM `inmuebles` WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 GROUP BY municipio ORDER BY municipio ASC"; 
                                 $resultado_csl = mysqli_query($con,$consulta_csl);
@@ -2001,7 +2001,7 @@ ul {
 
                      <option selected="selected" value="">Selecciona</option>
 
-                    <?
+                    <?php
                         //Consulta para las categorias
                         /*$consulta_cs="SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo`"; 
                         $resultado_cs = mysqli_query($con,$consulta_cs);
@@ -2121,7 +2121,7 @@ ul {
 
 					  <div>
 
-                        <?
+                        <?php
                         if($_GET['tbusqda']=="N"){   //zona norte
                          ?>
                               <h6><span><i class="fa fa-map-marker mr-2 mb-2"></i></span><a href="#" class="text-white"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Nuevo León, México</font></font></a></h6>
@@ -2132,7 +2132,7 @@ ul {
 
                              <!-- <h6><span class="font-weight-semibold"><i class="fa fa-link mr-2 "></i></span><a href="#" class="text-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http://spruko.com/</font></font></a></h6>-->
 
-                         <?
+                         <?php
                          }else{   //zona centro y otros
                          ?>
 
@@ -2145,7 +2145,7 @@ ul {
 
 						 <!-- <h6><span class="font-weight-semibold"><i class="fa fa-link mr-2 "></i></span><a href="#" class="text-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http://spruko.com/</font></font></a></h6>-->
 
-                        <?
+                        <?php
                             }
                          ?>
 

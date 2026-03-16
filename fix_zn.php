@@ -4,10 +4,10 @@ $lines = file($f);
 $start = -1;
 $end = -1;
 for ($i = 0; $i < count($lines); $i++) {
-    if (strpos($lines[$i], '<? } else { ?>') !== false && strpos($lines[$i + 1], '<!-- VISTA FILTRADA (CAROUSEL ORIGINAL) -->') !== false) {
+    if (strpos($lines[$i], '<?php } else { ?>') !== false && strpos($lines[$i + 1], '<!-- VISTA FILTRADA (CAROUSEL ORIGINAL) -->') !== false) {
         $start = $i;
     }
-    if ($start !== -1 && $i > $start + 10 && strpos($lines[$i], '<? } ?>') !== false && strpos($lines[$i + 3], '</section>') !== false) {
+    if ($start !== -1 && $i > $start + 10 && strpos($lines[$i], '<?php } ?>') !== false && strpos($lines[$i + 3], '</section>') !== false) {
         $end = $i;
         break;
     }

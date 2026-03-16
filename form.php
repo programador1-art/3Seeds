@@ -20,7 +20,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="<?  echo $row_cs['descripcion']; ?>">
+    <meta name="description" content="<?php  echo $row_cs['descripcion']; ?>">
       <meta name="keywords" content="Inmobiliaria, casas, departamentos, terrenos, hogar">
 
     <title>3Seeds Comercial</title>
@@ -1114,7 +1114,7 @@ button:focus {
   </form>
     </div>
 </div>
-<?
+<?php
 $nombre_f = $_POST["nombre_f"];
 $telefono_f = $_POST["telefono_f"];
 $email_f = $_POST["email_f"];

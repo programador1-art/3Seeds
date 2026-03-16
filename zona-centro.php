@@ -1373,7 +1373,7 @@ button {
 							<div class="form-group">
                                     <select class="form-control select2-show-search select2-hidden-accessible" data-placeholder="Estado" data-select2-id="1" tabindex="-1" aria-hidden="true" name="ubicacion" onchange="actualizarElementos()" id="ubicacionfrom">
                                          <option selected="selected" value="">Estado</option>
-                                        <?
+                                        <?php
                                             //ESTADOS
                                             
                                             if($numrows_est!=0)
@@ -1391,7 +1391,7 @@ button {
 							<div class="form-group">
                                     <select class="form-control select2-show-search select2-hidden-accessible" data-placeholder="Municipio" data-select2-id="1" tabindex="-1" aria-hidden="true" name="municipiop" id="municipiofrom">
                                          <option selected="selected" value="">Municipio</option>
-                                        <?
+                                        <?php
 
                                             //MUNICIPIOS
                                             if($numrows_mun!=0)
@@ -1411,7 +1411,7 @@ button {
 
                      <option selected="selected" value="">Tipo de Propiedad</option>
 
-                    <?
+                    <?php
                         //TIPO INMUEBLE
                          if($numrows_inm!=0)
                          {
@@ -1450,7 +1450,7 @@ button {
 							<div class="form-group">
                                     <select class="form-control select2-show-search select2-hidden-accessible" data-placeholder="Estado" data-select2-id="1" tabindex="-1" aria-hidden="true" name="ubicacion" onchange="actualizarElementos()" id="ubicacionfrom">
                                          <option selected="selected" value="">Estado</option>
-                                        <?
+                                        <?php
 
                                            //ESTADOS
                                             if($numrows_estv!=0)
@@ -1468,7 +1468,7 @@ button {
 							<div class="form-group">
                                     <select class="form-control select2-show-search select2-hidden-accessible" data-placeholder="Municipio" data-select2-id="1" tabindex="-1" aria-hidden="true" name="municipiop" id="municipiofrom">
                                          <option selected="selected" value="">Municipio</option>
-                                        <?
+                                        <?php
 
                                             //MUNICIPIOS
                                             if($numrows_munv!=0)
@@ -1488,7 +1488,7 @@ button {
 
                      <option selected="selected" value="">Tipo de Propiedad</option>
 
-                    <?
+                    <?php
                         //TIPO INMUEBLE
 
                          if($numrows_inmv!=0)
@@ -1528,7 +1528,7 @@ button {
 							<div class="form-group">
                                     <select class="form-control select2-show-search select2-hidden-accessible" data-placeholder="Estado" data-select2-id="1" tabindex="-1" aria-hidden="true" name="ubicacion" onchange="actualizarElementos()" id="ubicacionfrom">
                                          <option selected="selected" value="">Estado</option>
-                                        <?
+                                        <?php
 
                                             //ESTADOS
                                             if($numrows_estr!=0)
@@ -1546,7 +1546,7 @@ button {
 							<div class="form-group">
                                     <select class="form-control select2-show-search select2-hidden-accessible" data-placeholder="Municipio" data-select2-id="1" tabindex="-1" aria-hidden="true" name="municipiop" id="municipiofrom">
                                          <option selected="selected" value="">Municipio</option>
-                                        <?
+                                        <?php
 
                                             //MUNICIPIO 
                                             if($numrows_munr!=0)
@@ -1566,7 +1566,7 @@ button {
 
                      <option selected="selected" value="">Tipo de Propiedad</option>
 
-                    <?
+                    <?php
                         //TIPO DE INMUEBLE
 
                          if($numrows_inmr!=0)
@@ -1612,7 +1612,7 @@ button {
 									<span><i class="fa fa-map-marker location-gps mr-1"></i></span> -- >
                                      <select class="form-control select2-show-search border-bottom-0 select2-hidden-accessible" data-placeholder="Property Type" data-select2-id="1" tabindex="-1" aria-hidden="true" name="ubicacion">
                                          <option selected="selected" value="">Ubicación</option>
-                                        <?
+                                        <?php
                                             //Consulta para las categorias
                                            /* $consulta_csl="SELECT `municipio`, `estado` FROM `inmuebles` WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 GROUP BY municipio, estado ORDER BY estado ASC, municipio ASC"; 
                                             $resultado_csl = mysqli_query($con,$consulta_csl);
@@ -1652,7 +1652,7 @@ button {
 
 								</span>
 							</div>
-                            <?
+                            <?php
 
                                 //Consulta tipo CASA
 
@@ -1667,7 +1667,7 @@ button {
                             ?>
 							<div class="ml-4 mt-1">
 
-								<h3 class=" mb-0 font-weight-bold"><? echo $numrows_casa;?></h3>
+								<h3 class=" mb-0 font-weight-bold"><?= $numrows_casa;?></h3>
 
 								<p class="mb-0 text-muted">Casas</p>
 
@@ -1685,7 +1685,7 @@ button {
 								</span>
 
 							</div>
-                            <?
+                            <?php
 
                                 //Consulta tipo TERRENO
 
@@ -1700,7 +1700,7 @@ button {
                             ?>
 							<div class="ml-4 mt-1">
 
-								<h3 class=" mb-0 font-weight-bold"><? echo $numrows_casa;?></h3>
+								<h3 class=" mb-0 font-weight-bold"><?= $numrows_casa;?></h3>
 
 								<p class="mb-0 text-muted">Terrenos</p>
 
@@ -1718,7 +1718,7 @@ button {
 								</span>
 
 							</div>
-                            <?
+                            <?php
 
                                 //Consulta tipo OFICINAS
 
@@ -1733,7 +1733,7 @@ button {
                             ?>
 							<div class="ml-4 mt-1">
 
-								<h3 class=" mb-0 font-weight-bold"><? echo $numrows_casa;?></h3>
+								<h3 class=" mb-0 font-weight-bold"><?= $numrows_casa;?></h3>
 
 								<p class="mb-0 text-muted">Oficinas</p>
 
@@ -1751,7 +1751,7 @@ button {
 								</span>
 
 							</div>
-                            <?
+                            <?php
 
                                 //Consulta tipo DEPARTAMENTOS
 
@@ -1766,7 +1766,7 @@ button {
                             ?>
 							<div class="ml-4 mt-1">
 
-								<h3 class=" mb-0 font-weight-bold "><? echo $numrows_casa;?></h3>
+								<h3 class=" mb-0 font-weight-bold "><?= $numrows_casa;?></h3>
 
 								<p class="mb-0 text-muted">Departamentos</p>
 
@@ -1811,7 +1811,7 @@ Indicators-->
           <!--Slides-->
 		  <div class="carousel-inner" role="listbox">
           <!--First slide-->
-          <?
+          <?php
                 //Consulta para obtener los INMUEBLES DE ZONA CENTRO
                 $consulta_cs="SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado  FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='C') AND cat_estatus_idcat_estatus=1 ORDER BY idinmuebles DESC LIMIT 4"; 
                 $resultado_cs = mysqli_query($con,$consulta_cs);
@@ -1822,7 +1822,7 @@ Indicators-->
 
            <div class="carousel-item active">
 			
-            <?
+            <?php
                 while($row_cs=mysqli_fetch_assoc($resultado_cs)){
 
                         $etiqueta_nombre=$row_cs['nombre'];
@@ -1912,30 +1912,30 @@ Indicators-->
 
 			  <div class="col-md-3" style="float:left">
 			   <div class="carta mb-2" style="min-height: 400px;">
-				<a href="https://3seedscommercial.mx/interna.php?inm_ax=<?  echo $row_cs['idinmuebles']; ?>">   
+				<a href="interna.php?inm_ax=<?php  echo $row_cs['idinmuebles']; ?>">   
 
-                   <!--Etiqueta destacado--> <div class="arrow-ribbon2 bg-destacado"><?  echo $etq_opcion1; ?></div><!--fin Etiqueta destacado-->
+                   <!--Etiqueta destacado--> <div class="arrow-ribbon2 bg-destacado"><?php  echo $etq_opcion1; ?></div><!--fin Etiqueta destacado-->
 
 				 <div class="caja">
 
 				     <div class="box">
 
 				     <img class="card-img-top"
-					src="aplicacion/_lib/file/img/3simg/<?  echo $etq_ruta_arch; ?>" alt="Card image cap" >
+					src="aplicacion/_lib/file/img/3simg/<?php  echo $etq_ruta_arch; ?>" alt="Card image cap" >
 
 					</div>
 
 				</div>
 				  <div class="card-body">
-					<h4 class="card-title"><?  echo $etiqueta_nombre; ?></h4>
+					<h4 class="card-title"><?php  echo $etiqueta_nombre; ?></h4>
 					  <!--<p class="mb-2">
 						<i class="fa fa-map-marker text-danger mr-1"></i>
 							<font style="vertical-align: inherit;">
-								<font style="vertical-align: inherit;font-size: 13px;"> <?  //echo $etiqueta_ubica; ?></font>
+								<font style="vertical-align: inherit;font-size: 13px;"> <?php  //echo $etiqueta_ubica; ?></font>
 							</font>
 					  </p> -->
 						<span class="fs-12  font-weight-normal">
-                            <?  echo $etiqueta; ?>
+                            <?php  echo $etiqueta; ?>
 							<!--<font style="vertical-align: inherit;">
 								<font style="vertical-align: inherit;">· 600.00 m2</font>
 							</font>
@@ -1945,7 +1945,7 @@ Indicators-->
 						</span>					  
 					  <h5 class="font-weight-bold mb-3">
 						<font style="vertical-align: inherit;">
-							<font style="vertical-align: inherit;"><?  
+							<font style="vertical-align: inherit;"><?php  
 
                                     //verificamos que precio mostrar
                                 if($row_cs['opcion_idopcion']==1){       //renta
@@ -1988,14 +1988,14 @@ Indicators-->
 						</font>
 						<span class="fs-12  font-weight-normal">
 							<font style="vertical-align: inherit;">
-								<font style="vertical-align: inherit;"><?  echo $etq_opcion; ?></font>
+								<font style="vertical-align: inherit;"><?php  echo $etq_opcion; ?></font>
 							</font>
 						</span>
 					  </h5>
 					  <ul class="item-card2-list">
                          <!--características-->
 
-                         <?
+                         <?php
                             //Consulta para obtener las caracteristicas
                            /* $consulta_car="SELECT `inmuebles_caracteristicascol`, `inmuebles_idinmuebles`, `cat_caracteristicas_idcat_caracteristicas`, `valor` FROM `inmuebles_caracteristicas` WHERE inmuebles_idinmuebles=".$row_cs['idinmuebles']." LIMIT 4"; 
                             $resultado_car = mysqli_query($con,$consulta_car);
@@ -2022,14 +2022,14 @@ Indicators-->
                         ?>
 
                                    <!--<li>
-                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?  echo $row_dcar['logo']; ?>" class="iconos">
+                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?php  echo $row_dcar['logo']; ?>" class="iconos">
                                         <font style="vertical-align: inherit;">
-                                            <font style="vertical-align: inherit;font-size: 12px;"> <?  echo $etiqueta; ?></font>
+                                            <font style="vertical-align: inherit;font-size: 12px;"> <?php  echo $etiqueta; ?></font>
                                         </font>
                                     </a>
                                   </li>-->
 
-                        <?
+                        <?php
 
                            // }                                                              
                                 
@@ -2041,14 +2041,14 @@ Indicators-->
 			  </div>
 
              <!--END de inmueble-->
-            <?
+            <?php
              //END WHILE
                 }                               
 
             ?>
            </div>
             <!--/.First slide-->
-            <?
+            <?php
              //END IF
              }   
 
@@ -2067,7 +2067,7 @@ Indicators-->
 
 			<!--Second slide-->
 			<div class="carousel-item">
-             <?
+             <?php
                 $ultimo_id=0;
 
                 while($row_cs=mysqli_fetch_assoc($resultado_cs)){
@@ -2164,31 +2164,31 @@ Indicators-->
 
               <div class="col-md-3" style="float:left">
                <div class="carta mb-2" style="min-height: 400px;">
-                <a href="https://3seedscommercial.mx/interna.php?inm_ax=<?  echo $row_cs['idinmuebles']; ?>">   
+                <a href="interna.php?inm_ax=<?php  echo $row_cs['idinmuebles']; ?>">   
 
-                   <!--Etiqueta destacado--> <div class="arrow-ribbon2 bg-destacado"><?  echo $etq_opcion1; ?></div><!--fin Etiqueta destacado-->
+                   <!--Etiqueta destacado--> <div class="arrow-ribbon2 bg-destacado"><?php  echo $etq_opcion1; ?></div><!--fin Etiqueta destacado-->
 
                   <div class="caja">
 
 				     <div class="box">
 
-                      <img class="card-img-top" src="aplicacion/_lib/file/img/3simg/<?  echo  $etq_ruta_arch; ?>" alt="Card image cap">
+                      <img class="card-img-top" src="aplicacion/_lib/file/img/3simg/<?php  echo  $etq_ruta_arch; ?>" alt="Card image cap">
 
                         </div>
 
                         </div>
                   <div class="card-body">
-                    <h4 class="card-title"><?  echo $etiqueta_nombre; ?></h4>
+                    <h4 class="card-title"><?php  echo $etiqueta_nombre; ?></h4>
 
 					  <!--<p class="mb-2">
 						<i class="fa fa-map-marker text-danger mr-1"></i>
 							<font style="vertical-align: inherit;">
-								<font style="vertical-align: inherit;font-size: 13px;"> <?  echo $etiqueta_ubica; ?></font>
+								<font style="vertical-align: inherit;font-size: 13px;"> <?php  echo $etiqueta_ubica; ?></font>
 							</font>
 					  </p> -->
 						<span class="fs-12  font-weight-normal">
 
-                            <?  echo $etiqueta; ?>
+                            <?php  echo $etiqueta; ?>
 							<!--<font style="vertical-align: inherit;">
 								<font style="vertical-align: inherit;">· 600.00 m2</font>
 							</font>
@@ -2198,7 +2198,7 @@ Indicators-->
 						</span>						  
                       <h5 class="font-weight-bold mb-3">
                         <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;"><?  
+                            <font style="vertical-align: inherit;"><?php  
                                 
                                 //verificamos que precio mostrar
                                 if($row_cs['opcion_idopcion']==1){       //renta
@@ -2241,14 +2241,14 @@ Indicators-->
                         </font>
                         <span class="fs-12  font-weight-normal">
                             <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;"> <?  echo $etq_opcion; ?></font>
+                                <font style="vertical-align: inherit;"> <?php  echo $etq_opcion; ?></font>
                             </font>
                         </span>
                       </h5>
                      <ul class="item-card2-list">
                          <!--características-->
 
-                         <?
+                         <?php
                             //Consulta para obtener las caracteristicas
                             /*$consulta_car="SELECT `inmuebles_caracteristicascol`, `inmuebles_idinmuebles`, `cat_caracteristicas_idcat_caracteristicas`, `valor` FROM `inmuebles_caracteristicas` WHERE inmuebles_idinmuebles=".$row_cs['idinmuebles']." LIMIT 4"; 
                             $resultado_car = mysqli_query($con,$consulta_car);
@@ -2287,14 +2287,14 @@ Indicators-->
                              ?>
 
                                   <!--<li>
-                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?  echo $row_dcar['logo']; ?>" class="iconos">
+                                    <a href="#"><img src="aplicacion/_lib/file/img/3slogo/<?php  echo $row_dcar['logo']; ?>" class="iconos">
                                         <font style="vertical-align: inherit;">
-                                            <font style="vertical-align: inherit;font-size: 12px;"> <?  echo $etiqueta; ?></font>
+                                            <font style="vertical-align: inherit;font-size: 12px;"> <?php  echo $etiqueta; ?></font>
                                         </font>
                                     </a>
                                   </li>-->
 
-                             <?
+                             <?php
 
                            // }                                                              
                                
@@ -2306,7 +2306,7 @@ Indicators-->
               </div>
 
              <!--END de inmueble-->
-             <?
+             <?php
 
              //END WHILE
 
@@ -2315,7 +2315,7 @@ Indicators-->
 			</div>
 			<!--/.Second slide-->
 
-            <?
+            <?php
              //END IF
               }                               
             ?>
@@ -2349,7 +2349,7 @@ Indicators-->
 		  <!--Slides-->
 		  <div class="carousel-inner" role="listbox">
           <!--First slide-->
-          <?
+          <?php
                 //Consulta para obtener los inmuebles DE LA ZONA CENTRO
 
                $consulta_cs="SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `inmueble_destacado`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta ,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado  FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='C') AND cat_estatus_idcat_estatus=1 AND inmueble_destacado=1  ORDER BY idinmuebles DESC LIMIT 4";
@@ -2361,7 +2361,7 @@ Indicators-->
           ?>
            <div class="carousel-item active">
 			
-            <?
+            <?php
 
                 while($row_cs=mysqli_fetch_assoc($resultado_cs)){
 
@@ -2448,24 +2448,24 @@ Indicators-->
 
 			  <div class="col-md-3" style="float:left">
 			   <div class="carta mb-2" style="min-height: 400px;">
-				<a href="https://3seedscommercial.mx/interna.php?inm_ax=<?  echo $row_cs['idinmuebles']; ?>">   
+				<a href="interna.php?inm_ax=<?php  echo $row_cs['idinmuebles']; ?>">   
 
-                   <!--Etiqueta destacado--> <div class="arrow-ribbon2 bg-destacado"><?  echo $etq_opcion1; ?></div><!--fin Etiqueta destacado-->
+                   <!--Etiqueta destacado--> <div class="arrow-ribbon2 bg-destacado"><?php  echo $etq_opcion1; ?></div><!--fin Etiqueta destacado-->
 
 				 <div class="caja">
 
 				     <div class="box">
 
 				     <img class="card-img-top"
-					src="aplicacion/_lib/file/img/3simg/<?  echo $etq_ruta_arch; ?>" alt="Card image cap" >
+					src="aplicacion/_lib/file/img/3simg/<?php  echo $etq_ruta_arch; ?>" alt="Card image cap" >
 
 					</div>
 
 				</div>
 				  <div class="card-body">
-					<h4 class="card-title"><?  echo $etiqueta_nombre; ?></h4>
+					<h4 class="card-title"><?php  echo $etiqueta_nombre; ?></h4>
 						<span class="fs-12  font-weight-normal">
-                            <?  echo $etiqueta; ?>
+                            <?php  echo $etiqueta; ?>
 							<!--<font style="vertical-align: inherit;">
 								<font style="vertical-align: inherit;">· 600.00 m2</font>
 							</font>
@@ -2475,7 +2475,7 @@ Indicators-->
 						</span>				  
 					  <h5 class="font-weight-bold mb-3">													   
 						<font style="vertical-align: inherit;">
-							<font style="vertical-align: inherit;font-size: 0.9rem;font-weight: 700"><?  
+							<font style="vertical-align: inherit;font-size: 0.9rem;font-weight: 700"><?php  
 
                                  //verificamos que precio mostrar
                                 if($row_cs['opcion_idopcion']==1){       //renta
@@ -2516,7 +2516,7 @@ Indicators-->
                                 ?> </font>
 						</font>																		 
 							<font style="vertical-align: inherit;">
-								<font style="vertical-align: inherit;"><?  echo $etq_opcion; ?></font>
+								<font style="vertical-align: inherit;"><?php  echo $etq_opcion; ?></font>
 							</font>
 						</span>
 					  </h5>
@@ -2528,13 +2528,13 @@ Indicators-->
 
              <!--END de inmueble-->
 			
-            <?
+            <?php
              //END WHILE
                 }                               
             ?>
            </div>
             <!--/.First slide-->
-            <?
+            <?php
              //END IF
               }   
 
@@ -2551,7 +2551,7 @@ Indicators-->
 
 			<!--Second slide-->
 			<div class="carousel-item">
-             <?
+             <?php
 
                 $ultimo_id=0;
 
@@ -2639,23 +2639,23 @@ Indicators-->
 
               <div class="col-md-3" style="float:left">
                <div class="carta mb-2" style="min-height: 400px;">
-                <a href="https://3seedscommercial.mx/interna.php?inm_ax=<?  echo $row_cs['idinmuebles']; ?>">   
+                <a href="interna.php?inm_ax=<?php  echo $row_cs['idinmuebles']; ?>">   
 
-                <div class="arrow-ribbon2 bg-destacado"><?  echo $etq_opcion2; ?></div>
+                <div class="arrow-ribbon2 bg-destacado"><?php  echo $etq_opcion2; ?></div>
 
                   <div class="caja">
 
 				     <div class="box">
 
-                      <img class="card-img-top" src="aplicacion/_lib/file/img/3simg/<?  echo  $etq_ruta_arch; ?>" alt="Card image cap">
+                      <img class="card-img-top" src="aplicacion/_lib/file/img/3simg/<?php  echo  $etq_ruta_arch; ?>" alt="Card image cap">
 
                         </div>
 
                         </div>
                   <div class="card-body">
-                    <h4 class="card-title"><?  echo $etiqueta_nombre; ?></h4>
+                    <h4 class="card-title"><?php  echo $etiqueta_nombre; ?></h4>
 						<span class="fs-12  font-weight-normal">
-                            <?  echo $etiqueta; ?>
+                            <?php  echo $etiqueta; ?>
 							<!--<font style="vertical-align: inherit;">
 								<font style="vertical-align: inherit;">· 600.00 m2</font>
 							</font>
@@ -2666,7 +2666,7 @@ Indicators-->
                     <h5 class="font-weight-bold mb-3">
 				</a>													 
                         <font style="vertical-align: inherit;">
-                            <font style="vertical-align: inherit;font-size: 0.9rem;font-weight: 700;"><?  
+                            <font style="vertical-align: inherit;font-size: 0.9rem;font-weight: 700;"><?php  
 
                                  //verificamos que precio mostrar
                                 if($row_cs['opcion_idopcion']==1){       //renta
@@ -2709,7 +2709,7 @@ Indicators-->
                         </font>
                         <span class="fs-12  font-weight-normal">														   
                             <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;"> <?  echo $etq_opcion; ?></font>
+                                <font style="vertical-align: inherit;"> <?php  echo $etq_opcion; ?></font>
                             </font>
                         </span>
                       </h5>
@@ -2720,13 +2720,13 @@ Indicators-->
               </div>
 
              <!--END de inmueble-->
-             <?
+             <?php
              //END WHILE
               }                               
             ?>
 			</div>
 			<!--/.Second slide-->
-            <?
+            <?php
              //END IF
               }                               
             ?>

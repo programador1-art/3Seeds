@@ -70,10 +70,15 @@ function fecha_bonita($fecha)
 
 
 //PAGINACIÓN
-error_reporting(E_ALL ^ E_NOTICE);
+if (defined('ENTORNO') && ENTORNO === 'produccion') {
+    error_reporting(0);
+    ini_set('display_errors', '0');
+} else {
+    error_reporting(E_ALL ^ E_NOTICE);
+}
 
 //Cantidad de resultados por página (debe ser INT, no string/varchar)
-$cantidad_resultados_por_pagina = 30;
+$cantidad_resultados_por_pagina = 10;
 
 //Comprueba si está seteado el GET de HTTP
 if (isset($_POST["paginacion"])) {
@@ -152,6 +157,10 @@ $subtipo_where = "";
 $subtipo_join = "";
 if (!empty($_POST['subtipo'])) {
     $subtipo_id = intval($_POST['subtipo']);
+    $subtipo_join = " INNER JOIN cat_tipo ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo ";
+    $subtipo_where = " AND cat_tipo.id_subtipo = " . $subtipo_id;
+} elseif (!empty($_GET['subtipo'])) {
+    $subtipo_id = intval($_GET['subtipo']);
     $subtipo_join = " INNER JOIN cat_tipo ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo ";
     $subtipo_where = " AND cat_tipo.id_subtipo = " . $subtipo_id;
 }
@@ -294,7 +303,7 @@ if ($tipo_busq == 2) {
 
     if (!empty($_POST['recamara'])) {
 
-        $deciciom_where .= " AND inmuebles_caracteristicas.cat_caracteristicas_idcat_caracteristicas=1 AND inmuebles_caracteristicas.valor=" . $_POST['recamara'];
+        $deciciom_where .= " AND inmuebles_caracteristicas.cat_caracteristicas_idcat_caracteristicas=1 AND inmuebles_caracteristicas.valor=" . intval($_POST['recamara']);
         $define_entrada = 1;
 
         $consulta_cs = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,precio_renta,moneda_cat,precio_venta_basado,precio_renta_basado FROM `inmuebles` INNER JOIN inmuebles_caracteristicas ON inmuebles.idinmuebles=inmuebles_caracteristicas.inmuebles_idinmuebles WHERE cat_estatus_idcat_estatus=1" . $deciciom_where;
@@ -333,7 +342,7 @@ if (!empty($_POST['busquedaprin'])) {
 
         // $minusculas=strtolower($filtered_array[$ik]);
         //if($jb<=1){
-        $minusculas = strtolower(trim($value));
+        $minusculas = mysqli_real_escape_string($con, strtolower(trim($value)));
         $wheres_busgral .= " AND (LOWER(descripcion) LIKE '%$minusculas%' OR LOWER(estado) LIKE '%$minusculas%' OR LOWER(nombre) LIKE '%$minusculas%' OR LOWER(municipio) LIKE '%$minusculas%' OR LOWER(colonia) LIKE '%$minusculas%' OR LOWER(direccion) LIKE '%$minusculas%' OR LOWER(ubicacion) LIKE '%$minusculas%' OR LOWER(fraccionamiento) LIKE '%$minusculas%' OR CAST(Precio AS CHAR) LIKE '%$minusculas%' OR CAST(precio_renta AS CHAR) LIKE '%$minusculas%')";
         // }
         $jb++;
@@ -401,12 +410,13 @@ if ($tbusqda == "N") {
 }
 
 $meta_subtipo = "";
-if (!empty($_POST['subtipo'])) {
-    if ($_POST['subtipo'] == "1")
+$_subtipo_val = !empty($_POST['subtipo']) ? $_POST['subtipo'] : (!empty($_GET['subtipo']) ? $_GET['subtipo'] : "");
+if (!empty($_subtipo_val)) {
+    if ($_subtipo_val == "1")
         $meta_subtipo = "Comercial";
-    else if ($_POST['subtipo'] == "2")
+    else if ($_subtipo_val == "2")
         $meta_subtipo = "Industrial";
-    else if ($_POST['subtipo'] == "3")
+    else if ($_subtipo_val == "3")
         $meta_subtipo = "Residencial";
 }
 
@@ -457,6 +467,8 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
     <meta name="description" content="Tenemos un lugar para ti">
     <meta name="keywords" content="Inmobiliaria, casas, departamentos, terrenos, hogar">
 
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" href="images/logo.png">
     <title>3Seeds Commercial</title>
 
     <!-- Bootstrap -->
@@ -1528,11 +1540,17 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
         }
 
         .img-busqueda {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 4px 0 0 4px;
+        }
 
-            max-width: 270px;
-
-            height: 250px;
-
+        @media (max-width: 767px) {
+            .img-busqueda {
+                border-radius: 4px 4px 0 0;
+                height: 200px;
+            }
         }
 
         .Pagination .row {
@@ -1660,7 +1678,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
             <div>
 
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding-bottom: 5px;padding-top: 5px;">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="padding-bottom: 10px;padding-top: 15px;">
 
                     <div class="container" style="padding-top: -20px; padding-bottom: -20px;">
 
@@ -1691,42 +1709,27 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                 <li class="nav-item">
                                     <a class="nav-link menu" href="#contacto">Contacto</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link menu" href="#propiedades">Propiedades</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link menu dropdown-toggle" href="busqueda.php" id="navPropiedades"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Propiedades
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navPropiedades">
+                                        <a class="dropdown-item" href="busqueda.php">Todas</a>
+                                        <a class="dropdown-item" href="busqueda.php?subtipo=1">Comercial</a>
+                                        <a class="dropdown-item" href="busqueda.php?subtipo=2">Industrial</a>
+                                        <a class="dropdown-item" href="busqueda.php?subtipo=3">Residencial</a>
+                                    </div>
                                 </li>
-
-                                <!-- <li class="nav-item">
-
-                    <a class="nav-link menu" href="mailto:hola@3seeds.mx">Contacto</a>
-
-                  </li> -->
 
                             </ul>
 
-                            <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0"
-                                style="margin-right: 100px; display: none !important;">
-
+                            <form action="busqueda.php" method="post" class="form-inline my-2 my-lg-0">
                                 <input type="text" class="form-control mr-sm-2" id="tex4" placeholder="Buscar"
                                     name="busqueda">
-
-                                <div class="col-xl-2 col-lg-3 col-md-12 mb-0">
-                                    <!--<a href="#" class="btn btn-lg btn-block btn-primary br-tl-md-0 br-bl-md-0">Buscar</a>-->
-                                    <input type="hidden" id="tipo_bus1" name="tipo_busq1" value="0">
-                                    <input type="hidden" id="busquedaprin" name="busquedaprin" value="1">
-                                    <input type="hidden" id="tbusqda" name="tbusqda"
-                                        value="<? echo $_POST['tbusqda']; ?>"> <!--zona -->
-                                    <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Buscar">
-                                </div>
-                            </form>
-                            <form action="#action_page.php" style="display: none !important;">
-                                <select name="zonas" id="zonas" onchange="location = this.value"
-                                    style="margin-top: 20px;padding: 10px;">
-                                    <!--<option value="" disabled selected>Elige una zona</option>
-                    <option value="principal.php">Zona Norte</option>
-                    <option value="zona-centro.php">Zona Centro</option>-->
-                                    <? echo $opciones_bus; ?>
-                                </select>
-                                <br><br>
+                                <input type="hidden" name="tipo_busq" value="1">
+                                <input type="hidden" name="busquedaprin" value="1">
+                                <input type="submit" class="btn btn-outline-success my-2 my-sm-0" value="Buscar">
                             </form>
                         </div>
                     </div>
@@ -1740,7 +1743,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
         <div>
 
             <h3 class=" mt-5 mb-5 text-center">
-                <?
+                <?php
                 $etiqueta_nombre = 0;
                 if ($numrows_cs > 1) {
                     $etiqueta_nombre = $numrows_cs . " Resultados";
@@ -1805,7 +1808,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                 <div class="row">
 
-                    <div>
+                    <div class="col-12">
 
                         <div class="row">
 
@@ -1816,7 +1819,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                                     <!--primer resultado-->
 
-                                    <?
+                                    <?php
 
                                     //recorremos todos los resultados
                                     while ($row_cs = mysqli_fetch_assoc($resultado_cs)) {
@@ -1866,21 +1869,20 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                                         <div class="col-md-12 col-sm-12">
 
-                                            <div class="card mb-3" style="max-width: 840px;">
+                                            <div class="card mb-3">
 
-                                                <div class="row g-0">
+                                                <div class="row no-gutters">
 
-                                                    <div class="col-md-4 col-sm-9 offset-sm-3 col-9 offset-1 offset-xl-0">
+                                                    <div class="col-md-4">
 
-                                                        <img src="aplicacion/_lib/file/img/3simg/<? echo $etq_ruta_arch; ?>"
-                                                            class="img-busqueda" alt="..." height="250px" width="380px">
+                                                        <img src="aplicacion/_lib/file/img/3simg/<?= $etq_ruta_arch; ?>"
+                                                            class="img-busqueda" alt="...">
 
                                                     </div>
 
-                                                    <div
-                                                        class="col-md-7 offset-md-1 offset-sm-1 col-sm-10 offset-1 col-11 offset-xl-0 col-xl-8">
+                                                    <div class="col-md-8">
 
-                                                        <div class="card-body pt-2 pl-0 pr-3 pb-1">
+                                                        <div class="card-body pt-2 pl-3 pr-3 pb-1">
 
                                                             <div class="row">
 
@@ -1888,13 +1890,13 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                                                     style="max-width: 100%;">
 
                                                                     <h4>
-                                                                        <?
+                                                                        <?php
                                                                         $etiqueta_nombre = $row_cs['nombre'];
                                                                         if (strlen($row_cs['nombre']) > 45) {
                                                                             $etiqueta_nombre = substr($row_cs['nombre'], 0, 42) . "...";
                                                                         }
 
-                                                                        echo $etiqueta_nombre; ?>
+                                                                        echo htmlspecialchars($etiqueta_nombre, ENT_QUOTES, 'UTF-8'); ?>
                                                                     </h4>
 
                                                                 </div>
@@ -1910,7 +1912,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                                                     <font style="vertical-align: inherit;">
 
                                                                         <font style="vertical-align: inherit;">
-                                                                            <? echo $row_cs['colonia'] . ", " . $row_cs['municipio'] . ", " . $row_cs['estado']; ?>
+                                                                            <?= htmlspecialchars($row_cs['colonia'] . ", " . $row_cs['municipio'] . ", " . $row_cs['estado'], ENT_QUOTES, 'UTF-8'); ?>
                                                                         </font>
 
                                                                     </font>
@@ -1924,221 +1926,110 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                                                 <font style="vertical-align: inherit;">
 
                                                                     <font style="vertical-align: inherit;">
-                                                                        <?
+                                                                        <?php
 
                                                                         $etiqueta_nombre = $row_cs['descripcion'];
                                                                         if (strlen($row_cs['descripcion']) > 110) {
                                                                             $etiqueta_nombre = substr($row_cs['descripcion'], 0, 105) . " ...";
                                                                         }
 
-                                                                        echo $etiqueta_nombre; ?>
+                                                                        echo htmlspecialchars($etiqueta_nombre, ENT_QUOTES, 'UTF-8'); ?>
                                                                     </font>
 
                                                                 </font>
 
                                                             </p>
 
-                                                            <div class="row">
+                                                            <div>
+                                                                <h5 class="font-weight-bold mb-2">
+                                                                    <?php
+                                                                    //verificamos que precio mostrar
+                                                                    if ($row_cs['opcion_idopcion'] == 1) {       //renta
+                                                                        if ($row_cs['precio_renta_basado'] != "Valor total" && !empty($row_cs['precio_renta_basado'])) {
+                                                                            $precio_muestreo = "<span class=\"text-primary\">Renta:</span> $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . " " . $row_cs['precio_renta_basado'] . "</span>";
+                                                                        } else {
+                                                                            $precio_muestreo = "<span class=\"text-primary\">Renta:</span> $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . " por mes</span>";
+                                                                        }
+                                                                    } else if ($row_cs['opcion_idopcion'] == 2) {       //venta
+                                                                        if ($row_cs['precio_venta_basado'] != "Valor total" && !empty($row_cs['precio_venta_basado'])) {
+                                                                            $precio_muestreo = "<span class=\"text-danger\">Venta:</span> $ " . number_format($row_cs['Precio'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . " " . $row_cs['precio_venta_basado'] . "</span>";
+                                                                        } else {
+                                                                            $precio_muestreo = "<span class=\"text-danger\">Venta:</span> $ " . number_format($row_cs['Precio'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . "</span>";
+                                                                        }
+                                                                    } else if ($row_cs['opcion_idopcion'] == 3) {       //venta y renta
+                                                                        $precio_mrenta = "<span class=\"text-primary\">Renta:</span> $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . " por mes</span>";
+                                                                        if ($row_cs['precio_renta_basado'] != "Valor total" && !empty($row_cs['precio_renta_basado'])) {
+                                                                            $precio_mrenta = "<span class=\"text-primary\">Renta:</span> $ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . " " . $row_cs['precio_renta_basado'] . "</span>";
+                                                                        }
+                                                                        $precio_mventa = "<span class=\"text-danger\">Venta:</span> $ " . number_format($row_cs['Precio'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . "</span>";
+                                                                        if ($row_cs['precio_venta_basado'] != "Valor total" && !empty($row_cs['precio_venta_basado'])) {
+                                                                            $precio_mventa = "<span class=\"text-danger\">Venta:</span> $ " . number_format($row_cs['Precio'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . " " . $row_cs['precio_venta_basado'] . "</span>";
+                                                                        }
+                                                                        $precio_muestreo = $precio_mrenta . "<br>" . $precio_mventa;
+                                                                    } else {
+                                                                        if ($row_cs['Precio'] == 0) {
+                                                                            $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . "</span>";
+                                                                        } else {
+                                                                            $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " <span class=\"font-weight-normal\" style=\"font-size:14px\">" . $row_cs['moneda_cat'] . "</span>";
+                                                                        }
+                                                                    }
+                                                                    echo $precio_muestreo;
+                                                                    ?>
+                                                                </h5>
+                                                            </div>
 
-                                                                <div class="col-lg-4 col-md-4 col-12">
-
-                                                                    <h5 class="font-weight-bold mb-3">
-
-                                                                        <!--<font style="vertical-align: inherit;">-->
-
-                                                                        <font style="vertical-align: inherit;">
-                                                                            <?
-
-                                                                            //verificamos que precio mostrar
-                                                                            if ($row_cs['opcion_idopcion'] == 1) {       //renta
-                                                                                if ($row_cs['precio_renta_basado'] != "Valor total" && !empty($row_cs['precio_renta_basado'])) {
-                                                                                    $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " <span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\">" . $row_cs['moneda_cat'] . " " . $row_cs['precio_renta_basado'] . "</span>";
-                                                                                } else {
-                                                                                    $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " <span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\">" . $row_cs['moneda_cat'] . " por mes</span>";
-                                                                                }
-                                                                            } else if ($row_cs['opcion_idopcion'] == 2) {       //venta
-                                                                                if ($row_cs['precio_venta_basado'] != "Valor total" && !empty($row_cs['precio_venta_basado'])) {
-                                                                                    $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " <span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\">" . $row_cs['moneda_cat'] . " " . $row_cs['precio_venta_basado'] . "</span>";
-                                                                                } else {
-                                                                                    $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " <span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\">" . $row_cs['moneda_cat'] . "</span>";
-                                                                                }
-                                                                            } else if ($row_cs['opcion_idopcion'] == 3) {       //venta y renta
-                                                                        
-                                                                                $precio_mrenta = "Renta: <span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\">$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " por mes</span>";
-                                                                                if ($row_cs['precio_renta_basado'] != "Valor total" && !empty($row_cs['precio_renta_basado'])) {
-                                                                                    $precio_mrenta = "Renta: <span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\">$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_renta_basado'] . "</span>";
-                                                                                }
-
-                                                                                $precio_mventa = "Venta: <span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\">$ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . "</span>";
-                                                                                if ($row_cs['precio_venta_basado'] != "Valor total" && !empty($row_cs['precio_venta_basado'])) {
-                                                                                    $precio_mventa = "Venta:<span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\"> $ " . number_format($row_cs['Precio'], 0, '.', ',') . " " . $row_cs['moneda_cat'] . " " . $row_cs['precio_venta_basado'] . "</span>";
-                                                                                }
-
-                                                                                $precio_muestreo = $precio_mrenta . "<br>" . $precio_mventa;
-
-                                                                            } else {
-                                                                                if ($row_cs['Precio'] == 0) {
-                                                                                    $precio_muestreo = "$ " . number_format($row_cs['precio_renta'], 0, '.', ',') . " <span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\">" . $row_cs['moneda_cat'] . "</span>";
-                                                                                } else {
-                                                                                    $precio_muestreo = "$ " . number_format($row_cs['Precio'], 0, '.', ',') . " <span class=\"fs-12  font-weight-normal\" style=\"font-size:16px\">" . $row_cs['moneda_cat'] . "</span>";
-                                                                                }
-                                                                            }
-
-                                                                            echo $precio_muestreo;
-                                                                            ?>
-                                                                        </font>
-                                                                        <!--</font>-->
-
-                                                                        <span class="fs-12  font-weight-normal">
-
-                                                                            <font style="vertical-align: inherit;">
-
-                                                                                <font style="vertical-align: inherit;">
-                                                                                    <?
-                                                                                    /*$etq_opcion="";
-
-                                                                                    if($row_cs['opcion_idopcion']==1){
-                                                                                        $etq_opcion="por mes";
-                                                                                    }
-
-                                                                                     echo $etq_opcion;*/ ?>
-
-                                                                                </font>
-
-                                                                            </font>
-
-                                                                        </span>
-
-                                                                    </h5>
-
-                                                                </div>
-
-
-                                                                <!--características-->
-                                                                <?
-                                                                //Consulta para obtener las caracteristicas
+                                                            <div class="d-flex flex-wrap mb-1">
+                                                                <?php
                                                                 $consulta_car = "SELECT `inmuebles_caracteristicascol`, `inmuebles_idinmuebles`, `cat_caracteristicas_idcat_caracteristicas`, `valor` FROM `inmuebles_caracteristicas` WHERE inmuebles_idinmuebles=" . $row_cs['idinmuebles'] . " LIMIT 4";
                                                                 $resultado_car = mysqli_query($con, $consulta_car);
-
-
                                                                 while ($row_car = mysqli_fetch_assoc($resultado_car)) {
-
-                                                                    //realizamos consulta para obtener descripción de caracteristica
                                                                     $consulta_dcar = "SELECT `idcat_caracteristicas`, `nombre_car`, `unidad`,logo FROM `cat_caracteristicas` WHERE idcat_caracteristicas=" . $row_car['cat_caracteristicas_idcat_caracteristicas'];
                                                                     $resultado_dcar = mysqli_query($con, $consulta_dcar);
                                                                     $row_dcar = mysqli_fetch_assoc($resultado_dcar);
-
-                                                                    //si es superficie
-                                                                    $etiqueta = "";
-                                                                    if ($row_car['cat_caracteristicas_idcat_caracteristicas'] == 3) {
-                                                                        $etiqueta = $row_dcar['nombre_car'];
-                                                                    } else {
-                                                                        $etiqueta = $row_dcar['nombre_car'];
-                                                                    }
-
-                                                                    ?>
-
-                                                                    <div class="ListingCell-keyInfo-details">
-                                                                        <div class="KeyInformation_v2">
-                                                                            <div
-                                                                                class="KeyInformation-attribute_v2 pt-1 pl-1 pr-1">
-                                                                                <div class="KeyInformation-description_v2">
-                                                                                    <span
-                                                                                        class="KeyInformation-value_v2 text-muted"
-                                                                                        style="font-size:13px">
-                                                                                        <img src="aplicacion/_lib/file/img/3slogo/<? echo $row_dcar['logo']; ?>"
-                                                                                            class="iconos">
-                                                                                        <? echo $row_car['valor'] . " " . $row_dcar['unidad']; ?>
-                                                                                    </span>
-                                                                                </div>
-                                                                                <span
-                                                                                    class="KeyInformation-label_v2"><? echo $etiqueta; ?></span>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-
-                                                                    <?
-                                                                }
-
+                                                                    $tiene_valor = !empty(trim($row_car['valor'])) && $row_car['valor'] != '0';
                                                                 ?>
-
-
-                                                                <!--
-            <div class="ListingCell-keyInfo-details">
-
-                <div class="KeyInformation_v2">
-
-                    <div class="KeyInformation-attribute_v2 pt-1 pl-1 pr-1">
-
-                         <div class="KeyInformation-description_v2">
-
-                           <span class="KeyInformation-value_v2 KeyInformation-amenities-icon_v2 fa fa-bath text-muted">
-
-                                3
-
-                           </span>
-
-                         </div>
-
-                            <span class="KeyInformation-label_v2">Baños</span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="ListingCell-keyInfo-details">
-
-                <div class="KeyInformation_v2">
-
-                    <div class="KeyInformation-attribute_v2 pt-1 pl-1 pr-1">
-
-                         <div class="KeyInformation-description_v2">
-
-                           <span class="KeyInformation-value_v2 KeyInformation-amenities-icon_v2 fa fa-car text-muted">
-
-                                1
-
-                           </span>
-
-                         </div>
-
-                            <span class="KeyInformation-label_v2">Estacionamiento</span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            -->
+                                                                    <div class="text-center mr-2 mb-1 border rounded p-1 d-flex align-items-center justify-content-center" style="min-width:80px;background:#f8f9fa;">
+                                                                        <?php if ($tiene_valor) { ?>
+                                                                            <div>
+                                                                                <div style="font-size:12px;font-weight:bold;color:#2d3748;">
+                                                                                    <?= $row_car['valor'] . " " . $row_dcar['unidad']; ?>
+                                                                                </div>
+                                                                                <div style="font-size:9px;color:#999;text-transform:uppercase;letter-spacing:0.5px;">
+                                                                                    <?= $row_dcar['nombre_car']; ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php } else { ?>
+                                                                            <div style="font-size:9px;font-weight:bold;color:#2d3748;text-transform:uppercase;letter-spacing:0.5px;padding:4px 2px;">
+                                                                                <?= $row_dcar['nombre_car']; ?>
+                                                                            </div>
+                                                                        <?php } ?>
+                                                                    </div>
+                                                                <?php } ?>
 
                                                             </div>
 
-                                                            <div class="container-fluid h-100 pt-2 pb-3">
+                                                            <div class="pt-2 pb-2">
 
-                                                                <div class="row w-100 align-items-center">
+                                                                <div class="row align-items-center">
 
-                                                                    <div
-                                                                        class="col text-center col-11 offset-1 offset-xl-0 col-xl-8">
+                                                                    <div class="col-12">
 
                                                                         <a
-                                                                            href="https://3seedscommercial.mx/interna.php?inm_ax=<? echo $row_cs['idinmuebles']; ?>"><button
+                                                                            href="interna.php?inm_ax=<?= $row_cs['idinmuebles']; ?>"><button
                                                                                 class="btn btn-success regular-button">Más
                                                                                 información</button></a>
 
-                                                                        <? if ($final_wa_number != "") { ?>
-                                                                            <a href="https://wa.me/<? echo $final_wa_number; ?>?text=<? echo $mensajewa_busq; ?>"
+                                                                        <?php if ($final_wa_number != "") { ?>
+                                                                            <a href="https://wa.me/<?= $final_wa_number; ?>?text=<?= $mensajewa_busq; ?>"
                                                                                 target="_blank" class="btn btn-success"
                                                                                 style="background-color: #4eed6b; border-color: #4eed6b; padding: 6px 10px; margin-left: 5px;"
                                                                                 title="WhatsApp">
                                                                                 <i class="fa fa-whatsapp"
                                                                                     style="font-size: 18px;"></i>
                                                                             </a>
-                                                                        <? } ?>
+                                                                        <?php } ?>
 
-                                                                        <a href="mailto:<? echo $row_agn['email']; ?>?subject=Interés en propiedad: <? echo $row_cs['nombre']; ?>"
+                                                                        <a href="mailto:<?= $row_agn['email']; ?>?subject=Interés en propiedad: <?= $row_cs['nombre']; ?>"
                                                                             class="btn btn-primary"
                                                                             style="background-color: #717CA6; border-color: #717CA6; padding: 6px 10px; margin-left: 5px;"
                                                                             title="Enviar Correo">
@@ -2162,7 +2053,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                                         </div>
 
-                                        <?
+                                        <?php
 
                                         //end while
                                     }
@@ -2205,127 +2096,64 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                                     <!--Paginación-->
 
-                                    <div class="col-12 mt-5 mb-5 col" style="display: flex; justify-content: center;">
-                                        <div class="BaseSection Pagination">
-
-                                            <?php
-                                            //Crea un bucle donde $i es igual 1, y hasta que $i sea menor o igual a X, a sumar (1, 2, 3, etc.)
-                                            //Nota: X = $total_paginas
-                                            /*$mas_cinco=$pagina+5;
-                                            if($total_paginas<$mas_cinco){
-                                                   $mas_cinco=$total_paginas;
-                                            }*/
-
-                                            if ($pagina == 1) {
-                                                $pg_actual = 1;
-                                            } else {
-                                                $pg_actual = $pagina - 1;
-                                            }
-
-                                            if ($pagina == $total_paginas) {
-                                                $pg_siguiente = $pagina;
-                                            } else {
-                                                $pg_siguiente = $pagina + 1;
-                                            }
-
-                                            if ($total_paginas == 0) {
-                                                $pg_siguiente = 0;
-                                                $pg_actual = 0;
-                                            }
-
-
-                                            ?>
-                                            <form action="busqueda.php" method="post" name="formevent2" id="formevent2">
-                                                <div class="row">
-
-                                                    <div class="nav-box">
-                                                        <div class="previous">
-                                                            <?php
-                                                            //echo "<a data-previous-page=\"2\" href=\"?paginacion=".$pg_actual."\">";
-                                                            //echo "<a data-previous-page=\"2\" href=\"#\" onclick=\"document.getElementById('formevent2').submit();\">";
-                                                            
-                                                            echo "<a data-previous-page=\"2\" href=\"#\" onclick=\"document.getElementById('paginacion').value =" . $pg_actual . ";
-        document.getElementById('formevent2').submit();\">";
-
-                                                            ?>
-
-                                                            <span class="icon-chevron-left"
-                                                                style="color: white;"></span>
-
-                                                            </a>
-
-                                                        </div>
-                                                    </div> <!--nav-box-->
-
-                                                    <div class="">
-                                                        <div class="form-group row">
-                                                            <select class="form-control" name="paginacion"
-                                                                id="paginacion" style="height: 40px;"
-                                                                onchange="this.form.submit()">
-
-                                                                <?php
-                                                                for ($i = 1; $i <= $total_paginas; $i++) {
-
-                                                                    if ($i == $pagina) {
-                                                                        echo "<option value=\"" . $i . "\" selected>Página " . $i . "</option>";
-                                                                    } else {
-                                                                        echo "<option value=\"" . $i . "\">Página " . $i . "</option>";
-                                                                    }
-                                                                }
-                                                                ?>
-
-                                                            </select>
-                                                        </div>
-                                                    </div> <!-- -->
-
-                                                    <div class="nav-box">
-                                                        <div class="next">
-
-                                                            <?php
-                                                            //echo "<a data-next-page=\"2\" href=\"?paginacion=".$pg_siguiente."\">";
-                                                            // echo "<a data-next-page=\"2\" href=\"#\" onclick=\"document.getElementById('formevent2').submit();\">";
-                                                            echo "<a data-next-page=\"2\" href=\"#\" onclick=\"document.getElementById('paginacion').value =" . $pg_siguiente . ";
-            document.getElementById('formevent2').submit();\">";
-
-                                                            ?>
-
-                                                            <span class="icon-chevron-right"
-                                                                style="color: white;"></span>
-
-                                                            </a>
-
-                                                        </div>
-                                                    </div> <!--nav-box-->
-
-                                                    <input type="hidden" id="tipo_busq" name="tipo_busq" value="2">
-                                                    <input type="hidden" id="ubicacion" name="ubicacion"
-                                                        value="<?php echo htmlspecialchars($_POST['ubicacion'] ?? ''); ?>">
-                                                    <input type="hidden" id="municipiop" name="municipiop"
-                                                        value="<?php echo htmlspecialchars($_POST['municipiop'] ?? ''); ?>">
-                                                    <input type="hidden" id="select_cat" name="select_cat"
-                                                        value="<?php echo htmlspecialchars($_POST['select_cat'] ?? ''); ?>">
-                                                    <input type="hidden" id="select_opcion" name="select_opcion"
-                                                        value="<?php echo htmlspecialchars($_POST['select_opcion'] ?? ''); ?>">
-                                                    <input type="hidden" id="busqueda" name="busqueda"
-                                                        value="<?php echo htmlspecialchars($_POST['busqueda'] ?? ''); ?>">
-                                                    <input type="hidden" id="precio_min" name="precio_min"
-                                                        value="<?php echo htmlspecialchars($_POST['precio_min'] ?? ''); ?>">
-                                                    <input type="hidden" id="precio_max" name="precio_max"
-                                                        value="<?php echo htmlspecialchars($_POST['precio_max'] ?? ''); ?>">
-                                                    <input type="hidden" id="recamara" name="recamara"
-                                                        value="<?php echo htmlspecialchars($_POST['recamara'] ?? ''); ?>">
-                                                    <input type="hidden" id="tbusqda" name="tbusqda"
-                                                        value="<?php echo htmlspecialchars($_POST['tbusqda'] ?? ''); ?>">
-                                                    <input type="hidden" id="tprecio" name="tprecio"
-                                                        value="<?php echo htmlspecialchars($_POST['tprecio'] ?? ''); ?>">
-                                                    <input type="hidden" id="busquedaprin" name="busquedaprin"
-                                                        value="<?php echo htmlspecialchars($_POST['busquedaprin'] ?? ''); ?>">
-
-                                            </form>
-
-                                        </div>
-
+                                    <?php if ($total_paginas > 1) { ?>
+                                    <div class="col-12 mt-4 mb-4" style="display: flex; justify-content: center;">
+                                        <nav aria-label="Paginación">
+                                            <ul class="pagination">
+                                                <?php
+                                                $pg_actual = max(1, $pagina - 1);
+                                                $pg_siguiente = min($total_paginas, $pagina + 1);
+                                                ?>
+                                                <li class="page-item <?= ($pagina == 1) ? 'disabled' : ''; ?>">
+                                                    <a class="page-link" href="#" onclick="irPagina(<?= $pg_actual; ?>); return false;">&laquo;</a>
+                                                </li>
+                                                <?php
+                                                // Mostrar rango de paginas alrededor de la actual
+                                                $rango = 2;
+                                                $inicio = max(1, $pagina - $rango);
+                                                $fin = min($total_paginas, $pagina + $rango);
+                                                if ($inicio > 1) {
+                                                    echo '<li class="page-item"><a class="page-link" href="#" onclick="irPagina(1); return false;">1</a></li>';
+                                                    if ($inicio > 2) echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                                }
+                                                for ($i = $inicio; $i <= $fin; $i++) {
+                                                    $active = ($i == $pagina) ? 'active' : '';
+                                                    echo '<li class="page-item ' . $active . '"><a class="page-link" href="#" onclick="irPagina(' . $i . '); return false;">' . $i . '</a></li>';
+                                                }
+                                                if ($fin < $total_paginas) {
+                                                    if ($fin < $total_paginas - 1) echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                                    echo '<li class="page-item"><a class="page-link" href="#" onclick="irPagina(' . $total_paginas . '); return false;">' . $total_paginas . '</a></li>';
+                                                }
+                                                ?>
+                                                <li class="page-item <?= ($pagina == $total_paginas) ? 'disabled' : ''; ?>">
+                                                    <a class="page-link" href="#" onclick="irPagina(<?= $pg_siguiente; ?>); return false;">&raquo;</a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                        <form id="formevent2" action="busqueda.php" method="post" style="display:none;">
+                                            <input type="hidden" name="paginacion" id="paginacion" value="<?= $pagina; ?>">
+                                            <input type="hidden" name="tipo_busq" value="2">
+                                            <input type="hidden" name="ubicacion" value="<?= htmlspecialchars($_POST['ubicacion'] ?? ''); ?>">
+                                            <input type="hidden" name="municipiop" value="<?= htmlspecialchars($_POST['municipiop'] ?? ''); ?>">
+                                            <input type="hidden" name="select_cat" value="<?= htmlspecialchars($_POST['select_cat'] ?? ''); ?>">
+                                            <input type="hidden" name="select_opcion" value="<?= htmlspecialchars($_POST['select_opcion'] ?? ''); ?>">
+                                            <input type="hidden" name="busqueda" value="<?= htmlspecialchars($_POST['busqueda'] ?? ''); ?>">
+                                            <input type="hidden" name="precio_min" value="<?= htmlspecialchars($_POST['precio_min'] ?? ''); ?>">
+                                            <input type="hidden" name="precio_max" value="<?= htmlspecialchars($_POST['precio_max'] ?? ''); ?>">
+                                            <input type="hidden" name="recamara" value="<?= htmlspecialchars($_POST['recamara'] ?? ''); ?>">
+                                            <input type="hidden" name="tbusqda" value="<?= htmlspecialchars($_POST['tbusqda'] ?? ''); ?>">
+                                            <input type="hidden" name="tprecio" value="<?= htmlspecialchars($_POST['tprecio'] ?? ''); ?>">
+                                            <input type="hidden" name="busquedaprin" value="<?= htmlspecialchars($_POST['busquedaprin'] ?? ''); ?>">
+                                            <input type="hidden" name="subtipo" value="<?= htmlspecialchars($_POST['subtipo'] ?? ($_GET['subtipo'] ?? '')); ?>">
+                                        </form>
+                                        <script>
+                                        function irPagina(pg) {
+                                            document.getElementById('paginacion').value = pg;
+                                            document.getElementById('formevent2').submit();
+                                        }
+                                        </script>
                                     </div>
+                                    <?php } ?>
 
                                     <?php
 
@@ -2337,16 +2165,9 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                             </div>
 
-                        </div>
+                            <!--barra de busqueda -------------------------------------------------------------------------------------------------------->
 
-                        <hr>
-
-
-
-
-                        <!--barra de busqueda -------------------------------------------------------------------------------------------------------->
-
-                        <div class="col-lg-3 col-12">
+                            <div class="col-lg-3 col-12">
 
                             <div class="row mx-0">
 
@@ -2365,7 +2186,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                             <select class="form-control" id="ubicacionfrom" aria-hidden="true"
                                                 name="ubicacion" onchange="actualizarElementos()">
                                                 <option selected="selected" value="">Selecciona</option>
-                                                <?
+                                                <?php
                                                 //Consulta para las estados
                                                 /*$consulta_csl="SELECT `municipio`, `estado` FROM `inmuebles` WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 GROUP BY estado ORDER BY estado ASC"; 
                                                 $resultado_csl = mysqli_query($con,$consulta_csl);
@@ -2389,7 +2210,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                             <select class="form-control" id="municipiofrom" aria-hidden="true"
                                                 name="municipiop">
                                                 <option selected="selected" value="">Selecciona</option>
-                                                <?
+                                                <?php
                                                 //Consulta para los municipios
                                                 /*$consulta_csl="SELECT `municipio`, `estado` FROM `inmuebles` WHERE municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 GROUP BY municipio ORDER BY municipio ASC"; 
                                                 $resultado_csl = mysqli_query($con,$consulta_csl);
@@ -2415,7 +2236,7 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                                                 <option selected="selected" value="">Selecciona</option>
 
-                                                <?
+                                                <?php
                                                 //Consulta para las categorias
                                                 /*$consulta_cs="SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo`"; 
                                                 $resultado_cs = mysqli_query($con,$consulta_cs);
@@ -2489,9 +2310,9 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                                         </div>
                                         <input type="hidden" id="tipo_bus" name="tipo_busq" value="2">
                                         <input type="hidden" id="tbusqda" name="tbusqda"
-                                            value="<?php echo $_POST['tbusqda'] ?? ''; ?>">
+                                            value="<?php echo htmlspecialchars($_POST['tbusqda'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                                         <input type="hidden" id="tprecio" name="tprecio"
-                                            value="<?php echo $_POST['tprecio'] ?? ''; ?>">
+                                            value="<?php echo htmlspecialchars($_POST['tprecio'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
                                         <p class="text-center">
                                             <input type="submit" class="btn btn-dark" value="Buscar">
                                             <a href="busqueda.php" class="btn btn-outline-secondary ml-2">Limpiar</a>
@@ -2503,9 +2324,9 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
                             </div>
 
-                        </div> <!--barra de busqueda-->
+                            </div> <!--barra de busqueda-->
 
-                    </div>
+                        </div>
 
                 </div>
 
@@ -2525,7 +2346,8 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
 
         <div class="footer">
 
-            <div class="row col-12">
+            <div class="container-fluid">
+            <div class="row">
 
                 <div class="col-md-8 col-12">
 
@@ -2555,90 +2377,25 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                             <div>
 
                                 <div>
-
-                                    <?
-                                    if ($_POST['tbusqda'] == "N") {   //zona norte
-                                        ?>
-                                        <h6><span><i class="fa fa-map-marker mr-2 mb-2"></i></span><a href="#"
-                                                class="text-white">
-                                                <font style="vertical-align: inherit;">
-                                                    <font style="vertical-align: inherit;">Nuevo León, México</font>
-                                                </font>
-                                            </a></h6>
-
-                                        <h6><span><i class="fa fa-envelope mr-2 mb-2"></i></span><a
-                                                href="mailto:hola@3seeds.mx" class="text-white">
-                                                <font style="vertical-align: inherit;">
-                                                    <font style="vertical-align: inherit;"> hola@3seeds.mx</font>
-                                                </font>
-                                            </a></h6>
-
-                                        <h6><span><i class="fa fa-phone mr-2  mb-2"></i></span><a href="tel:8125120161"
-                                                class="text-white">
-                                                <font style="vertical-align: inherit;">
-                                                    <font style="vertical-align: inherit;"> +52 81 2512 0161</font>
-                                                </font>
-                                            </a>&nbsp;&nbsp;<a class="fab fa fa-whatsapp" href="https://wa.me/528125120161"
-                                                target="_blank"></a></h6>
-
-                                        <!-- <h6><span class="font-weight-semibold"><i class="fa fa-link mr-2 "></i></span><a href="#" class="text-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http://spruko.com/</font></font></a></h6>-->
-
-                                        <?
-                                    } else if ($_POST['tbusqda'] == "C") {   //zona centro
-                                        ?>
-
-                                            <h6><span><i class="fa fa-map-marker mr-2 mb-2"></i></span><a href="#"
-                                                    class="text-white">
-                                                    <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;">Querétaro, México</font>
-                                                    </font>
-                                                </a></h6>
-
-                                            <h6><span><i class="fa fa-envelope mr-2 mb-2"></i></span><a
-                                                    href="mailto:hola@3seeds.mx" class="text-white">
-                                                    <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;"> hola@3seeds.mx</font>
-                                                    </font>
-                                                </a></h6>
-
-                                            <h6><span><i class="fa fa-phone mr-2  mb-2"></i></span><a href="tel:4422448774"
-                                                    class="text-white">
-                                                    <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;"> +52 442 244 8774</font>
-                                                    </font>
-                                                </a>&nbsp;&nbsp;<a class="fab fa fa-whatsapp" href="https://wa.me/524422448774"
-                                                    target="_blank"></a></h6>
-
-                                            <!-- <h6><span class="font-weight-semibold"><i class="fa fa-link mr-2 "></i></span><a href="#" class="text-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http://spruko.com/</font></font></a></h6>-->
-                                        <?
-                                    } else {   //otros
-                                        ?>
-
-
-                                            <h6><span></span><a href="#" class="text-white">
-                                                    <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;"></font>
-                                                    </font>
-                                                </a></h6>
-
-                                            <h6><span><i class="fa fa-envelope mr-2 mb-2"></i></span><a
-                                                    href="mailto:hola@3seeds.mx" class="text-white">
-                                                    <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;"> hola@3seeds.mx</font>
-                                                    </font>
-                                                </a></h6>
-
-                                            <h6><span></span><a href="tel:4422448774" class="text-white">
-                                                    <font style="vertical-align: inherit;">
-                                                        <font style="vertical-align: inherit;"></font>
-                                                    </font>
-                                                </a>&nbsp;&nbsp;</h6>
-
-                                            <!-- <h6><span class="font-weight-semibold"><i class="fa fa-link mr-2 "></i></span><a href="#" class="text-body"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">http://spruko.com/</font></font></a></h6>-->
-
-                                        <?
-                                    }
-                                    ?>
+                                    <h6><span><i class="fa fa-map-marker mr-2 mb-2"></i></span><a href="#"
+                                            class="text-white">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Querétaro, México</font>
+                                            </font>
+                                        </a></h6>
+                                    <h6><span><i class="fa fa-envelope mr-2 mb-2"></i></span><a
+                                            href="mailto:hola@3seeds.mx" class="text-white">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;"> hola@3seeds.mx</font>
+                                            </font>
+                                        </a></h6>
+                                    <h6><span><i class="fa fa-phone mr-2  mb-2"></i></span><a href="tel:4422448774"
+                                            class="text-white">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;"> +52 442 244 8774</font>
+                                            </font>
+                                        </a>&nbsp;&nbsp;<a class="fab fa fa-whatsapp" href="https://wa.me/524422448774"
+                                            target="_blank"></a></h6>
 
 
                                 </div>
@@ -2706,10 +2463,11 @@ if (!empty($_POST['precio_min']) || !empty($_POST['precio_max'])) {
                 </div>
 
             </div>
+            </div>
 
         </div>
 
-        <div class="container">
+        <div class="container-fluid">
 
             <div class="row">
 

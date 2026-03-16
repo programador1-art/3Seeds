@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -n '//echo' \"/c/Users/AS Sistemas/Documents/GitHub/3Seeds/principal.php\")",
+      "Bash(grep -v '//')",
+      "Bash(xxd \"/c/Users/AS Sistemas/Documents/GitHub/3Seeds/principal.php\")",
+      "Bash(xxd \"/c/Users/AS Sistemas/Documents/GitHub/3Seeds/conexion_3seed.php\")",
+      "Bash(xxd \"/c/Users/AS Sistemas/Documents/GitHub/3Seeds/config_entorno.php\")",
+      "Bash(xxd \"/c/Users/AS Sistemas/Documents/GitHub/3Seeds/config/db_credentials.php\")",
+      "Bash(xxd \"/c/Users/AS Sistemas/Documents/GitHub/3Seeds/busqueda.php\")",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(perl -i -pe 's/<\\\\? echo /<?= /g' \"$f\")",
+      "Bash(perl -i -pe 's/<\\\\?\\(?!php|=|xml\\)/<?php/g' \"$f\")",
+      "Bash(done)"
+    ]
+  }
+}
