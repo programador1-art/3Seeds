@@ -1,0 +1,18 @@
+.css_fecha__label {text-align:center;vertical-align:middle;}
+.css_fecha__line {color:#000000;font-weight:normal;text-align:center;vertical-align:middle;}
+.css_fecha__obj {font-size:11px;color:#000000;font-weight:normal;text-align:center;width:60px;}
+.css_nombre__label {text-align:center;vertical-align:middle;}
+.css_nombre__line {font-weight:normal;text-align:center;vertical-align:middle;}
+.css_nombre__obj {font-size:11px;font-weight:normal;text-align:center;width:100px;}
+.css_telefono__label {text-align:center;vertical-align:middle;}
+.css_telefono__line {font-weight:normal;text-align:center;vertical-align:middle;}
+.css_telefono__obj {font-size:11px;font-weight:normal;text-align:center;width:100px;}
+.css_email__label {text-align:center;vertical-align:middle;}
+.css_email__line {font-weight:normal;text-align:center;vertical-align:middle;}
+.css_email__obj {font-size:11px;font-weight:normal;text-align:center;width:150px;}
+.css_mensaje__label {text-align:center;vertical-align:middle;}
+.css_mensaje__line {font-weight:normal;text-align:left;vertical-align:middle;}
+.css_mensaje__obj {font-size:11px;font-weight:normal;text-align:left;width:220px;height:80px;}
+.css_metodo_contacto__label { }
+.css_metodo_contacto__line { }
+.css_metodo_contacto__obj { }
