@@ -169,17 +169,17 @@ if (!empty($_POST['subtipo'])) {
 if ($tbusqda == "N") {
 
     //estado
-    $consulta_est = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY estado ORDER BY estado ASC";
+    $consulta_est = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado) AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY estado ORDER BY estado ASC";
     $resultado_est = mysqli_query($con, $consulta_est);
     $numrows_est = mysqli_num_rows($resultado_est);
 
     //municipio
-    $consulta_mun = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY municipio ORDER BY municipio ASC";
+    $consulta_mun = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado) AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY municipio ORDER BY municipio ASC";
     $resultado_mun = mysqli_query($con, $consulta_mun);
     $numrows_mun = mysqli_num_rows($resultado_mun);
 
     //Consulta para TODOS LOS TIPOS DE INMUEBLE
-    $consulta_inm = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY idcat_tipo";
+    $consulta_inm = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado) AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY idcat_tipo";
     $resultado_inm = mysqli_query($con, $consulta_inm);
     $numrows_inm = mysqli_num_rows($resultado_inm);
 
@@ -192,17 +192,17 @@ if ($tbusqda == "N") {
 } else if ($tbusqda == "C") {
 
     //estado
-    $consulta_est = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='C') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY estado ORDER BY estado ASC";
+    $consulta_est = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado) AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY estado ORDER BY estado ASC";
     $resultado_est = mysqli_query($con, $consulta_est);
     $numrows_est = mysqli_num_rows($resultado_est);
 
     //municipio
-    $consulta_mun = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='C') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY municipio ORDER BY municipio ASC";
+    $consulta_mun = "SELECT `municipio`, `estado` FROM `inmuebles` WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado ) AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY municipio ORDER BY municipio ASC";
     $resultado_mun = mysqli_query($con, $consulta_mun);
     $numrows_mun = mysqli_num_rows($resultado_mun);
 
     //Consulta para TODOS LOS TIPOS DE INMUEBLE
-    $consulta_inm = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='C') AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY idcat_tipo";
+    $consulta_inm = "SELECT `idcat_tipo`, `nombre_tipo` FROM `cat_tipo` INNER JOIN inmuebles ON cat_tipo.idcat_tipo=inmuebles.cat_tipo_idcat_tipo WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado) AND municipio!='' AND estado!='' AND cat_estatus_idcat_estatus=1 $deciciom_where GROUP BY idcat_tipo";
     $resultado_inm = mysqli_query($con, $consulta_inm);
     $numrows_inm = mysqli_num_rows($resultado_inm);
 

@@ -91,7 +91,7 @@ $numrows_opc = mysqli_num_rows($resultado_opc);
 
     <!--Aquí deben ir las palabras claves -->
     <meta name="keywords"
-        content="Inmobiliaria zona norte, 3seeds, 3seedsdevelopments, 3seeds industrial, Asesores inmobiliarios profesionales, Asesoría inmobiliaria de vanguardia, Asesoría, inmobiliaria con tecnología, Renta de locales/oficinas/terrenos/casas/departamentos, Venta de locales/oficinas/terrenos/casas/departamentos, Proyectos de inversión, Desarrollos industriales, Desarrollos comerciales, Gerencia inmobiliaria, Opiniones de valor, Consutoria hipotecaria, Valuación de propiedades, Valoración de mercado inmobiliario, Asesor inmobiliario biligue, Asesor inmobiliario bajio, Asesoria inmobiliaria con tecnología de vanguardia, Promoción inmobiliaria, Publicidad inmobiliaria">
+        content="Inmobiliaria, 3seeds, 3seedsdevelopments, 3seeds industrial, Asesores inmobiliarios profesionales, Asesoría inmobiliaria de vanguardia, Asesoría, inmobiliaria con tecnología, Renta de locales/oficinas/terrenos/casas/departamentos, Venta de locales/oficinas/terrenos/casas/departamentos, Proyectos de inversión, Desarrollos industriales, Desarrollos comerciales, Gerencia inmobiliaria, Opiniones de valor, Consutoria hipotecaria, Valuación de propiedades, Valoración de mercado inmobiliario, Asesor inmobiliario biligue, Asesor inmobiliario bajio, Asesoria inmobiliaria con tecnología de vanguardia, Promoción inmobiliaria, Publicidad inmobiliaria">
     <!-- Open Graph / Facebook -->
 
     <meta property="og:type" content="website" />
@@ -2018,7 +2018,7 @@ select {
                                             </div>
                                             <div class="form-group fg-buscar">
                                                 <input type="hidden" id="tipo_bus" name="tipo_busq" value="1">
-                                                <input type="hidden" id="tbusqda" name="tbusqda" value="N">
+                                                <input type="hidden" id="tbusqda" name="tbusqda" value="">
                                                 <!--zona norte -->
                                             <input type="hidden" id="tprecio" name="tprecio" value="T">
                                             <!--tipo de precio TODOS -->
@@ -2107,7 +2107,7 @@ select {
                                 </div>
                                 <div class="form-group">
                                     <input type="hidden" id="tipo_bus" name="tipo_busq" value="1">
-                                    <input type="hidden" id="tbusqda" name="tbusqda" value="N"> <!--zona norte -->
+                                    <input type="hidden" id="tbusqda" name="tbusqda" value=""> <!--zona norte -->
                                     <input type="hidden" id="tprecio" name="tprecio" value="V">
                                     <!--tipo de precio VENTA-->
                                     <input type="submit" class="btn btn-lg btn-block btn-primary br-tl-md-0 br-bl-md-0"
@@ -2190,7 +2190,7 @@ select {
                                 </div>
                                 <div class="form-group">
                                     <input type="hidden" id="tipo_bus" name="tipo_busq" value="1">
-                                    <input type="hidden" id="tbusqda" name="tbusqda" value="N"> <!--zona norte -->
+                                    <input type="hidden" id="tbusqda" name="tbusqda" value=""> <!--zona norte -->
                                     <input type="hidden" id="tprecio" name="tprecio" value="R">
                                     <!--tipo de precio RENTA-->
                                     <input type="submit" class="btn btn-lg btn-block btn-primary br-tl-md-0 br-bl-md-0"
@@ -2550,7 +2550,7 @@ select {
                         data-interval="6000">
                         <div class="carousel-inner" role="listbox">
                             <?php
-                            // $consulta_d = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 AND inmueble_destacado=1" . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 8";
+                            // $consulta_d = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado ) AND cat_estatus_idcat_estatus=1 AND inmueble_destacado=1" . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 8";
                             $consulta_d = "SELECT `id`, `imagen`, `link` FROM `inmuebles_destacados` WHERE activo=1 LIMIT 8";
                             $resultado_d = mysqli_query($con, $consulta_d);
                             $count_d = 0;
@@ -2623,7 +2623,7 @@ Indicators-->
                                 <!--First slide-->
                                 <?php
                                 //Consulta para obtener los INMUEBLES DE ZONA NORTE
-                                $consulta_cs = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 4";
+                                $consulta_cs = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado ) AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " ORDER BY idinmuebles DESC LIMIT 4";
                                 $resultado_cs = mysqli_query($con, $consulta_cs);
                                 $numrows_cs = mysqli_num_rows($resultado_cs);
 
@@ -2873,7 +2873,7 @@ Indicators-->
 
                                 //Consulta para los ultimos inmuebles DE LA ZONA NORTE
                             
-                                $consulta_cs = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado AND zona='N') AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND idinmuebles<$ultimo_id ORDER BY idinmuebles DESC LIMIT 4";
+                                $consulta_cs = "SELECT `idinmuebles`, `nombre`, `descripcion`, `cat_tipo_idcat_tipo`, `opcion_idopcion`, `ubicacion`, `fecha_publicacion`, `direccion`, `colonia`, `fraccionamiento`, `municipio`, `estado`, `agentes_idagente`, `vigencia`, `cat_estatus_idcat_estatus`, `vistas`, `idempresa`,Precio,moneda_cat,precio_renta,superficie_terreno,superficie_construccion,precio_venta_basado,precio_renta_basado FROM `inmuebles`" . $subtipo_sql_join . " WHERE EXISTS (SELECT estado FROM estados WHERE estado=inmuebles.estado ) AND cat_estatus_idcat_estatus=1 " . $subtipo_sql_where . " AND idinmuebles<$ultimo_id ORDER BY idinmuebles DESC LIMIT 4";
 
                                 $resultado_cs = mysqli_query($con, $consulta_cs);
                                 $numrows_cs = mysqli_num_rows($resultado_cs);
