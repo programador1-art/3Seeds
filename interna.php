@@ -1421,10 +1421,13 @@ if ($row_zona['zona'] == "N") {   //zona norte
                                             class="sr-only">(current)</span></a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link menu" href="#nosotros">Nosotros</a>
+                                    <a class="nav-link menu" href="https://proyectos.3seedscommercial.mx/">Nosotros</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link menu" href="#contacto">Contacto</a>
+                                    <a class="nav-link menu" href="https://proyectos.3seedscommercial.mx/proyectos">Proyectos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link menu" href="https://proyectos.3seedscommercial.mx/contacto">Contacto</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link menu dropdown-toggle" href="busqueda.php" id="navPropiedades"
